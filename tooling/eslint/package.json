@@ -1,0 +1,13 @@
+{
+  "name": "@nw/eslint-config",
+  "version": "0.0.0",
+  "private": true,
+  "files": ["next.mjs"],
+  "dependencies": {
+    "@eslint/eslintrc": "^3",
+    "eslint-config-next": "15.5.0"
+  },
+  "peerDependencies": {
+    "eslint": "^9"
+  }
+}

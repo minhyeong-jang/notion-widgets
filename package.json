@@ -1,29 +1,15 @@
 {
-  "name": "playground",
-  "version": "0.1.0",
+  "name": "notion-widgets",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
-    "export": "next build && next export",
-    "start": "next start",
-    "lint": "eslint"
-  },
-  "dependencies": {
-    "flipclock": "^1.0.1",
-    "next": "15.5.0",
-    "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "typecheck": "turbo typecheck",
+    "clean": "turbo clean"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "15.5.0",
-    "tailwindcss": "^4",
-    "typescript": "^5"
-  }
+    "turbo": "^2.8.0"
+  },
+  "packageManager": "pnpm@9.1.0"
 }

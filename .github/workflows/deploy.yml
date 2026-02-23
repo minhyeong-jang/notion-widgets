@@ -2,15 +2,13 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
-# 권한 설정
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# 동시 실행 방지
 concurrency:
   group: "pages"
   cancel-in-progress: false
@@ -21,32 +19,35 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          cache: 'npm'
-          
+          node-version: "22"
+          cache: "pnpm"
+
       - name: Install dependencies
-        run: npm ci
-        
+        run: pnpm install --frozen-lockfile
+
       - name: Build
-        run: npm run build
+        run: pnpm build
         env:
-          GITHUB_PAGES: true
-        
+          GITHUB_PAGES: "true"
+
       - name: Add .nojekyll file
-        run: touch ./out/.nojekyll
-        
+        run: touch ./apps/web/out/.nojekyll
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
-        
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./out
-          
+          path: ./apps/web/out
+
   deploy:
     environment:
       name: github-pages
