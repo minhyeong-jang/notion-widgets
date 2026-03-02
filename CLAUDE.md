@@ -78,8 +78,9 @@ notion-widgets/  (Turborepo + pnpm)
 - ~~Sprint 3: 신규 위젯 4종 (1주)~~ ✅ 완료
 - ~~i18n + SEO + Widget Gallery~~ ✅ 완료
 - ~~Vercel 배포 + widgets.doriri.dev 도메인 연결~~ ✅ 완료
-- Sprint 4: 리브랜딩 (Widget Studio) + Notion 활용 가이드 ← **다음**
-- Sprint 5-6: 결제 연동 (2주)
+- Sprint 4: 예시 Notion 화면 업로드 + 위젯 기능 개선 + 신규 위젯 추가 ← **다음**
+- Sprint 5: 리브랜딩 (이름 변경)
+- Sprint 6-7: 결제 연동 (2주)
 
 ## Route Structure
 
