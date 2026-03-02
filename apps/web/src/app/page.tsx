@@ -1,10 +1,17 @@
-export default function Home() {
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { robots: { index: false, follow: false } };
+
+export default function RootPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Notion Widgets</h1>
-        <p className="text-lg text-gray-600">Coming soon</p>
-      </div>
-    </div>
+    <html lang="ko">
+      <head>
+        <meta httpEquiv="refresh" content="0;url=/ko/" />
+        <link rel="canonical" href="/ko/" />
+      </head>
+      <body>
+        <p>Redirecting...</p>
+      </body>
+    </html>
   );
 }

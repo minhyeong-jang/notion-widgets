@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+Disallow: /embed/
+Disallow: /notion/
+
+Sitemap: https://notion-widgets.vercel.app/sitemap.xml
