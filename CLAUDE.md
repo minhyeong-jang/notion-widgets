@@ -7,11 +7,17 @@
 
 ## Current State
 
-- **Phase**: Phase 0 (제품화) — Sprint 0 완료
+- **Phase**: Phase 0 (제품화) — Sprint 1~3 완료
 - **Monorepo**: Turborepo + pnpm 구성 완료
-- **Widgets**: Flip Clock, Life Progress Bar (2종) → packages/widgets/에 추출 완료
-- **Routes**: /embed/[widgetId] (SSG) + /notion/* (하위호환)
-- **Build**: `pnpm build` 성공 (정적 export)
+- **Widgets**: 6종 (Flip Clock, Life Progress, Analog Clock, Countdown, Pomodoro, Quote)
+- **Landing Page**: Hero, Widget Gallery, How It Works, Footer
+- **Customizer**: Control panel (6종 컨트롤), preview frame, URL generator
+- **i18n**: ko/en 2개 언어 지원 (딕셔너리 패턴, [locale] 라우트)
+- **SEO**: robots.txt, sitemap.xml (hreflang), OG tags, JSON-LD
+- **Gallery**: /[locale]/widgets/ 카테고리 필터 포함
+- **Icons**: Lucide React (ISC license)
+- **Routes**: /[locale]/ (landing), /[locale]/widgets/ (gallery), /[locale]/widget/[id]/ (customizer), /embed/[id] (iframe), /notion/* (legacy)
+- **Build**: `pnpm build` — 29 정적 페이지, 0 warnings
 
 ## Architecture (확정)
 
@@ -40,6 +46,8 @@ notion-widgets/  (Turborepo + pnpm)
 | Framework | Next.js 15 (App Router) |
 | Language | TypeScript 5 |
 | Styling | Tailwind CSS 4 |
+| Icons | Lucide React |
+| i18n | Dictionary pattern (ko/en), [locale] route segments |
 | API | tRPC v11 |
 | ORM | Drizzle ORM |
 | DB | Turso (libSQL) — Phase 1~ |
@@ -61,14 +69,54 @@ notion-widgets/  (Turborepo + pnpm)
 ## Sprint Plan
 
 - ~~Sprint 0: 모노레포 마이그레이션 (1주)~~ ✅ 완료
-- Sprint 1: 쿼리 파라미터 시스템 (1주) ← **다음**
-- Sprint 2: 랜딩 페이지 MVP (1주)
-- Sprint 3: 신규 위젯 (D-Day, 명언) (1주)
-- Sprint 4-5: 결제 연동 (2주)
+- ~~Sprint 1: 쿼리 파라미터 시스템 (1주)~~ ✅ 완료
+- ~~Sprint 2: 랜딩 페이지 MVP (1주)~~ ✅ 완료
+- ~~Sprint 3: 신규 위젯 4종 (1주)~~ ✅ 완료
+- ~~i18n + SEO + Widget Gallery~~ ✅ 완료
+- Sprint 4: 리브랜딩 (Widget Studio) + Notion 활용 가이드 ← **다음**
+- Sprint 5-6: 결제 연동 (2주)
+
+## Route Structure
+
+```
+apps/web/src/app/
+├── layout.tsx                    # Pass-through (globals.css only)
+├── page.tsx                      # Redirect → /ko/
+├── [locale]/
+│   ├── layout.tsx                # <html lang>, fonts, SEO metadata
+│   ├── page.tsx                  # Landing (Hero, Gallery, HowItWorks, Footer)
+│   ├── widgets/page.tsx          # Gallery (category filter, JSON-LD ItemList)
+│   └── widget/[widgetId]/
+│       ├── page.tsx              # Customizer route (metadata, Suspense)
+│       └── customizer-page.tsx   # Customizer client component
+├── embed/
+│   ├── layout.tsx                # Own <html>, no nav
+│   └── [widgetId]/page.tsx       # Widget iframe renderer
+└── notion/                       # Legacy backward-compat routes
+```
+
+## i18n Architecture
+
+- **Pattern**: Dictionary-based (no external library)
+- **Locales**: ko (default), en
+- **Files**: `src/i18n/dictionaries/{ko,en}.ts` — ~80 strings each
+- **Type safety**: `Dictionary` interface in ko.ts, en.ts implements same type
+- **Widget locale**: `nameKo`, `descriptionKo`, `labelKo` on widget/control definitions
+- **Helpers**: `getWidgetName()`, `getWidgetDescription()`, `getControlLabel()` in `widget-locale.ts`
+- **Static export**: `generateStaticParams()` on all [locale] routes
+
+## SEO Setup
+
+- **robots.txt**: Allow all, disallow /embed/ and /notion/
+- **sitemap.xml**: All locale × page combinations with xhtml:link hreflang
+- **Metadata**: Title template, OG tags, Twitter cards via Next.js `generateMetadata`
+- **JSON-LD**: ItemList on gallery, per-widget metadata on customizer
+- **hreflang**: ko/en alternates + x-default on all pages
 
 ## Conventions
 
-- Package scope: `@nw/` (notion-widgets)
-- 한국어 UI 우선, 영어 UI Phase 2에서 추가
-- service/ 디렉토리는 단수형 (canopy-mvp 컨벤션)
+- Package scope: `@nw/`
+- ko/en 동시 지원 (딕셔너리 패턴)
+- service/ 디렉토리는 단수형
 - 위젯 ID = URL 경로 (`/embed/{id}`)
+- 컴포넌트는 `dict: Dictionary` + `locale: Locale` props로 i18n 처리
