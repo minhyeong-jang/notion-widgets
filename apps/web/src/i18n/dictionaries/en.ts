@@ -10,7 +10,7 @@ const en: Dictionary = {
   },
 
   hero: {
-    badge: "No sign-up required",
+    badge: "Make Notion beautiful",
     headingLine1: "No sign-up needed.",
     headingLine2: "One URL is all you need for",
     headingHighlight: "Notion Widgets",
@@ -54,7 +54,7 @@ const en: Dictionary = {
   },
 
   footer: {
-    madeWith: "Made with love for Notion users",
+    madeWith: "by doriri",
   },
 
   customizer: {

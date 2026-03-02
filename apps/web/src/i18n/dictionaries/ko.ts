@@ -79,7 +79,7 @@ const ko: Dictionary = {
   },
 
   hero: {
-    badge: "가입 필요 없음",
+    badge: "감도 높은 Notion",
     headingLine1: "가입 없이,",
     headingLine2: "URL 하나로 완성하는",
     headingHighlight: "Notion 위젯",
@@ -123,7 +123,7 @@ const ko: Dictionary = {
   },
 
   footer: {
-    madeWith: "Notion 사용자를 위해 만들었습니다",
+    madeWith: "by doriri",
   },
 
   customizer: {

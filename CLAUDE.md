@@ -7,23 +7,27 @@
 
 ## Current State
 
-- **Phase**: Phase 0 (제품화) — Sprint 1~3 완료
+- **Phase**: Phase 0 (제품화) — Sprint 1~3 완료, Vercel 배포 완료
+- **Domain**: widgets.doriri.dev (가비아 doriri.dev → 서브도메인만 사용)
+- **Deploy**: Vercel (한국 리전 icn1), Next.js 16
 - **Monorepo**: Turborepo + pnpm 구성 완료
 - **Widgets**: 6종 (Flip Clock, Life Progress, Analog Clock, Countdown, Pomodoro, Quote)
 - **Landing Page**: Hero, Widget Gallery, How It Works, Footer
+- **Header**: 고정 헤더 (로고, 중앙 pill 네비게이션 [홈/위젯], KO/EN 전환)
 - **Customizer**: Control panel (6종 컨트롤), preview frame, URL generator
 - **i18n**: ko/en 2개 언어 지원 (딕셔너리 패턴, [locale] 라우트)
-- **SEO**: robots.txt, sitemap.xml (hreflang), OG tags, JSON-LD
+- **SEO**: robots.txt, sitemap.xml (hreflang), OG tags, JSON-LD — widgets.doriri.dev 기준
 - **Gallery**: /[locale]/widgets/ 카테고리 필터 포함
+- **Watermark**: "Made with doriri" → widgets.doriri.dev 링크 (임베드 우측 하단)
 - **Icons**: Lucide React (ISC license)
 - **Routes**: /[locale]/ (landing), /[locale]/widgets/ (gallery), /[locale]/widget/[id]/ (customizer), /embed/[id] (iframe), /notion/* (legacy)
-- **Build**: `pnpm build` — 29 정적 페이지, 0 warnings
+- **Build**: `pnpm build` — 28 정적 페이지, 0 warnings
 
 ## Architecture (확정)
 
 ```
 notion-widgets/  (Turborepo + pnpm)
-├── apps/web/              # Next.js 15 (유일한 앱)
+├── apps/web/              # Next.js 16 (유일한 앱)
 ├── packages/api/          # tRPC router/ + service/ (비즈니스 로직 통합)
 ├── packages/widget-core/  # 위젯 타입, 레지스트리, 파라미터, 테마
 ├── packages/widgets/      # 개별 위젯 구현체
@@ -43,7 +47,7 @@ notion-widgets/  (Turborepo + pnpm)
 
 | Area | Tech |
 |------|------|
-| Framework | Next.js 15 (App Router) |
+| Framework | Next.js 16 (App Router) |
 | Language | TypeScript 5 |
 | Styling | Tailwind CSS 4 |
 | Icons | Lucide React |
@@ -54,7 +58,7 @@ notion-widgets/  (Turborepo + pnpm)
 | Payment | Lemon Squeezy |
 | Monorepo | Turborepo + pnpm |
 | Env validation | @t3-oss/env-nextjs |
-| Deploy | Vercel |
+| Deploy | Vercel (icn1, widgets.doriri.dev) |
 
 ## Key Documents
 
@@ -73,6 +77,7 @@ notion-widgets/  (Turborepo + pnpm)
 - ~~Sprint 2: 랜딩 페이지 MVP (1주)~~ ✅ 완료
 - ~~Sprint 3: 신규 위젯 4종 (1주)~~ ✅ 완료
 - ~~i18n + SEO + Widget Gallery~~ ✅ 완료
+- ~~Vercel 배포 + widgets.doriri.dev 도메인 연결~~ ✅ 완료
 - Sprint 4: 리브랜딩 (Widget Studio) + Notion 활용 가이드 ← **다음**
 - Sprint 5-6: 결제 연동 (2주)
 
@@ -81,9 +86,9 @@ notion-widgets/  (Turborepo + pnpm)
 ```
 apps/web/src/app/
 ├── layout.tsx                    # Pass-through (globals.css only)
-├── page.tsx                      # Redirect → /ko/
+├── page.tsx                      # Server redirect → /ko/
 ├── [locale]/
-│   ├── layout.tsx                # <html lang>, fonts, SEO metadata
+│   ├── layout.tsx                # <html lang>, fonts, SEO metadata, Header
 │   ├── page.tsx                  # Landing (Hero, Gallery, HowItWorks, Footer)
 │   ├── widgets/page.tsx          # Gallery (category filter, JSON-LD ItemList)
 │   └── widget/[widgetId]/
@@ -91,7 +96,7 @@ apps/web/src/app/
 │       └── customizer-page.tsx   # Customizer client component
 ├── embed/
 │   ├── layout.tsx                # Own <html>, no nav
-│   └── [widgetId]/page.tsx       # Widget iframe renderer
+│   └── [widgetId]/page.tsx       # Widget iframe renderer + Watermark
 └── notion/                       # Legacy backward-compat routes
 ```
 
@@ -103,15 +108,17 @@ apps/web/src/app/
 - **Type safety**: `Dictionary` interface in ko.ts, en.ts implements same type
 - **Widget locale**: `nameKo`, `descriptionKo`, `labelKo` on widget/control definitions
 - **Helpers**: `getWidgetName()`, `getWidgetDescription()`, `getControlLabel()` in `widget-locale.ts`
-- **Static export**: `generateStaticParams()` on all [locale] routes
+- **Static generation**: `generateStaticParams()` on all [locale] routes
 
 ## SEO Setup
 
+- **Domain**: widgets.doriri.dev (metadataBase, sitemap, robots 모두 반영)
 - **robots.txt**: Allow all, disallow /embed/ and /notion/
 - **sitemap.xml**: All locale × page combinations with xhtml:link hreflang
 - **Metadata**: Title template, OG tags, Twitter cards via Next.js `generateMetadata`
 - **JSON-LD**: ItemList on gallery, per-widget metadata on customizer
 - **hreflang**: ko/en alternates + x-default on all pages
+- **Root redirect**: Server-side 307 (no flash)
 
 ## Conventions
 

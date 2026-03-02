@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { locales, type Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/get-dictionary";
+import { Header } from "@/components/shared/header";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,7 +33,7 @@ export async function generateMetadata({
       template: `%s | ${siteName}`,
     },
     description: dict.meta.siteDescription,
-    metadataBase: new URL("https://notion-widgets.vercel.app"),
+    metadataBase: new URL("https://widgets.doriri.dev"),
     alternates: {
       canonical: `/${locale}/`,
       languages: {
@@ -71,6 +72,7 @@ export default async function LocaleLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Header locale={locale as Locale} />
         {children}
       </body>
     </html>

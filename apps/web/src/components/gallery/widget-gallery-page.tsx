@@ -8,10 +8,7 @@ import {
   ArrowRight,
   Maximize2,
   Plus,
-  ArrowLeft,
   TerminalSquare,
-  Globe,
-  ChevronDown,
 } from "lucide-react";
 import type { Dictionary } from "@/i18n/dictionaries/ko";
 import type { Locale } from "@/i18n/config";
@@ -301,48 +298,6 @@ function WidgetCard({
   );
 }
 
-/* ─── Language Switcher (inline) ─── */
-
-function LanguageSwitcher({ locale, dict }: { locale: Locale; dict: Dictionary }) {
-  const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    function handleClick(e: MouseEvent) {
-      if (ref.current && !ref.current.contains(e.target as Node)) {
-        setOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClick);
-    return () => document.removeEventListener("mousedown", handleClick);
-  }, []);
-
-  const otherLocale = locale === "ko" ? "en" : "ko";
-
-  return (
-    <div ref={ref} className="relative">
-      <button
-        onClick={() => setOpen(!open)}
-        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-zinc-800 text-sm text-zinc-400 hover:text-zinc-200 hover:border-zinc-700 transition-colors"
-      >
-        <Globe className="w-4 h-4" />
-        {dict.language[locale]}
-        <ChevronDown className={`w-3.5 h-3.5 transition-transform ${open ? "rotate-180" : ""}`} />
-      </button>
-      {open && (
-        <div className="absolute right-0 mt-1 w-36 rounded-lg border border-zinc-800 bg-zinc-900 shadow-xl z-50 overflow-hidden">
-          <a
-            href={`/${otherLocale}/widgets/`}
-            className="block px-4 py-2.5 text-sm text-zinc-300 hover:bg-zinc-800 transition-colors"
-          >
-            {dict.language[otherLocale]}
-          </a>
-        </div>
-      )}
-    </div>
-  );
-}
-
 /* ─── Main Gallery Page ─── */
 
 export function WidgetGalleryPage({
@@ -366,28 +321,8 @@ export function WidgetGalleryPage({
 
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100 font-[family-name:var(--font-geist-sans)]">
-      {/* Header bar */}
-      <header className="sticky top-0 z-40 border-b border-zinc-900 bg-zinc-950/80 backdrop-blur-xl">
-        <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
-          {/* Breadcrumb */}
-          <nav className="flex items-center gap-2 text-sm">
-            <a
-              href={`/${locale}/`}
-              className="inline-flex items-center gap-1 text-zinc-500 hover:text-zinc-300 transition-colors"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              {dict.common.home}
-            </a>
-            <span className="text-zinc-700">/</span>
-            <span className="text-zinc-200 font-medium">{dict.common.widgets}</span>
-          </nav>
-
-          <LanguageSwitcher locale={locale} dict={dict} />
-        </div>
-      </header>
-
       {/* Page content */}
-      <main className="max-w-6xl mx-auto px-6 py-16">
+      <main className="max-w-6xl mx-auto px-6 pt-24 pb-16">
         {/* Title */}
         <div className="mb-12">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-zinc-50 tracking-tight mb-4">

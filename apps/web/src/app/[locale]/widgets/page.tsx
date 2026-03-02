@@ -38,7 +38,7 @@ export async function generateMetadata({
   };
 }
 
-const BASE_URL = "https://notion-widgets.vercel.app";
+const BASE_URL = "https://widgets.doriri.dev";
 
 export default async function WidgetsPage({
   params,

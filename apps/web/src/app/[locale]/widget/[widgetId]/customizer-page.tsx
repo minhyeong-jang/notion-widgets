@@ -4,8 +4,6 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
 import { getWidget } from "@nw/widget-core";
 import "@nw/widgets";
-import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/get-dictionary";
 import { getWidgetName, getWidgetDescription } from "@/i18n/widget-locale";
@@ -64,23 +62,12 @@ export function CustomizerPage({ widgetId, locale, dict }: CustomizerPageProps) 
 
   return (
     <div className="min-h-dvh bg-zinc-950 text-zinc-100">
-      {/* Header */}
-      <header className="border-b border-zinc-800/60 px-4 py-4 sm:px-6">
-        <div className="mx-auto max-w-6xl">
-          <Link
-            href={`/${locale}/`}
-            className="inline-flex items-center gap-1 text-sm text-zinc-500 hover:text-zinc-300 transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            {dict.customizer.backToGallery}
-          </Link>
-          <h1 className="mt-2 text-xl font-bold text-zinc-100">{name}</h1>
+      {/* Main content */}
+      <main className="mx-auto max-w-6xl px-4 pt-20 pb-6 sm:px-6">
+        <div className="mb-6">
+          <h1 className="text-xl font-bold text-zinc-100">{name}</h1>
           <p className="mt-1 text-sm text-zinc-500">{description}</p>
         </div>
-      </header>
-
-      {/* Main content */}
-      <main className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Controls - left on desktop, below on mobile */}
           <div className="w-full lg:w-80 shrink-0 order-2 lg:order-1">

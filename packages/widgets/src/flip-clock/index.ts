@@ -37,10 +37,19 @@ const controls: ControlDefinition[] = [
   },
   {
     key: "locale",
-    label: "Locale",
+    label: "Language",
     labelKo: "언어",
-    type: "text",
+    type: "select",
     defaultValue: "en-US",
+    options: [
+      { value: "en-US", label: "English" },
+      { value: "ko-KR", label: "한국어" },
+      { value: "ja-JP", label: "日本語" },
+      { value: "zh-CN", label: "中文" },
+      { value: "de-DE", label: "Deutsch" },
+      { value: "fr-FR", label: "Français" },
+      { value: "es-ES", label: "Español" },
+    ],
     group: "content",
   },
   {

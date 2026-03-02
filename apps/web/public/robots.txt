@@ -4,4 +4,4 @@ Allow: /
 Disallow: /embed/
 Disallow: /notion/
 
-Sitemap: https://notion-widgets.vercel.app/sitemap.xml
+Sitemap: https://widgets.doriri.dev/sitemap.xml

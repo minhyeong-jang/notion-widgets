@@ -4,146 +4,146 @@
 
   <!-- Landing pages -->
   <url>
-    <loc>https://notion-widgets.vercel.app/ko/</loc>
+    <loc>https://widgets.doriri.dev/ko/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://notion-widgets.vercel.app/ko/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://notion-widgets.vercel.app/en/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://notion-widgets.vercel.app/ko/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://widgets.doriri.dev/ko/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://widgets.doriri.dev/en/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://widgets.doriri.dev/ko/" />
   </url>
   <url>
-    <loc>https://notion-widgets.vercel.app/en/</loc>
+    <loc>https://widgets.doriri.dev/en/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://notion-widgets.vercel.app/ko/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://notion-widgets.vercel.app/en/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://notion-widgets.vercel.app/ko/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://widgets.doriri.dev/ko/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://widgets.doriri.dev/en/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://widgets.doriri.dev/ko/" />
   </url>
 
   <!-- Gallery pages -->
   <url>
-    <loc>https://notion-widgets.vercel.app/ko/widgets/</loc>
+    <loc>https://widgets.doriri.dev/ko/widgets/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://notion-widgets.vercel.app/ko/widgets/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://notion-widgets.vercel.app/en/widgets/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://notion-widgets.vercel.app/ko/widgets/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://widgets.doriri.dev/ko/widgets/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://widgets.doriri.dev/en/widgets/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://widgets.doriri.dev/ko/widgets/" />
   </url>
   <url>
-    <loc>https://notion-widgets.vercel.app/en/widgets/</loc>
+    <loc>https://widgets.doriri.dev/en/widgets/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://notion-widgets.vercel.app/ko/widgets/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://notion-widgets.vercel.app/en/widgets/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://notion-widgets.vercel.app/ko/widgets/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://widgets.doriri.dev/ko/widgets/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://widgets.doriri.dev/en/widgets/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://widgets.doriri.dev/ko/widgets/" />
   </url>
 
   <!-- Widget pages: flip-clock -->
   <url>
-    <loc>https://notion-widgets.vercel.app/ko/widget/flip-clock/</loc>
+    <loc>https://widgets.doriri.dev/ko/widget/flip-clock/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://notion-widgets.vercel.app/ko/widget/flip-clock/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://notion-widgets.vercel.app/en/widget/flip-clock/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://notion-widgets.vercel.app/ko/widget/flip-clock/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://widgets.doriri.dev/ko/widget/flip-clock/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://widgets.doriri.dev/en/widget/flip-clock/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://widgets.doriri.dev/ko/widget/flip-clock/" />
   </url>
   <url>
-    <loc>https://notion-widgets.vercel.app/en/widget/flip-clock/</loc>
+    <loc>https://widgets.doriri.dev/en/widget/flip-clock/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://notion-widgets.vercel.app/ko/widget/flip-clock/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://notion-widgets.vercel.app/en/widget/flip-clock/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://notion-widgets.vercel.app/ko/widget/flip-clock/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://widgets.doriri.dev/ko/widget/flip-clock/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://widgets.doriri.dev/en/widget/flip-clock/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://widgets.doriri.dev/ko/widget/flip-clock/" />
   </url>
 
   <!-- Widget pages: life-progress -->
   <url>
-    <loc>https://notion-widgets.vercel.app/ko/widget/life-progress/</loc>
+    <loc>https://widgets.doriri.dev/ko/widget/life-progress/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://notion-widgets.vercel.app/ko/widget/life-progress/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://notion-widgets.vercel.app/en/widget/life-progress/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://notion-widgets.vercel.app/ko/widget/life-progress/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://widgets.doriri.dev/ko/widget/life-progress/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://widgets.doriri.dev/en/widget/life-progress/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://widgets.doriri.dev/ko/widget/life-progress/" />
   </url>
   <url>
-    <loc>https://notion-widgets.vercel.app/en/widget/life-progress/</loc>
+    <loc>https://widgets.doriri.dev/en/widget/life-progress/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://notion-widgets.vercel.app/ko/widget/life-progress/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://notion-widgets.vercel.app/en/widget/life-progress/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://notion-widgets.vercel.app/ko/widget/life-progress/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://widgets.doriri.dev/ko/widget/life-progress/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://widgets.doriri.dev/en/widget/life-progress/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://widgets.doriri.dev/ko/widget/life-progress/" />
   </url>
 
   <!-- Widget pages: countdown -->
   <url>
-    <loc>https://notion-widgets.vercel.app/ko/widget/countdown/</loc>
+    <loc>https://widgets.doriri.dev/ko/widget/countdown/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://notion-widgets.vercel.app/ko/widget/countdown/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://notion-widgets.vercel.app/en/widget/countdown/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://notion-widgets.vercel.app/ko/widget/countdown/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://widgets.doriri.dev/ko/widget/countdown/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://widgets.doriri.dev/en/widget/countdown/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://widgets.doriri.dev/ko/widget/countdown/" />
   </url>
   <url>
-    <loc>https://notion-widgets.vercel.app/en/widget/countdown/</loc>
+    <loc>https://widgets.doriri.dev/en/widget/countdown/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://notion-widgets.vercel.app/ko/widget/countdown/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://notion-widgets.vercel.app/en/widget/countdown/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://notion-widgets.vercel.app/ko/widget/countdown/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://widgets.doriri.dev/ko/widget/countdown/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://widgets.doriri.dev/en/widget/countdown/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://widgets.doriri.dev/ko/widget/countdown/" />
   </url>
 
   <!-- Widget pages: quote -->
   <url>
-    <loc>https://notion-widgets.vercel.app/ko/widget/quote/</loc>
+    <loc>https://widgets.doriri.dev/ko/widget/quote/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://notion-widgets.vercel.app/ko/widget/quote/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://notion-widgets.vercel.app/en/widget/quote/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://notion-widgets.vercel.app/ko/widget/quote/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://widgets.doriri.dev/ko/widget/quote/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://widgets.doriri.dev/en/widget/quote/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://widgets.doriri.dev/ko/widget/quote/" />
   </url>
   <url>
-    <loc>https://notion-widgets.vercel.app/en/widget/quote/</loc>
+    <loc>https://widgets.doriri.dev/en/widget/quote/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://notion-widgets.vercel.app/ko/widget/quote/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://notion-widgets.vercel.app/en/widget/quote/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://notion-widgets.vercel.app/ko/widget/quote/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://widgets.doriri.dev/ko/widget/quote/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://widgets.doriri.dev/en/widget/quote/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://widgets.doriri.dev/ko/widget/quote/" />
   </url>
 
   <!-- Widget pages: pomodoro -->
   <url>
-    <loc>https://notion-widgets.vercel.app/ko/widget/pomodoro/</loc>
+    <loc>https://widgets.doriri.dev/ko/widget/pomodoro/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://notion-widgets.vercel.app/ko/widget/pomodoro/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://notion-widgets.vercel.app/en/widget/pomodoro/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://notion-widgets.vercel.app/ko/widget/pomodoro/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://widgets.doriri.dev/ko/widget/pomodoro/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://widgets.doriri.dev/en/widget/pomodoro/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://widgets.doriri.dev/ko/widget/pomodoro/" />
   </url>
   <url>
-    <loc>https://notion-widgets.vercel.app/en/widget/pomodoro/</loc>
+    <loc>https://widgets.doriri.dev/en/widget/pomodoro/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://notion-widgets.vercel.app/ko/widget/pomodoro/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://notion-widgets.vercel.app/en/widget/pomodoro/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://notion-widgets.vercel.app/ko/widget/pomodoro/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://widgets.doriri.dev/ko/widget/pomodoro/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://widgets.doriri.dev/en/widget/pomodoro/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://widgets.doriri.dev/ko/widget/pomodoro/" />
   </url>
 
   <!-- Widget pages: analog-clock -->
   <url>
-    <loc>https://notion-widgets.vercel.app/ko/widget/analog-clock/</loc>
+    <loc>https://widgets.doriri.dev/ko/widget/analog-clock/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://notion-widgets.vercel.app/ko/widget/analog-clock/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://notion-widgets.vercel.app/en/widget/analog-clock/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://notion-widgets.vercel.app/ko/widget/analog-clock/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://widgets.doriri.dev/ko/widget/analog-clock/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://widgets.doriri.dev/en/widget/analog-clock/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://widgets.doriri.dev/ko/widget/analog-clock/" />
   </url>
   <url>
-    <loc>https://notion-widgets.vercel.app/en/widget/analog-clock/</loc>
+    <loc>https://widgets.doriri.dev/en/widget/analog-clock/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://notion-widgets.vercel.app/ko/widget/analog-clock/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://notion-widgets.vercel.app/en/widget/analog-clock/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://notion-widgets.vercel.app/ko/widget/analog-clock/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://widgets.doriri.dev/ko/widget/analog-clock/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://widgets.doriri.dev/en/widget/analog-clock/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://widgets.doriri.dev/ko/widget/analog-clock/" />
   </url>
 
 </urlset>
