@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { FlipCard } from "./flip-clock";
+import type { FlipClockParams } from "./schema";
 
-export function FlipClockWidget() {
+export function FlipClockWidget({ params }: { params: FlipClockParams }) {
   const [time, setTime] = useState(new Date());
 
   useEffect(() => {
@@ -14,22 +15,49 @@ export function FlipClockWidget() {
     return () => clearInterval(timer);
   }, []);
 
-  const hours = time.getHours().toString().padStart(2, "0");
+  const rawHours = time.getHours();
+  const is24h = params.format === "24h";
+  const hours = is24h
+    ? rawHours.toString().padStart(2, "0")
+    : (rawHours % 12 || 12).toString().padStart(2, "0");
   const minutes = time.getMinutes().toString().padStart(2, "0");
-  const isAM = time.getHours() < 12;
+  const seconds = time.getSeconds().toString().padStart(2, "0");
+  const isAM = rawHours < 12;
   const dayOfWeek = time
-    .toLocaleDateString("en-US", { weekday: "long" })
+    .toLocaleDateString(params.locale, { weekday: "long" })
     .toUpperCase();
 
+  const hoursLabel = is24h ? dayOfWeek : isAM ? "AM" : "PM";
+  const minutesLabel = is24h ? "" : dayOfWeek;
+  const shortDate = time.toLocaleDateString(params.locale, {
+    month: "short",
+    day: "numeric",
+  });
+
+  const bgStyle =
+    params.bg === "transparent"
+      ? undefined
+      : { backgroundColor: "#" + params.bg };
+
+  const cardWidth = params.showSeconds ? "w-1/3" : "w-1/2";
+
   return (
-    <div className="bg-zinc-900 min-h-screen flex items-center justify-center w-full">
+    <div
+      className={`min-h-screen flex items-center justify-center w-full ${params.bg === "transparent" ? "bg-transparent" : ""}`}
+      style={bgStyle}
+    >
       <div className="flex w-full">
-        <div className="w-1/2 pr-2">
-          <FlipCard value={hours} label={isAM ? "AM" : "PM"} />
+        <div className={`${cardWidth} pr-2`}>
+          <FlipCard value={hours} label={hoursLabel} color={params.color} />
         </div>
-        <div className="w-1/2 pl-2">
-          <FlipCard value={minutes} label={dayOfWeek} />
+        <div className={`${cardWidth} ${params.showSeconds ? "px-1" : "pl-2"}`}>
+          <FlipCard value={minutes} label={minutesLabel} color={params.color} />
         </div>
+        {params.showSeconds && (
+          <div className={`${cardWidth} pl-2`}>
+            <FlipCard value={seconds} label={shortDate} color={params.color} />
+          </div>
+        )}
       </div>
     </div>
   );

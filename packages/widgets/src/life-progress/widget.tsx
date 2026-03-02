@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { ProgressBar } from "./progress-bar";
+import type { LifeProgressParams } from "./schema";
 
-export function LifeProgressWidget() {
+export function LifeProgressWidget({ params }: { params: LifeProgressParams }) {
   const [progressData, setProgressData] = useState({
     year: 0,
     month: 0,
@@ -20,8 +21,8 @@ export function LifeProgressWidget() {
       const currentMonth = now.getMonth();
       const currentDate = now.getDate();
 
-      const targetDate = new Date(2030, 11, 31, 23, 59, 59);
-      const startDate = new Date(2025, 7, 1);
+      const targetDate = new Date(params.target + "T23:59:59");
+      const startDate = new Date(params.start + "T00:00:00");
 
       const yearStart = new Date(currentYear, 0, 1);
       const yearEnd = new Date(currentYear + 1, 0, 1);
@@ -96,26 +97,58 @@ export function LifeProgressWidget() {
     const interval = setInterval(calculateProgress, 60000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [params.target, params.start]);
+
+  const targetDate = new Date(params.target + "T23:59:59");
+  const formattedTarget = targetDate.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  const bgStyle =
+    params.bg === "transparent"
+      ? undefined
+      : { backgroundColor: "#" + params.bg };
+
+  const cardStyle = { backgroundColor: "#" + params.color + "e6" };
 
   return (
-    <div className="bg-zinc-900 min-h-screen flex items-center justify-center w-full">
+    <div
+      className={`min-h-screen flex items-center justify-center w-full ${params.bg === "transparent" ? "bg-transparent" : ""}`}
+      style={bgStyle}
+    >
       <div className="w-full mx-auto">
-        <div className="bg-[#7fb686]/90 rounded-xl p-6 shadow-lg backdrop-blur-sm w-full">
+        <div
+          className="rounded-xl p-6 shadow-lg backdrop-blur-sm w-full"
+          style={cardStyle}
+        >
           <h2 className="text-white text-xl font-bold mb-4 text-center">
-            Life Progress
+            {params.title}
           </h2>
 
           <div className="space-y-4">
-            <ProgressBar label="Ocean View" percentage={progressData.target} />
-            <ProgressBar label="Year" percentage={progressData.year} />
-            <ProgressBar label="Month" percentage={progressData.month} />
-            <ProgressBar label="Quarter" percentage={progressData.quarter} />
+            <ProgressBar label={params.label} percentage={progressData.target} />
+            {params.showYear && (
+              <ProgressBar label="Year" percentage={progressData.year} />
+            )}
+            {params.showMonth && (
+              <ProgressBar label="Month" percentage={progressData.month} />
+            )}
+            {params.showQuarter && (
+              <ProgressBar label="Quarter" percentage={progressData.quarter} />
+            )}
+            {params.showWeek && (
+              <ProgressBar label="Week" percentage={progressData.week} />
+            )}
+            {params.showDay && (
+              <ProgressBar label="Day" percentage={progressData.day} />
+            )}
           </div>
 
           <div className="mt-6 text-center">
             <p className="text-white/80 text-xs">Target Date</p>
-            <p className="text-white text-sm font-bold">December 31, 2030</p>
+            <p className="text-white text-sm font-bold">{formattedTarget}</p>
           </div>
         </div>
       </div>

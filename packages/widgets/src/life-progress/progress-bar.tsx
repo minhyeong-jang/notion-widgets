@@ -3,9 +3,11 @@
 export const ProgressBar = ({
   label,
   percentage,
+  barColor = "white",
 }: {
   label: string;
   percentage: number;
+  barColor?: string;
 }) => {
   const clampedPercentage = Math.max(0, Math.min(percentage, 100));
   const hasMinimumProgress = clampedPercentage > 0 && clampedPercentage < 3;
@@ -23,10 +25,11 @@ export const ProgressBar = ({
       </div>
       <div className="w-full h-6 bg-white/20 rounded-full p-0.5">
         <div
-          className={`h-full bg-white transition-all duration-1000 ease-out ${
+          className={`h-full transition-all duration-1000 ease-out ${
             displayWidth >= 3 ? "rounded-full" : "rounded-l-full"
           }`}
           style={{
+            backgroundColor: barColor,
             width: `${displayWidth}%`,
             minWidth: clampedPercentage > 0 ? "4%" : "0px",
           }}

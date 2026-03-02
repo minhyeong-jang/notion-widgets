@@ -1,0 +1,66 @@
+import type { ControlDefinition } from "@nw/widget-core";
+import { registerWidget } from "@nw/widget-core";
+import { QuoteWidget } from "./widget";
+import { quoteSchema, quoteDefaults } from "./schema";
+
+export { QuoteWidget } from "./widget";
+
+const controls: ControlDefinition[] = [
+  {
+    key: "color",
+    label: "Accent Color",
+    labelKo: "강조 색상",
+    type: "color",
+    defaultValue: "7fb686",
+    group: "appearance",
+  },
+  {
+    key: "bg",
+    label: "Background Color",
+    labelKo: "배경 색상",
+    type: "color",
+    defaultValue: "18181b",
+    group: "appearance",
+  },
+  {
+    key: "language",
+    label: "Language",
+    labelKo: "언어",
+    type: "select",
+    defaultValue: "ko",
+    options: [
+      { value: "ko", label: "한국어" },
+      { value: "en", label: "English" },
+    ],
+    group: "content",
+  },
+  {
+    key: "fontSize",
+    label: "Font Size",
+    labelKo: "글자 크기",
+    type: "select",
+    defaultValue: "md",
+    options: [
+      { value: "sm", label: "Small" },
+      { value: "md", label: "Medium" },
+      { value: "lg", label: "Large" },
+    ],
+    group: "content",
+  },
+];
+
+registerWidget({
+  meta: {
+    id: "quote",
+    name: "Daily Quote",
+    description: "Inspirational quote that changes daily",
+  },
+  paramsSchema: quoteSchema,
+  defaultParams: quoteDefaults,
+  component: QuoteWidget,
+  controls,
+  nameKo: "오늘의 명언",
+  descriptionKo: "매일 바뀌는 영감을 주는 명언",
+  category: "lifestyle",
+  recommendedSize: { width: 400, height: 200 },
+});

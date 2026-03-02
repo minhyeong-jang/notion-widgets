@@ -10,6 +10,9 @@
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf node_modules .turbo"
   },
+  "dependencies": {
+    "zod": "^3.23"
+  },
   "devDependencies": {
     "@nw/tsconfig": "workspace:*",
     "@types/react": "^19",
