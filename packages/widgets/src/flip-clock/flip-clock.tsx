@@ -26,8 +26,8 @@ export const FlipCard = ({ value, label, color }: { value: string; label: string
 
   return (
     <div className="rounded-3xl p-4 w-full h-64 flex flex-col shadow-2xl relative" style={bgStyle}>
-      <div className="text-white text-md font-bold opacity-100 text-left">
-        {label}
+      <div className="text-white text-md font-bold opacity-100 text-left min-h-[1.5rem]">
+        {label || "\u00A0"}
       </div>
 
       <div

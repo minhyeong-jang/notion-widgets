@@ -1,5 +1,5 @@
 import type { ControlDefinition } from "@nw/widget-core";
-import { registerWidget } from "@nw/widget-core";
+import { registerWidget, localeControl, dateFormatControl } from "@nw/widget-core";
 import { LifeProgressWidget } from "./widget";
 import { lifeProgressSchema, lifeProgressDefaults } from "./schema";
 
@@ -23,6 +23,8 @@ const controls: ControlDefinition[] = [
     defaultValue: "18181b",
     group: "appearance",
   },
+  localeControl,
+  dateFormatControl,
   {
     key: "title",
     label: "Title",
@@ -33,10 +35,10 @@ const controls: ControlDefinition[] = [
   },
   {
     key: "label",
-    label: "Custom Label",
-    labelKo: "사용자 라벨",
+    label: "Goal Label",
+    labelKo: "목표 라벨",
     type: "text",
-    defaultValue: "Ocean View",
+    defaultValue: "My Goal",
     group: "content",
   },
   {
@@ -44,7 +46,7 @@ const controls: ControlDefinition[] = [
     label: "Target Date",
     labelKo: "목표 날짜",
     type: "date",
-    defaultValue: "2030-12-31",
+    defaultValue: "2026-12-31",
     group: "content",
   },
   {
@@ -52,7 +54,7 @@ const controls: ControlDefinition[] = [
     label: "Start Date",
     labelKo: "시작 날짜",
     type: "date",
-    defaultValue: "2025-08-01",
+    defaultValue: "2026-01-01",
     group: "content",
   },
   {

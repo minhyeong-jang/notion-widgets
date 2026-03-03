@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useRef, useEffect } from "react";
 import { buildEmbedUrl } from "@nw/widget-core";
 import type { Dictionary } from "@/i18n/get-dictionary";
 
@@ -21,6 +22,23 @@ export function PreviewFrame({
     ? `${recommendedSize.width} / ${recommendedSize.height}`
     : "16 / 9";
 
+  const [activeSrc, setActiveSrc] = useState(src);
+  const [nextSrc, setNextSrc] = useState<string | null>(null);
+  const nextIframeRef = useRef<HTMLIFrameElement>(null);
+
+  useEffect(() => {
+    if (src !== activeSrc) {
+      setNextSrc(src);
+    }
+  }, [src, activeSrc]);
+
+  const handleNextLoad = () => {
+    if (nextSrc) {
+      setActiveSrc(nextSrc);
+      setNextSrc(null);
+    }
+  };
+
   return (
     <div className="w-full">
       <div
@@ -28,10 +46,19 @@ export function PreviewFrame({
         style={{ aspectRatio }}
       >
         <iframe
-          src={src}
+          src={activeSrc}
           className="absolute inset-0 w-full h-full"
           title="Widget Preview"
         />
+        {nextSrc && (
+          <iframe
+            ref={nextIframeRef}
+            src={nextSrc}
+            className="absolute inset-0 w-full h-full opacity-0 pointer-events-none"
+            title="Widget Preview Loading"
+            onLoad={handleNextLoad}
+          />
+        )}
       </div>
       <p className="mt-2 text-xs text-zinc-600 text-center">
         {dict.customizer.livePreview}

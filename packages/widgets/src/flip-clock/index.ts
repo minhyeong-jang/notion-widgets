@@ -1,9 +1,10 @@
 import type { ControlDefinition } from "@nw/widget-core";
-import { registerWidget } from "@nw/widget-core";
+import { registerWidget, localeControl } from "@nw/widget-core";
 import { FlipClockWidget } from "./widget";
 import { flipClockSchema, flipClockDefaults } from "./schema";
 
 export { FlipCard } from "./flip-clock";
+export { MinimalCard } from "./minimal-clock";
 export { FlipClockWidget } from "./widget";
 
 const controls: ControlDefinition[] = [
@@ -24,6 +25,18 @@ const controls: ControlDefinition[] = [
     group: "appearance",
   },
   {
+    key: "style",
+    label: "Style",
+    labelKo: "스타일",
+    type: "select",
+    defaultValue: "flip",
+    options: [
+      { value: "flip", label: "Flip" },
+      { value: "minimal", label: "Minimal" },
+    ],
+    group: "appearance",
+  },
+  {
     key: "format",
     label: "Time Format",
     labelKo: "시간 형식",
@@ -35,29 +48,21 @@ const controls: ControlDefinition[] = [
     ],
     group: "content",
   },
-  {
-    key: "locale",
-    label: "Language",
-    labelKo: "언어",
-    type: "select",
-    defaultValue: "en-US",
-    options: [
-      { value: "en-US", label: "English" },
-      { value: "ko-KR", label: "한국어" },
-      { value: "ja-JP", label: "日本語" },
-      { value: "zh-CN", label: "中文" },
-      { value: "de-DE", label: "Deutsch" },
-      { value: "fr-FR", label: "Français" },
-      { value: "es-ES", label: "Español" },
-    ],
-    group: "content",
-  },
+  localeControl,
   {
     key: "showSeconds",
     label: "Show Seconds",
     labelKo: "초 표시",
     type: "toggle",
     defaultValue: false,
+    group: "content",
+  },
+  {
+    key: "showLabel",
+    label: "Show Labels",
+    labelKo: "라벨 표시",
+    type: "toggle",
+    defaultValue: true,
     group: "content",
   },
 ];

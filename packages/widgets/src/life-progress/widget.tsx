@@ -1,10 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { getProgressLabels, formatDate } from "@nw/widget-core";
 import { ProgressBar } from "./progress-bar";
 import type { LifeProgressParams } from "./schema";
 
 export function LifeProgressWidget({ params }: { params: LifeProgressParams }) {
+  const l = getProgressLabels(params.locale);
   const [progressData, setProgressData] = useState({
     year: 0,
     month: 0,
@@ -100,11 +102,7 @@ export function LifeProgressWidget({ params }: { params: LifeProgressParams }) {
   }, [params.target, params.start]);
 
   const targetDate = new Date(params.target + "T23:59:59");
-  const formattedTarget = targetDate.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  const formattedTarget = formatDate(targetDate, params.dateFormat, params.locale);
 
   const bgStyle =
     params.bg === "transparent"
@@ -130,24 +128,24 @@ export function LifeProgressWidget({ params }: { params: LifeProgressParams }) {
           <div className="space-y-4">
             <ProgressBar label={params.label} percentage={progressData.target} />
             {params.showYear && (
-              <ProgressBar label="Year" percentage={progressData.year} />
+              <ProgressBar label={l.year} percentage={progressData.year} />
             )}
             {params.showMonth && (
-              <ProgressBar label="Month" percentage={progressData.month} />
+              <ProgressBar label={l.month} percentage={progressData.month} />
             )}
             {params.showQuarter && (
-              <ProgressBar label="Quarter" percentage={progressData.quarter} />
+              <ProgressBar label={l.quarter} percentage={progressData.quarter} />
             )}
             {params.showWeek && (
-              <ProgressBar label="Week" percentage={progressData.week} />
+              <ProgressBar label={l.week} percentage={progressData.week} />
             )}
             {params.showDay && (
-              <ProgressBar label="Day" percentage={progressData.day} />
+              <ProgressBar label={l.day} percentage={progressData.day} />
             )}
           </div>
 
           <div className="mt-6 text-center">
-            <p className="text-white/80 text-xs">Target Date</p>
+            <p className="text-white/80 text-xs">{l.targetDate}</p>
             <p className="text-white text-sm font-bold">{formattedTarget}</p>
           </div>
         </div>
