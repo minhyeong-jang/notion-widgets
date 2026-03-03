@@ -1,7 +1,7 @@
 "use client";
 
 import type { QuoteParams } from "./schema";
-import { quotesKo, quotesEn, type Quote } from "./quotes";
+import { getQuotes, type Quote } from "./quotes";
 
 function getDailyQuote(quotes: Quote[]): Quote {
   const now = new Date();
@@ -11,6 +11,10 @@ function getDailyQuote(quotes: Quote[]): Quote {
   return quotes[dayOfYear % quotes.length];
 }
 
+function getRandomQuote(quotes: Quote[]): Quote {
+  return quotes[Math.floor(Math.random() * quotes.length)];
+}
+
 const fontSizeMap = {
   sm: "text-base",
   md: "text-xl",
@@ -18,8 +22,8 @@ const fontSizeMap = {
 } as const;
 
 export function QuoteWidget({ params }: { params: QuoteParams }) {
-  const quotes = params.language === "ko" ? quotesKo : quotesEn;
-  const quote = getDailyQuote(quotes);
+  const quotes = getQuotes(params.locale);
+  const quote = params.mode === "random" ? getRandomQuote(quotes) : getDailyQuote(quotes);
 
   const bgStyle =
     params.bg === "transparent"

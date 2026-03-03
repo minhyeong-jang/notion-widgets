@@ -1,5 +1,5 @@
 import type { ControlDefinition } from "@nw/widget-core";
-import { registerWidget } from "@nw/widget-core";
+import { registerWidget, localeControl } from "@nw/widget-core";
 import { QuoteWidget } from "./widget";
 import { quoteSchema, quoteDefaults } from "./schema";
 
@@ -22,15 +22,16 @@ const controls: ControlDefinition[] = [
     defaultValue: "18181b",
     group: "appearance",
   },
+  localeControl,
   {
-    key: "language",
-    label: "Language",
-    labelKo: "언어",
+    key: "mode",
+    label: "Mode",
+    labelKo: "모드",
     type: "select",
-    defaultValue: "ko",
+    defaultValue: "daily",
     options: [
-      { value: "ko", label: "한국어" },
-      { value: "en", label: "English" },
+      { value: "daily", label: "Daily" },
+      { value: "random", label: "Random" },
     ],
     group: "content",
   },

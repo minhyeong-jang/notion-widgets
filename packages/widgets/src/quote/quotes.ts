@@ -1,7 +1,24 @@
 export interface Quote {
   text: string;
   author: string;
-  title: string; // 한 줄 소개 (e.g. "현대그룹 창업자", "Physicist")
+  title: string;
+}
+
+/**
+ * Get quotes array for a given BCP 47 locale.
+ * Falls back to English for unsupported languages.
+ */
+export function getQuotes(locale: string): Quote[] {
+  const lang = locale.slice(0, 2);
+  switch (lang) {
+    case "ko": return quotesKo;
+    case "ja": return quotesJa;
+    case "zh": return quotesCn;
+    case "de": return quotesDe;
+    case "fr": return quotesFr;
+    case "es": return quotesEs;
+    default: return quotesEn;
+  }
 }
 
 export const quotesKo: Quote[] = [
@@ -16,7 +33,7 @@ export const quotesKo: Quote[] = [
   // 동양 사상가
   { text: "가장 큰 영광은 한 번도 실패하지 않음이 아니라, 실패할 때마다 일어서는 데에 있다.", author: "공자", title: "중국 사상가" },
   { text: "뜻이 있는 곳에 길이 있다.", author: "맹자", title: "유교 사상가" },
-  { text: "자기 자신을 아는 것이 모든 지혜의 시작이다.", author: "노자", title: "도가 사상가" },
+  { text: "자기 자신을 아는 것이 모든 지혜의 시작이다.", author: "아리스토텔레스", title: "고대 그리스 철학자" },
   { text: "부드러운 것이 강한 것을 이긴다.", author: "노자", title: "도가 사상가" },
 
   // 서양 철학자 / 과학자
@@ -34,7 +51,7 @@ export const quotesKo: Quote[] = [
   // 한국 인물
   { text: "될 때까지 하면 안 될 일이 없다.", author: "정주영", title: "현대그룹 창업자" },
   { text: "나는 우리나라가 세계에서 가장 아름다운 나라가 되기를 원한다.", author: "김구", title: "대한민국 독립운동가" },
-  { text: "사람이 먼저다.", author: "유한양행 사훈", title: "유일한 창업 철학" },
+  { text: "사람이 먼저다.", author: "유일한", title: "유한양행 창업자" },
   { text: "이봐, 해봤어?", author: "정주영", title: "현대그룹 창업자" },
 
   // 문학가
@@ -115,4 +132,99 @@ export const quotesEn: Quote[] = [
   { text: "When one door of happiness closes, another opens.", author: "Helen Keller", title: "Author & Activist" },
   { text: "Small daily improvements over time lead to stunning results.", author: "Robin Sharma", title: "Leadership Author" },
   { text: "Life is a tragedy when seen in close-up, but a comedy in long-shot.", author: "Charlie Chaplin", title: "Actor & Filmmaker" },
+];
+
+export const quotesJa: Quote[] = [
+  { text: "千里の道も一歩から。", author: "老子", title: "道家の思想家" },
+  { text: "為せば成る、為さねば成らぬ何事も。", author: "上杉鷹山", title: "米沢藩主" },
+  { text: "努力は必ず報われる。もし報われない努力があるのならば、それはまだ努力と呼べない。", author: "王貞治", title: "元プロ野球選手" },
+  { text: "人生に失敗した人の多くは、諦めた時にどれだけ成功に近づいていたかに気づかなかった人たちだ。", author: "トーマス・エジソン", title: "発明家" },
+  { text: "夢を見ることができれば、それは実現できる。", author: "ウォルト・ディズニー", title: "ディズニー創業者" },
+  { text: "今日という日は、残りの人生の最初の日である。", author: "チャールズ・ディードリッヒ", title: "アメリカの著者" },
+  { text: "困難の中にこそ、チャンスがある。", author: "アルベルト・アインシュタイン", title: "物理学者" },
+  { text: "自分自身を知ることは、すべての知恵の始まりである。", author: "アリストテレス", title: "ギリシャの哲学者" },
+  { text: "想像力は知識よりも重要だ。", author: "アルベルト・アインシュタイン", title: "物理学者" },
+  { text: "七転び八起き。", author: "日本のことわざ", title: "" },
+  { text: "継続は力なり。", author: "日本のことわざ", title: "" },
+  { text: "一期一会。", author: "井伊直弼", title: "大老・茶人" },
+  { text: "花は盛りに、月は隈なきをのみ見るものかは。", author: "吉田兼好", title: "随筆家" },
+  { text: "明日死ぬかのように生きよ。永遠に生きるかのように学べ。", author: "マハトマ・ガンジー", title: "インド独立の父" },
+  { text: "偉大なことは、小さなことの積み重ねで生まれる。", author: "フィンセント・ファン・ゴッホ", title: "オランダの画家" },
+  { text: "行動は言葉よりも雄弁である。", author: "英語のことわざ", title: "" },
+];
+
+export const quotesCn: Quote[] = [
+  { text: "千里之行，始于足下。", author: "老子", title: "道家思想家" },
+  { text: "学而不思则罔，思而不学则殆。", author: "孔子", title: "儒家思想家" },
+  { text: "三人行，必有我师焉。", author: "孔子", title: "儒家思想家" },
+  { text: "知之者不如好之者，好之者不如乐之者。", author: "孔子", title: "儒家思想家" },
+  { text: "天将降大任于是人也，必先苦其心志。", author: "孟子", title: "儒家思想家" },
+  { text: "不积跬步，无以至千里。", author: "荀子", title: "儒家思想家" },
+  { text: "业精于勤，荒于嬉。", author: "韩愈", title: "唐代文学家" },
+  { text: "路漫漫其修远兮，吾将上下而求索。", author: "屈原", title: "战国诗人" },
+  { text: "宝剑锋从磨砺出，梅花香自苦寒来。", author: "中国谚语", title: "" },
+  { text: "世上无难事，只怕有心人。", author: "中国谚语", title: "" },
+  { text: "失败乃成功之母。", author: "中国谚语", title: "" },
+  { text: "书山有路勤为径，学海无涯苦作舟。", author: "韩愈", title: "唐代文学家" },
+  { text: "想象力比知识更重要。", author: "阿尔伯特·爱因斯坦", title: "物理学家" },
+  { text: "生活就像骑自行车，要保持平衡就得不断前进。", author: "阿尔伯特·爱因斯坦", title: "物理学家" },
+  { text: "做你能做的，用你所有的，在你所在的地方。", author: "西奥多·罗斯福", title: "美国第26任总统" },
+  { text: "己所不欲，勿施于人。", author: "孔子", title: "儒家思想家" },
+];
+
+export const quotesDe: Quote[] = [
+  { text: "Der Weg ist das Ziel.", author: "Konfuzius", title: "Chinesischer Philosoph" },
+  { text: "Phantasie ist wichtiger als Wissen.", author: "Albert Einstein", title: "Physiker" },
+  { text: "Wer kämpft, kann verlieren. Wer nicht kämpft, hat schon verloren.", author: "Bertolt Brecht", title: "Dramatiker" },
+  { text: "Es ist nicht genug zu wissen, man muss auch anwenden.", author: "Johann Wolfgang von Goethe", title: "Dichter" },
+  { text: "Nur wer sein Ziel kennt, findet den Weg.", author: "Chinesisches Sprichwort", title: "" },
+  { text: "Man muss das Unmögliche versuchen, um das Mögliche zu erreichen.", author: "Hermann Hesse", title: "Schriftsteller" },
+  { text: "Ich denke, also bin ich.", author: "René Descartes", title: "Französischer Philosoph" },
+  { text: "Das Leben ist wie Fahrrad fahren. Um die Balance zu halten, musst du in Bewegung bleiben.", author: "Albert Einstein", title: "Physiker" },
+  { text: "Anfangen ist leicht, Beharren eine Kunst.", author: "Deutsches Sprichwort", title: "" },
+  { text: "In der Mitte der Schwierigkeit liegt die Möglichkeit.", author: "Albert Einstein", title: "Physiker" },
+  { text: "Was du heute kannst besorgen, das verschiebe nicht auf morgen.", author: "Deutsches Sprichwort", title: "" },
+  { text: "Jeder ist seines Glückes Schmied.", author: "Deutsches Sprichwort", title: "" },
+  { text: "Die Kunst ist lang, das Leben kurz.", author: "Johann Wolfgang von Goethe", title: "Dichter" },
+  { text: "Wer immer tut, was er schon kann, bleibt immer das, was er schon ist.", author: "Henry Ford", title: "Gründer von Ford" },
+  { text: "Einfachheit ist die höchste Stufe der Vollendung.", author: "Leonardo da Vinci", title: "Universalgelehrter" },
+  { text: "Übung macht den Meister.", author: "Deutsches Sprichwort", title: "" },
+];
+
+export const quotesFr: Quote[] = [
+  { text: "Je pense, donc je suis.", author: "René Descartes", title: "Philosophe" },
+  { text: "L'imagination est plus importante que le savoir.", author: "Albert Einstein", title: "Physicien" },
+  { text: "La vie, c'est comme une bicyclette, il faut avancer pour ne pas perdre l'équilibre.", author: "Albert Einstein", title: "Physicien" },
+  { text: "Il n'y a qu'une façon d'échouer, c'est d'abandonner avant d'avoir réussi.", author: "Georges Clemenceau", title: "Homme d'État français" },
+  { text: "Le seul vrai voyage, c'est de changer de regard.", author: "Marcel Proust", title: "Écrivain" },
+  { text: "L'art est le mensonge qui nous permet de connaître la vérité.", author: "Pablo Picasso", title: "Peintre espagnol" },
+  { text: "Rien ne se perd, rien ne se crée, tout se transforme.", author: "Antoine Lavoisier", title: "Chimiste" },
+  { text: "Vouloir, c'est pouvoir.", author: "Proverbe français", title: "" },
+  { text: "Le bonheur n'est pas quelque chose de prêt à l'emploi. Il vient de vos propres actions.", author: "Dalaï-Lama", title: "Chef spirituel tibétain" },
+  { text: "On ne voit bien qu'avec le cœur. L'essentiel est invisible pour les yeux.", author: "Antoine de Saint-Exupéry", title: "Écrivain & Aviateur" },
+  { text: "La simplicité est la sophistication suprême.", author: "Léonard de Vinci", title: "Génie universel" },
+  { text: "Qui n'avance pas, recule.", author: "Proverbe français", title: "" },
+  { text: "Le succès, c'est tomber sept fois et se relever huit.", author: "Proverbe japonais", title: "" },
+  { text: "Il faut cultiver notre jardin.", author: "Voltaire", title: "Philosophe des Lumières" },
+  { text: "Chaque saint a un passé et chaque pécheur a un avenir.", author: "Oscar Wilde", title: "Poète & Dramaturge" },
+  { text: "La seule façon de faire du bon travail est d'aimer ce que vous faites.", author: "Steve Jobs", title: "Cofondateur d'Apple" },
+];
+
+export const quotesEs: Quote[] = [
+  { text: "La imaginación es más importante que el conocimiento.", author: "Albert Einstein", title: "Físico" },
+  { text: "El único modo de hacer un gran trabajo es amar lo que haces.", author: "Steve Jobs", title: "Cofundador de Apple" },
+  { text: "La vida es lo que pasa mientras estás ocupado haciendo otros planes.", author: "John Lennon", title: "Músico, The Beatles" },
+  { text: "En medio de la dificultad reside la oportunidad.", author: "Albert Einstein", title: "Físico" },
+  { text: "No importa lo lento que vayas, siempre y cuando no te detengas.", author: "Confucio", title: "Filósofo chino" },
+  { text: "Sé el cambio que deseas ver en el mundo.", author: "Mahatma Gandhi", title: "Líder independentista" },
+  { text: "El que no arriesga, no gana.", author: "Proverbio español", title: "" },
+  { text: "Cree que puedes y ya estás a medio camino.", author: "Theodore Roosevelt", title: "26° Presidente de EE.UU." },
+  { text: "La simplicidad es la máxima sofisticación.", author: "Leonardo da Vinci", title: "Polímata italiano" },
+  { text: "Pienso, luego existo.", author: "René Descartes", title: "Filósofo francés" },
+  { text: "El arte es la mentira que nos permite conocer la verdad.", author: "Pablo Picasso", title: "Pintor español" },
+  { text: "Cada día sabemos más y entendemos menos.", author: "Proverbio", title: "" },
+  { text: "La felicidad no es algo hecho. Viene de tus propias acciones.", author: "Dalái Lama", title: "Líder espiritual tibetano" },
+  { text: "Vive como si fueras a morir mañana. Aprende como si fueras a vivir para siempre.", author: "Mahatma Gandhi", title: "Líder independentista" },
+  { text: "El éxito no es definitivo, el fracaso no es fatal: lo que cuenta es el valor de continuar.", author: "Winston Churchill", title: "Primer Ministro británico" },
+  { text: "Más vale tarde que nunca.", author: "Proverbio español", title: "" },
 ];
