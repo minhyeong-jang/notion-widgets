@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import { resolveColors } from "@nw/widget-core";
+import { WidgetShell } from "../widget-shell";
 import type { HabitHeatmapParams } from "./schema";
 
 function hexToRgb(hex: string): { r: number; g: number; b: number } {
@@ -91,8 +91,9 @@ function buildGrid(weeksCount: number): DayCell[] {
 }
 
 export function HabitHeatmapWidget({ params }: { params: HabitHeatmapParams }) {
-  const c = resolveColors(params);
-  const bgStyle = c.bg === "transparent" ? undefined : { backgroundColor: c.bg };
+  const accentColor = "#" + params.color;
+  const bgHex = params.bg;
+  const isTransparentBg = bgHex === "transparent";
   const weeksCount = Math.max(12, Math.min(52, parseInt(params.weeks, 10) || 20));
 
   const cells = useMemo(() => buildGrid(weeksCount), [weeksCount]);
@@ -105,15 +106,19 @@ export function HabitHeatmapWidget({ params }: { params: HabitHeatmapParams }) {
 
   const cellSize = Math.max(6, Math.min(14, Math.floor(340 / weeksCount)));
   const gap = Math.max(1, Math.floor(cellSize * 0.2));
+  const emptyBg = isTransparentBg ? "rgba(255,255,255,0.05)" : accentColor + "15";
 
   return (
-    <div
-      className={`min-h-screen flex items-center justify-center w-full ${c.bg === "transparent" ? "bg-transparent" : ""}`}
-      style={bgStyle}
-    >
+    <WidgetShell params={params}>
       <div className="flex flex-col items-center gap-3 px-4">
         {params.label && (
-          <div className="text-xs font-medium opacity-70" style={{ color: c.text }}>
+          <div
+            className="text-xs font-medium opacity-70"
+            style={{
+              color: accentColor,
+              textShadow: "var(--w-text-shadow)",
+            }}
+          >
             {params.label}
           </div>
         )}
@@ -128,8 +133,8 @@ export function HabitHeatmapWidget({ params }: { params: HabitHeatmapParams }) {
                     height: `${cellSize}px`,
                     borderRadius: `${Math.max(1, cellSize * 0.2)}px`,
                     backgroundColor: day.isFuture || day.intensity === 0
-                      ? (c.bg === "transparent" ? "rgba(255,255,255,0.05)" : c.border)
-                      : getIntensityColor(c.accent, day.intensity),
+                      ? emptyBg
+                      : getIntensityColor(accentColor, day.intensity),
                     opacity: day.isFuture ? 0.3 : 1,
                   }}
                   title={day.date.toLocaleDateString()}
@@ -138,7 +143,7 @@ export function HabitHeatmapWidget({ params }: { params: HabitHeatmapParams }) {
             </div>
           ))}
         </div>
-        <div className="flex items-center gap-1 text-[10px] opacity-50" style={{ color: c.text }}>
+        <div className="flex items-center gap-1 text-[10px] opacity-50" style={{ color: accentColor }}>
           <span>Less</span>
           {[0, 1, 2, 3, 4].map((level) => (
             <div
@@ -147,13 +152,13 @@ export function HabitHeatmapWidget({ params }: { params: HabitHeatmapParams }) {
                 width: `${cellSize}px`,
                 height: `${cellSize}px`,
                 borderRadius: `${Math.max(1, cellSize * 0.2)}px`,
-                backgroundColor: level === 0 ? c.border : getIntensityColor(c.accent, level),
+                backgroundColor: level === 0 ? emptyBg : getIntensityColor(accentColor, level),
               }}
             />
           ))}
           <span>More</span>
         </div>
       </div>
-    </div>
+    </WidgetShell>
   );
 }

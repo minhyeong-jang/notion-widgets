@@ -1,12 +1,11 @@
 export type { WidgetMeta, WidgetDefinition, ControlDefinition } from "./types";
 export { registerWidget, getWidget, getAllWidgets } from "./registry";
 export { parseWidgetParams, buildEmbedUrl } from "./params";
-export type { ThemeDefinition, ThemeVariables } from "./theme";
+export type { ThemeDesign } from "./theme";
 export {
-  getTheme,
+  getThemeDesign,
   getAllThemes,
   getFreeThemes,
-  resolveThemeVariables,
 } from "./theme";
 export {
   LOCALE_OPTIONS,
@@ -17,5 +16,3 @@ export {
   formatDate,
   getProgressLabels,
 } from "./presets";
-export type { WidgetColors } from "./resolve-colors";
-export { resolveColors } from "./resolve-colors";

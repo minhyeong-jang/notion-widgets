@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { resolveColors } from "@nw/widget-core";
+import { WidgetShell } from "../widget-shell";
 import type { AnalogClockParams } from "./schema";
 
 export function AnalogClockWidget({ params }: { params: AnalogClockParams }) {
@@ -22,32 +22,28 @@ export function AnalogClockWidget({ params }: { params: AnalogClockParams }) {
   const minuteAngle = minutes * 6 + seconds * 0.1;
   const secondAngle = seconds * 6;
 
-  const c = resolveColors(params);
+  const accentColor = "#" + params.color;
+  const textColor = "#fafafa";
   const isVintage = params.style === "vintage";
   const isClassic = params.style === "classic";
 
   const hourNumbers = Array.from({ length: 12 }, (_, i) => i + 1);
 
-  const bgStyle = c.bg === "transparent" ? undefined : { backgroundColor: c.bg };
-
   const frameColor = isVintage
     ? "#8b7355"
     : isClassic
-      ? c.text
-      : c.accent;
+      ? textColor
+      : accentColor;
 
-  const handColor = isVintage ? "#4a3728" : c.text;
-  const secondHandColor = isVintage ? "#8b4513" : c.accent;
-  const tickColor = isVintage ? "#4a3728" : c.text;
+  const handColor = isVintage ? "#4a3728" : textColor;
+  const secondHandColor = isVintage ? "#8b4513" : accentColor;
+  const tickColor = isVintage ? "#4a3728" : textColor;
   const numberFont = isVintage ? "serif" : "sans-serif";
   const hourHandWidth = isClassic ? 4 : 2.5;
   const minuteHandWidth = isClassic ? 3 : 2;
 
   return (
-    <div
-      className={`min-h-screen flex items-center justify-center w-full ${c.bg === "transparent" ? "bg-transparent" : ""}`}
-      style={bgStyle}
-    >
+    <WidgetShell params={params}>
       <svg viewBox="0 0 200 200" className="w-full max-w-[280px]">
         {/* Clock face */}
         <circle
@@ -183,7 +179,7 @@ export function AnalogClockWidget({ params }: { params: AnalogClockParams }) {
           cx="100"
           cy="100"
           r={isClassic ? 4 : 3}
-          fill={isVintage ? "#8b7355" : c.accent}
+          fill={isVintage ? "#8b7355" : accentColor}
         />
         {isVintage && (
           <circle
@@ -197,6 +193,6 @@ export function AnalogClockWidget({ params }: { params: AnalogClockParams }) {
           />
         )}
       </svg>
-    </div>
+    </WidgetShell>
   );
 }

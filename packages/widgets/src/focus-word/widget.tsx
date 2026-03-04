@@ -1,6 +1,6 @@
 "use client";
 
-import { resolveColors } from "@nw/widget-core";
+import { WidgetShell } from "../widget-shell";
 import type { FocusWordParams } from "./schema";
 import { focusWords } from "./words";
 
@@ -17,22 +17,21 @@ function getDailyWord(): { en: string; ko: string } {
 }
 
 export function FocusWordWidget({ params }: { params: FocusWordParams }) {
-  const c = resolveColors(params);
-  const bgStyle = c.bg === "transparent" ? undefined : { backgroundColor: c.bg };
+  const accentColor = "#" + params.color;
 
   const hasCustomWord = params.word.trim().length > 0;
   const displayWord = hasCustomWord ? params.word.trim() : getDailyWord().en;
 
   return (
-    <div
-      className={`min-h-screen flex items-center justify-center w-full ${c.bg === "transparent" ? "bg-transparent" : ""}`}
-      style={bgStyle}
-    >
+    <WidgetShell params={params}>
       <div className="text-center px-8 w-full">
         {params.style === "minimal" && (
           <h1
             className="text-5xl sm:text-6xl font-light tracking-widest uppercase"
-            style={{ color: c.text }}
+            style={{
+              color: accentColor,
+              textShadow: "var(--w-text-shadow)",
+            }}
           >
             {displayWord}
           </h1>
@@ -42,7 +41,7 @@ export function FocusWordWidget({ params }: { params: FocusWordParams }) {
           <h1
             className="text-5xl sm:text-6xl font-semibold tracking-wide"
             style={{
-              background: `linear-gradient(135deg, ${c.accent}, ${c.text})`,
+              background: `linear-gradient(135deg, ${accentColor}, ${accentColor}88)`,
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
@@ -56,8 +55,8 @@ export function FocusWordWidget({ params }: { params: FocusWordParams }) {
           <h1
             className="text-6xl sm:text-7xl font-black tracking-tight uppercase"
             style={{
-              color: c.accent,
-              textShadow: `0 4px 24px ${c.accent}33`,
+              color: accentColor,
+              textShadow: "var(--w-text-shadow)",
             }}
           >
             {displayWord}
@@ -67,10 +66,10 @@ export function FocusWordWidget({ params }: { params: FocusWordParams }) {
         {!hasCustomWord && (
           <div
             className="mt-3 w-8 h-px mx-auto"
-            style={{ backgroundColor: c.accent, opacity: 0.4 }}
+            style={{ backgroundColor: accentColor, opacity: 0.4 }}
           />
         )}
       </div>
-    </div>
+    </WidgetShell>
   );
 }

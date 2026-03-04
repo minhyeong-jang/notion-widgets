@@ -1,6 +1,6 @@
 "use client";
 
-import { resolveColors } from "@nw/widget-core";
+import { WidgetShell } from "../widget-shell";
 import type { DailyTipParams } from "./schema";
 import { getTipsByCategory, type Tip } from "./tips";
 
@@ -23,15 +23,14 @@ const fontSizeMap = {
 } as const;
 
 const categoryLabels: Record<string, { en: string; ko: string }> = {
-  productivity: { en: "Productivity", ko: "생산성" },
-  mindset: { en: "Mindset", ko: "마인드셋" },
-  tech: { en: "Tech", ko: "기술" },
-  life: { en: "Life", ko: "생활" },
+  productivity: { en: "Productivity", ko: "\uC0DD\uC0B0\uC131" },
+  mindset: { en: "Mindset", ko: "\uB9C8\uC778\uB4DC\uC14B" },
+  tech: { en: "Tech", ko: "\uAE30\uC220" },
+  life: { en: "Life", ko: "\uC0DD\uD65C" },
 };
 
 export function DailyTipWidget({ params }: { params: DailyTipParams }) {
-  const c = resolveColors(params);
-  const bgStyle = c.bg === "transparent" ? undefined : { backgroundColor: c.bg };
+  const accentColor = "#" + params.color;
 
   const items = getTipsByCategory(params.category);
   const tip = params.mode === "random" ? getRandomTip(items) : getDailyTip(items);
@@ -43,16 +42,13 @@ export function DailyTipWidget({ params }: { params: DailyTipParams }) {
     : categoryLabels[tip.category].en;
 
   return (
-    <div
-      className={`min-h-screen flex items-center justify-center w-full ${c.bg === "transparent" ? "bg-transparent" : ""}`}
-      style={bgStyle}
-    >
+    <WidgetShell params={params}>
       <div className="text-center px-8 max-w-md mx-auto">
         <div
           className="inline-block px-3 py-1 rounded-full text-xs font-medium mb-4 uppercase tracking-wider"
           style={{
-            backgroundColor: c.accent + "20",
-            color: c.accent,
+            backgroundColor: accentColor + "20",
+            color: accentColor,
           }}
         >
           {categoryLabel}
@@ -64,7 +60,7 @@ export function DailyTipWidget({ params }: { params: DailyTipParams }) {
             height="18"
             viewBox="0 0 24 24"
             fill="none"
-            stroke={c.accent}
+            stroke={accentColor}
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -76,12 +72,16 @@ export function DailyTipWidget({ params }: { params: DailyTipParams }) {
           </svg>
           <p
             className={`${fontSizeMap[params.fontSize]} leading-relaxed text-left`}
-            style={{ color: c.text, opacity: 0.9 }}
+            style={{
+              color: accentColor,
+              opacity: 0.9,
+              textShadow: "var(--w-text-shadow)",
+            }}
           >
             {text}
           </p>
         </div>
       </div>
-    </div>
+    </WidgetShell>
   );
 }

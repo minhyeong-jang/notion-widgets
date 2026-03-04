@@ -34,14 +34,13 @@ export const themeControl: ControlDefinition = {
   label: "Theme",
   labelKo: "테마",
   type: "select",
-  defaultValue: "custom",
+  defaultValue: "minimal",
   options: [
-    { value: "custom", label: "Custom" },
-    { value: "default", label: "Dark" },
-    { value: "light", label: "Light" },
-    { value: "glassmorphism", label: "Glass" },
+    { value: "minimal", label: "Minimal" },
+    { value: "soft", label: "Soft" },
     { value: "retro", label: "Retro" },
     { value: "neon", label: "Neon" },
+    { value: "glass", label: "Glass" },
   ],
   group: "appearance",
 };

@@ -3,7 +3,7 @@ import { z } from "zod";
 const hexColor = z.string().regex(/^[0-9a-fA-F]{6}$/).default("7fb686");
 
 export const worldClockSchema = z.object({
-  theme: z.string().default("custom"),
+  theme: z.string().default("minimal"),
   timezones: z.string().default("America/New_York,Europe/London,Asia/Seoul,Asia/Tokyo"),
   format: z.enum(["12h", "24h"]).default("24h"),
   style: z.enum(["minimal", "list"]).default("minimal"),

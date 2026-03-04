@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { resolveColors } from "@nw/widget-core";
+import { WidgetShell } from "../widget-shell";
 import type { CountdownParams } from "./schema";
 
 function useCountdown(targetDate: string) {
@@ -76,7 +76,7 @@ function CardStyle({
     <div className="text-center px-6">
       <div
         className="text-6xl sm:text-7xl font-bold tracking-tight"
-        style={{ color: accentColor }}
+        style={{ color: accentColor, textShadow: "var(--w-text-shadow)" }}
       >
         {countdown.dDayLabel}
       </div>
@@ -88,8 +88,12 @@ function CardStyle({
           {items.map((item) => (
             <div
               key={item.label}
-              className="flex flex-col items-center gap-1 min-w-[3.5rem] py-2.5 px-3 rounded-xl"
-              style={{ backgroundColor: `${textColor}08`, border: `1px solid ${borderColor}` }}
+              className="flex flex-col items-center gap-1 min-w-[3.5rem] py-2.5 px-3"
+              style={{
+                backgroundColor: `${textColor}08`,
+                border: `1px solid ${borderColor}`,
+                borderRadius: "var(--w-radius)",
+              }}
             >
               <span className="text-2xl font-mono font-bold tabular-nums" style={{ color: textColor }}>
                 {item.value}
@@ -124,7 +128,7 @@ function SimpleStyle({
     <div className="text-center px-6">
       <div
         className="text-7xl font-bold tracking-tight"
-        style={{ color: accentColor }}
+        style={{ color: accentColor, textShadow: "var(--w-text-shadow)" }}
       >
         {countdown.dDayLabel}
       </div>
@@ -146,19 +150,17 @@ function SimpleStyle({
 
 export function CountdownWidget({ params }: { params: CountdownParams }) {
   const countdown = useCountdown(params.targetDate);
-  const c = resolveColors(params);
-  const bgStyle = c.bg === "transparent" ? undefined : { backgroundColor: c.bg };
+  const accentColor = "#" + params.color;
+  const textColor = "#fafafa";
+  const borderColor = "#" + params.color + "33";
 
   return (
-    <div
-      className={`min-h-screen flex items-center justify-center w-full ${c.bg === "transparent" ? "bg-transparent" : ""}`}
-      style={bgStyle}
-    >
+    <WidgetShell params={params}>
       {params.style === "simple" ? (
-        <SimpleStyle countdown={countdown} accentColor={c.accent} textColor={c.text} label={params.label} showHours={params.showHours} />
+        <SimpleStyle countdown={countdown} accentColor={accentColor} textColor={textColor} label={params.label} showHours={params.showHours} />
       ) : (
-        <CardStyle countdown={countdown} accentColor={c.accent} textColor={c.text} borderColor={c.border} label={params.label} showHours={params.showHours} />
+        <CardStyle countdown={countdown} accentColor={accentColor} textColor={textColor} borderColor={borderColor} label={params.label} showHours={params.showHours} />
       )}
-    </div>
+    </WidgetShell>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import { resolveColors } from "@nw/widget-core";
+import { WidgetShell } from "../widget-shell";
 import type { BreathingParams } from "./schema";
 
 interface Phase {
@@ -168,7 +168,13 @@ function CircleStyle({
           />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <div className="text-lg font-medium" style={{ color: accent }}>
+          <div
+            className="text-lg font-medium"
+            style={{
+              color: accent,
+              textShadow: "var(--w-text-shadow)",
+            }}
+          >
             {phase.label}
           </div>
           <div className="text-4xl font-bold mt-1" style={{ color: text }}>
@@ -188,7 +194,6 @@ function MinimalStyle({
   phaseIndex,
   accent,
   text,
-  border,
 }: {
   phase: Phase;
   countdown: number;
@@ -197,20 +202,28 @@ function MinimalStyle({
   phaseIndex: number;
   accent: string;
   text: string;
-  border: string;
 }) {
   const progress = 1 - (countdown / phase.duration);
 
   return (
     <div className="flex flex-col items-center gap-6 w-full max-w-xs px-6">
-      <div className="text-2xl font-bold" style={{ color: accent }}>
+      <div
+        className="text-2xl font-bold"
+        style={{
+          color: accent,
+          textShadow: "var(--w-text-shadow)",
+        }}
+      >
         {phase.label}
       </div>
       <div className="text-5xl font-bold" style={{ color: text }}>
         {countdown}
       </div>
       {/* Progress bar */}
-      <div className="w-full h-2 rounded-full overflow-hidden" style={{ backgroundColor: border }}>
+      <div
+        className="w-full h-2 rounded-full overflow-hidden"
+        style={{ backgroundColor: accent + "20" }}
+      >
         <div
           className="h-full rounded-full transition-all duration-300"
           style={{
@@ -240,22 +253,18 @@ function MinimalStyle({
 }
 
 export function BreathingWidget({ params }: { params: BreathingParams }) {
-  const c = resolveColors(params);
-  const bgStyle = c.bg === "transparent" ? undefined : { backgroundColor: c.bg };
+  const accentColor = "#" + params.color;
   const { phase, countdown, scale, phases, phaseIndex } = useBreathingAnimation(params.technique);
 
   return (
-    <div
-      className={`min-h-screen flex items-center justify-center w-full ${c.bg === "transparent" ? "bg-transparent" : ""}`}
-      style={bgStyle}
-    >
+    <WidgetShell params={params}>
       {params.style === "circle" ? (
         <CircleStyle
           phase={phase}
           countdown={countdown}
           scale={scale}
-          accent={c.accent}
-          text={c.text}
+          accent={accentColor}
+          text={accentColor}
         />
       ) : (
         <MinimalStyle
@@ -264,11 +273,10 @@ export function BreathingWidget({ params }: { params: BreathingParams }) {
           scale={scale}
           phases={phases}
           phaseIndex={phaseIndex}
-          accent={c.accent}
-          text={c.text}
-          border={c.border}
+          accent={accentColor}
+          text={accentColor}
         />
       )}
-    </div>
+    </WidgetShell>
   );
 }

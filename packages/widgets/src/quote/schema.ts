@@ -3,7 +3,7 @@ import { z } from "zod";
 const hexColor = z.string().regex(/^[0-9a-fA-F]{6}$/).default("7fb686");
 
 export const quoteSchema = z.object({
-  theme: z.string().default("custom"),
+  theme: z.string().default("minimal"),
   locale: z.string().default("ko-KR"),
   color: hexColor,
   bg: z.string().default("18181b"),

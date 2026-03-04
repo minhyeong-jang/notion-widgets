@@ -2,7 +2,7 @@
 
 import { useSearchParams, useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
-import { getWidget } from "@nw/widget-core";
+import { getWidget, getThemeDesign } from "@nw/widget-core";
 import "@nw/widgets";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/get-dictionary";
@@ -42,6 +42,14 @@ export function CustomizerPage({ widgetId, locale, dict }: CustomizerPageProps) 
     (key: string, value: string) => {
       const next = new URLSearchParams(searchParams.toString());
       next.set(key, value);
+
+      // Auto-apply theme's recommended colors
+      if (key === "theme") {
+        const design = getThemeDesign(value);
+        next.set("color", design.recommendedColors.accent);
+        next.set("bg", design.recommendedColors.bg);
+      }
+
       router.replace(`?${next.toString()}`, { scroll: false });
     },
     [router, searchParams],

@@ -1,6 +1,6 @@
 "use client";
 
-import { resolveColors } from "@nw/widget-core";
+import { WidgetShell } from "../widget-shell";
 import type { StartupTipsParams } from "./schema";
 import { getPrinciplesByCategory, type Principle } from "./principles";
 
@@ -23,8 +23,7 @@ const fontSizeMap = {
 } as const;
 
 export function StartupTipsWidget({ params }: { params: StartupTipsParams }) {
-  const c = resolveColors(params);
-  const bgStyle = c.bg === "transparent" ? undefined : { backgroundColor: c.bg };
+  const accentColor = "#" + params.color;
 
   const items = getPrinciplesByCategory(params.category);
   const principle = params.mode === "random" ? getRandomPrinciple(items) : getDailyPrinciple(items);
@@ -35,40 +34,40 @@ export function StartupTipsWidget({ params }: { params: StartupTipsParams }) {
   const sizes = fontSizeMap[params.fontSize];
 
   return (
-    <div
-      className={`min-h-screen flex items-center justify-center w-full ${c.bg === "transparent" ? "bg-transparent" : ""}`}
-      style={bgStyle}
-    >
+    <WidgetShell params={params}>
       <div className="text-center px-8 max-w-md mx-auto">
         <h2
           className={`${sizes.name} font-bold mb-3`}
-          style={{ color: c.accent }}
+          style={{
+            color: accentColor,
+            textShadow: "var(--w-text-shadow)",
+          }}
         >
           {name}
         </h2>
         <p
           className={`${sizes.explanation} leading-relaxed mb-4`}
-          style={{ color: c.text, opacity: 0.85 }}
+          style={{ color: accentColor, opacity: 0.85 }}
         >
           {explanation}
         </p>
         <div className="flex items-center justify-center gap-2">
           <div
             className="w-6 h-px"
-            style={{ backgroundColor: c.accent, opacity: 0.3 }}
+            style={{ backgroundColor: accentColor, opacity: 0.3 }}
           />
           <span
             className="text-xs font-medium"
-            style={{ color: c.text, opacity: 0.45 }}
+            style={{ color: accentColor, opacity: 0.45 }}
           >
             {principle.source}
           </span>
           <div
             className="w-6 h-px"
-            style={{ backgroundColor: c.accent, opacity: 0.3 }}
+            style={{ backgroundColor: accentColor, opacity: 0.3 }}
           />
         </div>
       </div>
-    </div>
+    </WidgetShell>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { resolveColors } from "@nw/widget-core";
+import { WidgetShell } from "../widget-shell";
 import type { WorldClockParams } from "./schema";
 
 function getCityName(timezone: string): string {
@@ -46,14 +46,12 @@ function MinimalStyle({
   format,
   accentColor,
   textColor,
-  borderColor,
 }: {
   timezones: string[];
   now: Date;
   format: "12h" | "24h";
   accentColor: string;
   textColor: string;
-  borderColor: string;
 }) {
   return (
     <div className="flex items-center justify-center gap-6 px-4">
@@ -70,7 +68,10 @@ function MinimalStyle({
               </div>
               <div
                 className="text-2xl font-mono font-semibold tabular-nums"
-                style={{ color: textColor }}
+                style={{
+                  color: textColor,
+                  textShadow: "var(--w-text-shadow)",
+                }}
               >
                 {time}
               </div>
@@ -86,7 +87,7 @@ function MinimalStyle({
             {i < timezones.length - 1 && (
               <div
                 className="w-px h-10 opacity-20"
-                style={{ backgroundColor: borderColor }}
+                style={{ backgroundColor: textColor }}
               />
             )}
           </div>
@@ -102,14 +103,12 @@ function ListStyle({
   format,
   accentColor,
   textColor,
-  borderColor,
 }: {
   timezones: string[];
   now: Date;
   format: "12h" | "24h";
   accentColor: string;
   textColor: string;
-  borderColor: string;
 }) {
   return (
     <div className="w-full max-w-xs mx-auto px-6 space-y-3">
@@ -127,7 +126,10 @@ function ListStyle({
               <div className="flex items-center gap-1.5">
                 <span
                   className="text-lg font-mono font-semibold tabular-nums"
-                  style={{ color: textColor }}
+                  style={{
+                    color: textColor,
+                    textShadow: "var(--w-text-shadow)",
+                  }}
                 >
                   {time}
                 </span>
@@ -144,7 +146,7 @@ function ListStyle({
             {i < timezones.length - 1 && (
               <div
                 className="w-full h-px mt-3 opacity-10"
-                style={{ backgroundColor: borderColor }}
+                style={{ backgroundColor: textColor }}
               />
             )}
           </div>
@@ -156,8 +158,7 @@ function ListStyle({
 
 export function WorldClockWidget({ params }: { params: WorldClockParams }) {
   const [now, setNow] = useState(new Date());
-  const c = resolveColors(params);
-  const bgStyle = c.bg === "transparent" ? undefined : { backgroundColor: c.bg };
+  const accentColor = "#" + params.color;
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -173,29 +174,24 @@ export function WorldClockWidget({ params }: { params: WorldClockParams }) {
     .slice(0, 4);
 
   return (
-    <div
-      className={`min-h-screen flex items-center justify-center w-full ${c.bg === "transparent" ? "bg-transparent" : ""}`}
-      style={bgStyle}
-    >
+    <WidgetShell params={params}>
       {params.style === "list" ? (
         <ListStyle
           timezones={timezones}
           now={now}
           format={params.format}
-          accentColor={c.accent}
-          textColor={c.text}
-          borderColor={c.border}
+          accentColor={accentColor}
+          textColor={accentColor}
         />
       ) : (
         <MinimalStyle
           timezones={timezones}
           now={now}
           format={params.format}
-          accentColor={c.accent}
-          textColor={c.text}
-          borderColor={c.border}
+          accentColor={accentColor}
+          textColor={accentColor}
         />
       )}
-    </div>
+    </WidgetShell>
   );
 }

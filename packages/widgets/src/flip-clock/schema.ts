@@ -4,7 +4,7 @@ const hexColor = z.string().regex(/^[0-9a-fA-F]{6}$/).default("7fb686");
 const booleanStr = z.enum(["true", "false"]).transform(v => v === "true");
 
 export const flipClockSchema = z.object({
-  theme: z.string().default("custom"),
+  theme: z.string().default("minimal"),
   color: hexColor,
   bg: z.string().default("18181b"),
   style: z.enum(["flip", "minimal"]).default("flip"),

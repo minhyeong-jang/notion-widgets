@@ -3,7 +3,7 @@ import { z } from "zod";
 const hexColor = z.string().regex(/^[0-9a-fA-F]{6}$/).default("7fb686");
 
 export const dailyTarotSchema = z.object({
-  theme: z.string().default("custom"),
+  theme: z.string().default("minimal"),
   deck: z.enum(["major", "full"]).default("major"),
   style: z.enum(["minimal", "detailed"]).default("minimal"),
   color: hexColor,

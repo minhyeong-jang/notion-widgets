@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getProgressLabels, formatDate, resolveColors } from "@nw/widget-core";
+import { getProgressLabels, formatDate } from "@nw/widget-core";
+import { WidgetShell } from "../widget-shell";
 import { ProgressBar } from "./progress-bar";
 import type { LifeProgressParams } from "./schema";
 
@@ -112,7 +113,10 @@ function MinimalStyle({ params, data, textColor, borderColor }: { params: LifePr
   return (
     <div className="w-full max-w-sm mx-auto px-6">
       {params.title && (
-        <h2 className="text-sm font-medium mb-5 text-center" style={{ color: textColor }}>
+        <h2
+          className="text-sm font-medium mb-5 text-center"
+          style={{ color: textColor, textShadow: "var(--w-text-shadow)" }}
+        >
           {params.title}
         </h2>
       )}
@@ -142,8 +146,18 @@ function CardStyle({ params, data, accentColor, textColor }: { params: LifeProgr
 
   return (
     <div className="w-full mx-auto">
-      <div className="rounded-xl p-6 shadow-lg backdrop-blur-sm w-full" style={cardStyle}>
-        <h2 className="text-xl font-bold mb-4 text-center" style={{ color: textColor }}>
+      <div
+        className="rounded-xl p-6 shadow-lg backdrop-blur-sm w-full"
+        style={{
+          ...cardStyle,
+          borderRadius: "var(--w-radius)",
+          boxShadow: "var(--w-box-shadow)",
+        }}
+      >
+        <h2
+          className="text-xl font-bold mb-4 text-center"
+          style={{ color: textColor, textShadow: "var(--w-text-shadow)" }}
+        >
           {params.title}
         </h2>
         <div className="space-y-4">
@@ -167,19 +181,15 @@ function CardStyle({ params, data, accentColor, textColor }: { params: LifeProgr
 
 export function LifeProgressWidget({ params }: { params: LifeProgressParams }) {
   const data = useProgress(params);
-  const c = resolveColors(params);
-  const bgStyle = c.bg === "transparent" ? undefined : { backgroundColor: c.bg };
+  const accentColor = "#" + params.color;
 
   return (
-    <div
-      className={`min-h-screen flex items-center justify-center w-full ${c.bg === "transparent" ? "bg-transparent" : ""}`}
-      style={bgStyle}
-    >
+    <WidgetShell params={params}>
       {params.style === "card" ? (
-        <CardStyle params={params} data={data} accentColor={c.accent} textColor={c.text} />
+        <CardStyle params={params} data={data} accentColor={accentColor} textColor="#fafafa" />
       ) : (
-        <MinimalStyle params={params} data={data} textColor={c.text} borderColor={c.border} />
+        <MinimalStyle params={params} data={data} textColor="#fafafa" borderColor="#27272a" />
       )}
-    </div>
+    </WidgetShell>
   );
 }

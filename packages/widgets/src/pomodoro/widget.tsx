@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { resolveColors } from "@nw/widget-core";
+import { WidgetShell } from "../widget-shell";
 import type { PomodoroParams } from "./schema";
 
 type TimerState = "idle" | "working" | "break";
@@ -121,7 +121,10 @@ function CompactStyle({ timer, accentColor, textColor }: { timer: ReturnType<typ
 
       {/* Info + Controls */}
       <div className="flex flex-col gap-2">
-        <span className="text-sm font-medium" style={{ color: ringColor }}>
+        <span
+          className="text-sm font-medium"
+          style={{ color: ringColor, textShadow: "var(--w-text-shadow)" }}
+        >
           {label.en}
         </span>
         <span className="text-xs" style={{ color: textColor, opacity: 0.5 }}>
@@ -187,7 +190,10 @@ function StandardStyle({ timer, accentColor, textColor }: { timer: ReturnType<ty
           <span className="text-4xl font-mono font-bold tabular-nums" style={{ color: textColor }}>
             {timer.displayMin}:{timer.displaySec}
           </span>
-          <span className="text-sm font-medium mt-1" style={{ color: ringColor }}>
+          <span
+            className="text-sm font-medium mt-1"
+            style={{ color: ringColor, textShadow: "var(--w-text-shadow)" }}
+          >
             {label.ko}
           </span>
         </div>
@@ -228,19 +234,16 @@ function StandardStyle({ timer, accentColor, textColor }: { timer: ReturnType<ty
 
 export function PomodoroWidget({ params }: { params: PomodoroParams }) {
   const timer = usePomodoro(params);
-  const c = resolveColors(params);
-  const bgStyle = c.bg === "transparent" ? undefined : { backgroundColor: c.bg };
+  const accentColor = "#" + params.color;
+  const textColor = "#fafafa";
 
   return (
-    <div
-      className={`min-h-screen flex items-center justify-center w-full ${c.bg === "transparent" ? "bg-transparent" : ""}`}
-      style={bgStyle}
-    >
+    <WidgetShell params={params}>
       {params.style === "standard" ? (
-        <StandardStyle timer={timer} accentColor={c.accent} textColor={c.text} />
+        <StandardStyle timer={timer} accentColor={accentColor} textColor={textColor} />
       ) : (
-        <CompactStyle timer={timer} accentColor={c.accent} textColor={c.text} />
+        <CompactStyle timer={timer} accentColor={accentColor} textColor={textColor} />
       )}
-    </div>
+    </WidgetShell>
   );
 }

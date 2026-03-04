@@ -5,7 +5,7 @@ const booleanStr = z.enum(["true", "false"]).transform(v => v === "true");
 const dateStr = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
 
 export const lifeProgressSchema = z.object({
-  theme: z.string().default("custom"),
+  theme: z.string().default("minimal"),
   style: z.enum(["minimal", "card"]).default("minimal"),
   color: hexColor,
   bg: z.string().default("18181b"),

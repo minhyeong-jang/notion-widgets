@@ -1,6 +1,6 @@
 "use client";
 
-import { resolveColors } from "@nw/widget-core";
+import { WidgetShell } from "../widget-shell";
 import type { QuoteParams } from "./schema";
 import { getQuotes, type Quote } from "./quotes";
 
@@ -25,24 +25,20 @@ const fontSizeMap = {
 export function QuoteWidget({ params }: { params: QuoteParams }) {
   const quotes = getQuotes(params.locale);
   const quote = params.mode === "random" ? getRandomQuote(quotes) : getDailyQuote(quotes);
-  const c = resolveColors(params);
-  const bgStyle = c.bg === "transparent" ? undefined : { backgroundColor: c.bg };
+  const accentColor = "#" + params.color;
 
   return (
-    <div
-      className={`min-h-screen flex items-center justify-center w-full ${c.bg === "transparent" ? "bg-transparent" : ""}`}
-      style={bgStyle}
-    >
+    <WidgetShell params={params}>
       <div className="text-center px-8 max-w-lg mx-auto">
         <div
           className="text-6xl font-serif leading-none mb-4 opacity-30"
-          style={{ color: c.accent }}
+          style={{ color: accentColor }}
         >
           &ldquo;
         </div>
         <p
           className={`${fontSizeMap[params.fontSize]} font-medium leading-relaxed`}
-          style={{ color: c.text, opacity: 0.9 }}
+          style={{ color: "#fafafa", opacity: 0.9 }}
         >
           {quote.text}
         </p>
@@ -50,26 +46,26 @@ export function QuoteWidget({ params }: { params: QuoteParams }) {
           <div className="flex items-center gap-2">
             <div
               className="w-8 h-px"
-              style={{ backgroundColor: c.accent }}
+              style={{ backgroundColor: accentColor }}
             />
             <span
               className="text-sm font-medium"
-              style={{ color: c.accent }}
+              style={{ color: accentColor, textShadow: "var(--w-text-shadow)" }}
             >
               {quote.author}
             </span>
             <div
               className="w-8 h-px"
-              style={{ backgroundColor: c.accent }}
+              style={{ backgroundColor: accentColor }}
             />
           </div>
           {quote.title && (
-            <span className="text-xs" style={{ color: c.text, opacity: 0.4 }}>
+            <span className="text-xs" style={{ color: "#fafafa", opacity: 0.4 }}>
               {quote.title}
             </span>
           )}
         </div>
       </div>
-    </div>
+    </WidgetShell>
   );
 }

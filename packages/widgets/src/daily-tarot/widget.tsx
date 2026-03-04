@@ -1,6 +1,6 @@
 "use client";
 
-import { resolveColors } from "@nw/widget-core";
+import { WidgetShell } from "../widget-shell";
 import type { DailyTarotParams } from "./schema";
 import { getDailyCard } from "./tarot-cards";
 
@@ -138,8 +138,7 @@ function CardArt({
 }
 
 export function DailyTarotWidget({ params }: { params: DailyTarotParams }) {
-  const c = resolveColors(params);
-  const bgStyle = c.bg === "transparent" ? undefined : { backgroundColor: c.bg };
+  const accentColor = "#" + params.color;
 
   const card = getDailyCard(params.deck);
   const isKo = params.locale.startsWith("ko");
@@ -150,20 +149,23 @@ export function DailyTarotWidget({ params }: { params: DailyTarotParams }) {
 
   if (params.style === "detailed") {
     return (
-      <div
-        className={`min-h-screen flex items-center justify-center w-full ${c.bg === "transparent" ? "bg-transparent" : ""}`}
-        style={bgStyle}
-      >
+      <WidgetShell params={params}>
         <div className="flex flex-col items-center gap-4 px-6 py-4 max-w-xs">
-          <div className="text-xs font-medium opacity-50" style={{ color: c.text }}>
+          <div className="text-xs font-medium opacity-50" style={{ color: accentColor }}>
             {todayLabel}
           </div>
-          <CardArt number={card.number} accent={c.accent} isMajor={card.isMajor} />
+          <CardArt number={card.number} accent={accentColor} isMajor={card.isMajor} />
           <div className="text-center">
-            <div className="text-lg font-bold" style={{ color: c.text }}>
+            <div
+              className="text-lg font-bold"
+              style={{
+                color: accentColor,
+                textShadow: "var(--w-text-shadow)",
+              }}
+            >
               {name}
             </div>
-            <div className="text-sm mt-2 leading-relaxed opacity-70" style={{ color: c.text }}>
+            <div className="text-sm mt-2 leading-relaxed opacity-70" style={{ color: accentColor }}>
               {meaning}
             </div>
             <div className="flex flex-wrap justify-center gap-1.5 mt-3">
@@ -172,8 +174,8 @@ export function DailyTarotWidget({ params }: { params: DailyTarotParams }) {
                   key={i}
                   className="text-xs px-2 py-0.5 rounded-full"
                   style={{
-                    backgroundColor: c.accent + "1a",
-                    color: c.accent,
+                    backgroundColor: accentColor + "1a",
+                    color: accentColor,
                   }}
                 >
                   {kw}
@@ -182,27 +184,27 @@ export function DailyTarotWidget({ params }: { params: DailyTarotParams }) {
             </div>
           </div>
         </div>
-      </div>
+      </WidgetShell>
     );
   }
 
   // Minimal style
   return (
-    <div
-      className={`min-h-screen flex items-center justify-center w-full ${c.bg === "transparent" ? "bg-transparent" : ""}`}
-      style={bgStyle}
-    >
+    <WidgetShell params={params}>
       <div className="flex flex-col items-center gap-3 px-6">
-        <div className="text-xs font-medium opacity-50" style={{ color: c.text }}>
+        <div className="text-xs font-medium opacity-50" style={{ color: accentColor }}>
           {todayLabel}
         </div>
         <div
           className="text-3xl font-bold font-serif"
-          style={{ color: c.accent }}
+          style={{
+            color: accentColor,
+            textShadow: "var(--w-text-shadow)",
+          }}
         >
           {card.number}
         </div>
-        <div className="text-lg font-medium" style={{ color: c.text }}>
+        <div className="text-lg font-medium" style={{ color: accentColor }}>
           {name}
         </div>
         <div className="flex flex-wrap justify-center gap-1.5 mt-1">
@@ -211,8 +213,8 @@ export function DailyTarotWidget({ params }: { params: DailyTarotParams }) {
               key={i}
               className="text-xs px-2 py-0.5 rounded-full"
               style={{
-                backgroundColor: c.accent + "1a",
-                color: c.accent,
+                backgroundColor: accentColor + "1a",
+                color: accentColor,
               }}
             >
               {kw}
@@ -220,6 +222,6 @@ export function DailyTarotWidget({ params }: { params: DailyTarotParams }) {
           ))}
         </div>
       </div>
-    </div>
+    </WidgetShell>
   );
 }

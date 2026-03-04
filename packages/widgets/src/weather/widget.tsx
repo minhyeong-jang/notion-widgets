@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { resolveColors } from "@nw/widget-core";
+import { WidgetShell } from "../widget-shell";
 import type { WeatherParams } from "./schema";
 import { getWeatherInfo } from "./weather-codes";
 
@@ -19,7 +19,6 @@ function convertTemp(celsius: number, units: string): number {
 }
 
 export function WeatherWidget({ params }: { params: WeatherParams }) {
-  const c = resolveColors(params);
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -69,37 +68,31 @@ export function WeatherWidget({ params }: { params: WeatherParams }) {
     return () => clearInterval(interval);
   }, [fetchWeather]);
 
-  const bgStyle = c.bg === "transparent" ? undefined : { backgroundColor: c.bg };
+  const accentColor = "#" + params.color;
 
   if (loading) {
     return (
-      <div
-        className={`min-h-screen flex items-center justify-center w-full ${c.bg === "transparent" ? "bg-transparent" : ""}`}
-        style={bgStyle}
-      >
+      <WidgetShell params={params}>
         <div className="flex flex-col items-center gap-2">
           <div
             className="w-8 h-8 border-2 border-t-transparent rounded-full animate-spin"
-            style={{ borderColor: c.accent, borderTopColor: "transparent" }}
+            style={{ borderColor: accentColor, borderTopColor: "transparent" }}
           />
-          <span className="text-sm opacity-60" style={{ color: c.text }}>
+          <span className="text-sm opacity-60" style={{ color: accentColor }}>
             Loading...
           </span>
         </div>
-      </div>
+      </WidgetShell>
     );
   }
 
   if (error || !weather) {
     return (
-      <div
-        className={`min-h-screen flex items-center justify-center w-full ${c.bg === "transparent" ? "bg-transparent" : ""}`}
-        style={bgStyle}
-      >
-        <span className="text-sm opacity-60" style={{ color: c.text }}>
+      <WidgetShell params={params}>
+        <span className="text-sm opacity-60" style={{ color: accentColor }}>
           {error ?? "No data"}
         </span>
-      </div>
+      </WidgetShell>
     );
   }
 
@@ -111,64 +104,71 @@ export function WeatherWidget({ params }: { params: WeatherParams }) {
 
   if (params.style === "card") {
     return (
-      <div
-        className={`min-h-screen flex items-center justify-center w-full ${c.bg === "transparent" ? "bg-transparent" : ""}`}
-        style={bgStyle}
-      >
+      <WidgetShell params={params}>
         <div
           className="rounded-2xl p-6 w-full max-w-xs"
           style={{
-            backgroundColor: c.accent + "1a",
-            border: `1px solid ${c.border}`,
-            borderRadius: c.radius,
+            backgroundColor: accentColor + "1a",
+            border: `var(--w-border-width) solid ${accentColor}33`,
+            borderRadius: "var(--w-radius)",
+            boxShadow: "var(--w-box-shadow)",
           }}
         >
           <div className="flex items-center justify-between mb-3">
-            <span className="text-sm font-medium opacity-80" style={{ color: c.text }}>
+            <span className="text-sm font-medium opacity-80" style={{ color: accentColor }}>
               {weather.city}
             </span>
             <span className="text-2xl">{info.emoji}</span>
           </div>
           <div className="flex items-baseline gap-1 mb-2">
-            <span className="text-5xl font-bold" style={{ color: c.text }}>
+            <span
+              className="text-5xl font-bold"
+              style={{
+                color: accentColor,
+                textShadow: "var(--w-text-shadow)",
+              }}
+            >
               {temp}
             </span>
-            <span className="text-lg opacity-60" style={{ color: c.text }}>
+            <span className="text-lg opacity-60" style={{ color: accentColor }}>
               {unit}
             </span>
           </div>
-          <div className="text-sm mb-3" style={{ color: c.accent }}>
+          <div className="text-sm mb-3" style={{ color: accentColor }}>
             {info.label}
           </div>
-          <div className="flex gap-4 text-xs opacity-60" style={{ color: c.text }}>
+          <div className="flex gap-4 text-xs opacity-60" style={{ color: accentColor }}>
             <span>H: {high}{unit}</span>
             <span>L: {low}{unit}</span>
           </div>
         </div>
-      </div>
+      </WidgetShell>
     );
   }
 
   // Minimal style
   return (
-    <div
-      className={`min-h-screen flex items-center justify-center w-full ${c.bg === "transparent" ? "bg-transparent" : ""}`}
-      style={bgStyle}
-    >
+    <WidgetShell params={params}>
       <div className="flex flex-col items-center gap-1">
         <span className="text-5xl mb-1">{info.emoji}</span>
         <div className="flex items-baseline gap-1">
-          <span className="text-4xl font-bold" style={{ color: c.text }}>
+          <span
+            className="text-4xl font-bold"
+            style={{
+              color: accentColor,
+              textShadow: "var(--w-text-shadow)",
+            }}
+          >
             {temp}
           </span>
-          <span className="text-lg opacity-60" style={{ color: c.text }}>
+          <span className="text-lg opacity-60" style={{ color: accentColor }}>
             {unit}
           </span>
         </div>
-        <span className="text-xs opacity-50" style={{ color: c.text }}>
+        <span className="text-xs opacity-50" style={{ color: accentColor }}>
           {weather.city}
         </span>
       </div>
-    </div>
+    </WidgetShell>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { resolveColors } from "@nw/widget-core";
+import { WidgetShell } from "../widget-shell";
 import type { MoonPhaseParams } from "./schema";
 import { getMoonPhase } from "./moon-calc";
 
@@ -82,8 +82,7 @@ function MoonSVG({ phase, accentColor, size }: { phase: number; accentColor: str
 }
 
 export function MoonPhaseWidget({ params }: { params: MoonPhaseParams }) {
-  const c = resolveColors(params);
-  const bgStyle = c.bg === "transparent" ? undefined : { backgroundColor: c.bg };
+  const accentColor = "#" + params.color;
 
   const moon = getMoonPhase(new Date());
   const isKo = params.locale.startsWith("ko");
@@ -97,46 +96,53 @@ export function MoonPhaseWidget({ params }: { params: MoonPhaseParams }) {
     const nextFullLabel = isKo ? "\uB2E4\uC74C \uBCF4\uB984\uB2EC" : "Next Full Moon";
 
     return (
-      <div
-        className={`min-h-screen flex items-center justify-center w-full ${c.bg === "transparent" ? "bg-transparent" : ""}`}
-        style={bgStyle}
-      >
+      <WidgetShell params={params}>
         <div className="flex flex-col items-center gap-4">
-          <MoonSVG phase={moon.phase} accentColor={c.accent} size={160} />
+          <MoonSVG phase={moon.phase} accentColor={accentColor} size={160} />
           <div className="text-center">
-            <div className="text-lg font-medium" style={{ color: c.text }}>
+            <div
+              className="text-lg font-medium"
+              style={{
+                color: accentColor,
+                textShadow: "var(--w-text-shadow)",
+              }}
+            >
               {phaseName}
             </div>
-            <div className="text-sm mt-1 opacity-60" style={{ color: c.text }}>
+            <div className="text-sm mt-1 opacity-60" style={{ color: accentColor }}>
               {moon.illumination}% {isKo ? "\uC870\uBA85" : "illuminated"}
             </div>
             <div
               className="mt-3 text-xs px-3 py-1 rounded-full inline-block"
               style={{
-                backgroundColor: c.accent + "1a",
-                color: c.accent,
+                backgroundColor: accentColor + "1a",
+                color: accentColor,
+                borderRadius: "var(--w-radius)",
               }}
             >
               {nextFullLabel}: {nextFullStr}
             </div>
           </div>
         </div>
-      </div>
+      </WidgetShell>
     );
   }
 
   // Minimal style
   return (
-    <div
-      className={`min-h-screen flex items-center justify-center w-full ${c.bg === "transparent" ? "bg-transparent" : ""}`}
-      style={bgStyle}
-    >
+    <WidgetShell params={params}>
       <div className="flex flex-col items-center gap-3">
-        <MoonSVG phase={moon.phase} accentColor={c.accent} size={140} />
-        <div className="text-base font-medium" style={{ color: c.text }}>
+        <MoonSVG phase={moon.phase} accentColor={accentColor} size={140} />
+        <div
+          className="text-base font-medium"
+          style={{
+            color: accentColor,
+            textShadow: "var(--w-text-shadow)",
+          }}
+        >
           {phaseName}
         </div>
       </div>
-    </div>
+    </WidgetShell>
   );
 }

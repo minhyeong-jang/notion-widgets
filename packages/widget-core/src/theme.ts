@@ -1,103 +1,130 @@
-export interface ThemeVariables {
-  "--widget-bg": string;
-  "--widget-text": string;
-  "--widget-accent": string;
-  "--widget-border": string;
-  "--widget-radius": string;
-}
-
-export interface ThemeDefinition {
+export interface ThemeDesign {
   id: string;
   name: string;
   nameKo: string;
   isPremium: boolean;
-  variables: ThemeVariables;
+  // Design properties
+  fontFamily: string;
+  borderRadius: string;
+  borderWidth: string;
+  boxShadow: string;
+  textShadow: string;
+  bgOverlay?: string;
+  backdropFilter?: string;
+  bgOpacity?: number;
+  // Recommended colors (hex without #)
+  recommendedColors: {
+    accent: string;
+    bg: string;
+    text: string;
+    border: string;
+  };
 }
 
-const themes: ThemeDefinition[] = [
+const themes: ThemeDesign[] = [
   {
-    id: "default",
-    name: "Default",
-    nameKo: "기본",
+    id: "minimal",
+    name: "Minimal",
+    nameKo: "미니멀",
     isPremium: false,
-    variables: {
-      "--widget-bg": "#18181b",
-      "--widget-text": "#fafafa",
-      "--widget-accent": "#7fb686",
-      "--widget-border": "#27272a",
-      "--widget-radius": "12px",
+    fontFamily: "inherit",
+    borderRadius: "12px",
+    borderWidth: "1px",
+    boxShadow: "none",
+    textShadow: "none",
+    recommendedColors: {
+      accent: "7fb686",
+      bg: "18181b",
+      text: "fafafa",
+      border: "27272a",
     },
   },
   {
-    id: "light",
-    name: "Light",
-    nameKo: "라이트",
+    id: "soft",
+    name: "Soft",
+    nameKo: "소프트",
     isPremium: false,
-    variables: {
-      "--widget-bg": "#f8f9fa",
-      "--widget-text": "#1a1a1a",
-      "--widget-accent": "#6c757d",
-      "--widget-border": "#dee2e6",
-      "--widget-radius": "12px",
-    },
-  },
-  {
-    id: "glassmorphism",
-    name: "Glassmorphism",
-    nameKo: "글래스모피즘",
-    isPremium: true,
-    variables: {
-      "--widget-bg": "rgba(255, 255, 255, 0.1)",
-      "--widget-text": "#ffffff",
-      "--widget-accent": "#a78bfa",
-      "--widget-border": "rgba(255, 255, 255, 0.2)",
-      "--widget-radius": "16px",
+    fontFamily: "inherit",
+    borderRadius: "16px",
+    borderWidth: "1px",
+    boxShadow: "0 2px 20px rgba(0,0,0,0.08)",
+    textShadow: "none",
+    recommendedColors: {
+      accent: "7fb686",
+      bg: "fafaf9",
+      text: "1c1917",
+      border: "e7e5e4",
     },
   },
   {
     id: "retro",
-    name: "Retro Terminal",
-    nameKo: "레트로 터미널",
+    name: "Retro",
+    nameKo: "레트로",
     isPremium: true,
-    variables: {
-      "--widget-bg": "#0a0a0a",
-      "--widget-text": "#33ff33",
-      "--widget-accent": "#ffb000",
-      "--widget-border": "#33ff33",
-      "--widget-radius": "4px",
+    fontFamily: "var(--font-geist-mono, 'Courier New', monospace)",
+    borderRadius: "2px",
+    borderWidth: "1px",
+    boxShadow: "0 0 12px rgba(51,255,51,0.1)",
+    textShadow: "0 0 8px currentColor",
+    bgOverlay:
+      "repeating-linear-gradient(0deg, rgba(0,0,0,0.15) 0px, rgba(0,0,0,0.15) 1px, transparent 1px, transparent 3px)",
+    recommendedColors: {
+      accent: "33ff33",
+      bg: "0a0a0a",
+      text: "33ff33",
+      border: "33ff33",
     },
   },
   {
     id: "neon",
-    name: "Neon Glow",
-    nameKo: "네온 글로우",
+    name: "Neon",
+    nameKo: "네온",
     isPremium: true,
-    variables: {
-      "--widget-bg": "#0d0d0d",
-      "--widget-text": "#ffffff",
-      "--widget-accent": "#ff00ff",
-      "--widget-border": "#ff00ff",
-      "--widget-radius": "12px",
+    fontFamily: "inherit",
+    borderRadius: "12px",
+    borderWidth: "1px",
+    boxShadow: "0 0 30px rgba(255,0,255,0.15)",
+    textShadow: "0 0 10px currentColor, 0 0 30px currentColor",
+    recommendedColors: {
+      accent: "ff00ff",
+      bg: "0d0d0d",
+      text: "ffffff",
+      border: "ff00ff",
+    },
+  },
+  {
+    id: "glass",
+    name: "Glass",
+    nameKo: "글래스",
+    isPremium: true,
+    fontFamily: "inherit",
+    borderRadius: "16px",
+    borderWidth: "1px",
+    boxShadow: "0 8px 32px rgba(0,0,0,0.12)",
+    textShadow: "none",
+    backdropFilter: "blur(12px) saturate(180%)",
+    bgOpacity: 0.12,
+    recommendedColors: {
+      accent: "a78bfa",
+      bg: "1a1a2e",
+      text: "ffffff",
+      border: "ffffff",
     },
   },
 ];
 
 const themeMap = new Map(themes.map((t) => [t.id, t]));
 
-export function getTheme(id: string): ThemeDefinition | undefined {
-  return themeMap.get(id);
+const fallback = themeMap.get("minimal")!;
+
+export function getThemeDesign(id: string): ThemeDesign {
+  return themeMap.get(id) ?? fallback;
 }
 
-export function getAllThemes(): ThemeDefinition[] {
+export function getAllThemes(): ThemeDesign[] {
   return [...themes];
 }
 
-export function getFreeThemes(): ThemeDefinition[] {
+export function getFreeThemes(): ThemeDesign[] {
   return themes.filter((t) => !t.isPremium);
-}
-
-export function resolveThemeVariables(themeId: string): ThemeVariables {
-  const theme = themeMap.get(themeId);
-  if (theme) return theme.variables;
-  return themeMap.get("default")!.variables;
 }

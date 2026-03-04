@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import { resolveColors } from "@nw/widget-core";
+import { WidgetShell } from "../widget-shell";
 import type { MiniCalendarParams } from "./schema";
 
 function getDayNames(locale: string, firstDay: "sun" | "mon"): string[] {
@@ -98,7 +98,10 @@ function MinimalCalendar({
     <div className="w-full max-w-[280px] mx-auto px-4">
       <h2
         className="text-sm font-semibold text-center mb-3 capitalize"
-        style={{ color: textColor }}
+        style={{
+          color: textColor,
+          textShadow: "var(--w-text-shadow)",
+        }}
       >
         {monthName}
       </h2>
@@ -141,13 +144,11 @@ function CardCalendar({
   params,
   accentColor,
   textColor,
-  borderColor,
 }: {
   today: Date;
   params: MiniCalendarParams;
   accentColor: string;
   textColor: string;
-  borderColor: string;
 }) {
   const dayNames = useMemo(() => getDayNames(params.locale, params.firstDay), [params.locale, params.firstDay]);
   const monthName = useMemo(() => getMonthName(params.locale, today), [params.locale, today]);
@@ -157,7 +158,10 @@ function CardCalendar({
     <div className="w-full max-w-[280px] mx-auto px-4">
       <h2
         className="text-sm font-semibold text-center mb-3 capitalize"
-        style={{ color: textColor }}
+        style={{
+          color: textColor,
+          textShadow: "var(--w-text-shadow)",
+        }}
       >
         {monthName}
       </h2>
@@ -187,7 +191,7 @@ function CardCalendar({
                 : {
                     color: textColor,
                     backgroundColor: cell.isCurrentMonth
-                      ? borderColor + "30"
+                      ? accentColor + "30"
                       : undefined,
                   }
             }
@@ -202,8 +206,7 @@ function CardCalendar({
 
 export function MiniCalendarWidget({ params }: { params: MiniCalendarParams }) {
   const [today, setToday] = useState(new Date());
-  const c = resolveColors(params);
-  const bgStyle = c.bg === "transparent" ? undefined : { backgroundColor: c.bg };
+  const accentColor = "#" + params.color;
 
   useEffect(() => {
     // Update at midnight to keep "today" highlight correct
@@ -219,26 +222,22 @@ export function MiniCalendarWidget({ params }: { params: MiniCalendarParams }) {
   }, [today]);
 
   return (
-    <div
-      className={`min-h-screen flex items-center justify-center w-full ${c.bg === "transparent" ? "bg-transparent" : ""}`}
-      style={bgStyle}
-    >
+    <WidgetShell params={params}>
       {params.style === "card" ? (
         <CardCalendar
           today={today}
           params={params}
-          accentColor={c.accent}
-          textColor={c.text}
-          borderColor={c.border}
+          accentColor={accentColor}
+          textColor={accentColor}
         />
       ) : (
         <MinimalCalendar
           today={today}
           params={params}
-          accentColor={c.accent}
-          textColor={c.text}
+          accentColor={accentColor}
+          textColor={accentColor}
         />
       )}
-    </div>
+    </WidgetShell>
   );
 }
