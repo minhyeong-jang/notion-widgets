@@ -11,7 +11,7 @@ const controls: ControlDefinition[] = [
     label: "Accent Color",
     labelKo: "강조 색상",
     type: "color",
-    defaultValue: "7fb686",
+    defaultValue: "fb7185",
     group: "appearance",
   },
   {
@@ -20,6 +20,18 @@ const controls: ControlDefinition[] = [
     labelKo: "배경 색상",
     type: "color",
     defaultValue: "18181b",
+    group: "appearance",
+  },
+  {
+    key: "style",
+    label: "Style",
+    labelKo: "스타일",
+    type: "select",
+    defaultValue: "card",
+    options: [
+      { value: "card", label: "Card" },
+      { value: "simple", label: "Simple" },
+    ],
     group: "appearance",
   },
   {
