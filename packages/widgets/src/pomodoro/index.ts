@@ -7,11 +7,23 @@ export { PomodoroWidget } from "./widget";
 
 const controls: ControlDefinition[] = [
   {
+    key: "style",
+    label: "Style",
+    labelKo: "스타일",
+    type: "select",
+    defaultValue: "compact",
+    options: [
+      { value: "compact", label: "Compact" },
+      { value: "standard", label: "Standard" },
+    ],
+    group: "appearance",
+  },
+  {
     key: "color",
     label: "Accent Color",
     labelKo: "강조 색상",
     type: "color",
-    defaultValue: "7fb686",
+    defaultValue: "ef4444",
     group: "appearance",
   },
   {
@@ -36,6 +48,14 @@ const controls: ControlDefinition[] = [
     labelKo: "휴식 시간 (분)",
     type: "text",
     defaultValue: "5",
+    group: "content",
+  },
+  {
+    key: "sessions",
+    label: "Sessions",
+    labelKo: "세션 수",
+    type: "text",
+    defaultValue: "4",
     group: "content",
   },
 ];

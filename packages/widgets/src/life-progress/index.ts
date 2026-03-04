@@ -8,6 +8,18 @@ export { LifeProgressWidget } from "./widget";
 
 const controls: ControlDefinition[] = [
   {
+    key: "style",
+    label: "Style",
+    labelKo: "스타일",
+    type: "select",
+    defaultValue: "minimal",
+    options: [
+      { value: "minimal", label: "Minimal" },
+      { value: "card", label: "Card" },
+    ],
+    group: "appearance",
+  },
+  {
     key: "color",
     label: "Accent Color",
     labelKo: "강조 색상",
