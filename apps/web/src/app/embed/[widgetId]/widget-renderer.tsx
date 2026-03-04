@@ -15,9 +15,7 @@ function WidgetWithParams({ widget }: { widget: WidgetDefinition<any> }) {
 
 function WidgetSkeleton() {
   return (
-    <div className="min-h-dvh flex items-center justify-center bg-zinc-900">
-      <div className="w-16 h-16 rounded-full bg-zinc-700 animate-pulse" />
-    </div>
+    <div className="min-h-dvh bg-zinc-900" />
   );
 }
 

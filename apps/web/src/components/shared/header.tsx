@@ -19,7 +19,7 @@ export function Header({ locale }: HeaderProps) {
 
   const isHome =
     pathname === `/${locale}` || pathname === `/${locale}/`;
-  const isWidgets = pathname.includes("/widgets");
+  const isWidgets = pathname.includes("/widgets") || pathname.includes("/widget/");
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-zinc-800/40 bg-zinc-950/80 backdrop-blur-xl">
@@ -27,8 +27,15 @@ export function Header({ locale }: HeaderProps) {
         {/* Left: Logo */}
         <Link
           href={`/${locale}/`}
-          className="text-lg font-semibold text-zinc-200 tracking-tight hover:text-white transition-colors"
+          className="flex items-center gap-2 text-lg font-semibold text-zinc-200 tracking-tight hover:text-white transition-colors"
         >
+          <svg className="w-6 h-6" viewBox="0 0 512 512" fill="none">
+            <rect width="512" height="512" rx="108" fill="#18181b"/>
+            <rect x="72" y="72" width="164" height="164" rx="32" fill="#7fb686"/>
+            <rect x="276" y="72" width="164" height="164" rx="32" fill="#3f3f46"/>
+            <rect x="72" y="276" width="164" height="164" rx="32" fill="#3f3f46"/>
+            <rect x="276" y="276" width="164" height="164" rx="32" fill="#52b07a"/>
+          </svg>
           Notion Widgets
         </Link>
 
