@@ -7,6 +7,18 @@ export { CountdownWidget } from "./widget";
 
 const controls: ControlDefinition[] = [
   {
+    key: "style",
+    label: "Style",
+    labelKo: "스타일",
+    type: "select",
+    defaultValue: "card",
+    options: [
+      { value: "card", label: "Card" },
+      { value: "simple", label: "Simple" },
+    ],
+    group: "appearance",
+  },
+  {
     key: "color",
     label: "Accent Color",
     labelKo: "강조 색상",
@@ -20,18 +32,6 @@ const controls: ControlDefinition[] = [
     labelKo: "배경 색상",
     type: "color",
     defaultValue: "18181b",
-    group: "appearance",
-  },
-  {
-    key: "style",
-    label: "Style",
-    labelKo: "스타일",
-    type: "select",
-    defaultValue: "card",
-    options: [
-      { value: "card", label: "Card" },
-      { value: "simple", label: "Simple" },
-    ],
     group: "appearance",
   },
   {
