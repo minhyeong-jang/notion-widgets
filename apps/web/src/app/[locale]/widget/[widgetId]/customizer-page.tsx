@@ -1,7 +1,7 @@
 "use client";
 
-import { useSearchParams, useRouter } from "next/navigation";
-import { useCallback, useMemo } from "react";
+import { useSearchParams } from "next/navigation";
+import { useCallback, useState } from "react";
 import { getWidget, getThemeDesign } from "@nw/widget-core";
 import "@nw/widgets";
 import type { Locale } from "@/i18n/config";
@@ -19,40 +19,39 @@ interface CustomizerPageProps {
 }
 
 export function CustomizerPage({ widgetId, locale, dict }: CustomizerPageProps) {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const widget = getWidget(widgetId);
 
-  const currentParams = useMemo(() => {
+  const [currentParams, setCurrentParams] = useState<Record<string, string>>(() => {
     const params: Record<string, string> = {};
     if (widget) {
-      // Start with defaults
       for (const control of widget.controls ?? []) {
         params[control.key] = String(control.defaultValue);
       }
     }
-    // Override with URL params
     searchParams.forEach((value, key) => {
       params[key] = value;
     });
     return params;
-  }, [searchParams, widget]);
+  });
 
   const handleChange = useCallback(
     (key: string, value: string) => {
-      const next = new URLSearchParams(searchParams.toString());
-      next.set(key, value);
+      setCurrentParams((prev) => {
+        const next = { ...prev, [key]: value };
 
-      // Auto-apply theme's recommended colors
-      if (key === "theme") {
-        const design = getThemeDesign(value);
-        next.set("color", design.recommendedColors.accent);
-        next.set("bg", design.recommendedColors.bg);
-      }
+        if (key === "theme") {
+          const design = getThemeDesign(value);
+          next.color = design.recommendedColors.accent;
+          next.bg = design.recommendedColors.bg;
+        }
 
-      router.replace(`?${next.toString()}`, { scroll: false });
+        const qs = new URLSearchParams(next).toString();
+        window.history.replaceState(null, "", `?${qs}`);
+        return next;
+      });
     },
-    [router, searchParams],
+    [],
   );
 
   if (!widget) {
