@@ -1,11 +1,12 @@
 import type { ControlDefinition } from "@nw/widget-core";
-import { registerWidget } from "@nw/widget-core";
+import { registerWidget, themeControl } from "@nw/widget-core";
 import { CountdownWidget } from "./widget";
 import { countdownSchema, countdownDefaults } from "./schema";
 
 export { CountdownWidget } from "./widget";
 
 const controls: ControlDefinition[] = [
+  themeControl,
   {
     key: "style",
     label: "Style",

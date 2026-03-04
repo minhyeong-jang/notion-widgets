@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { resolveColors } from "@nw/widget-core";
 import type { CountdownParams } from "./schema";
 
 function useCountdown(targetDate: string) {
@@ -51,11 +52,19 @@ function useCountdown(targetDate: string) {
 /* ─── Card Style (default) ─── */
 
 function CardStyle({
-  params,
   countdown,
+  accentColor,
+  textColor,
+  borderColor,
+  label,
+  showHours,
 }: {
-  params: CountdownParams;
   countdown: ReturnType<typeof useCountdown>;
+  accentColor: string;
+  textColor: string;
+  borderColor: string;
+  label: string;
+  showHours: boolean;
 }) {
   const items = [
     { value: String(countdown.totalMonths), label: "mon" },
@@ -67,24 +76,25 @@ function CardStyle({
     <div className="text-center px-6">
       <div
         className="text-6xl sm:text-7xl font-bold tracking-tight"
-        style={{ color: "#" + params.color }}
+        style={{ color: accentColor }}
       >
         {countdown.dDayLabel}
       </div>
-      <div className="mt-2 text-white/70 text-base font-medium">
-        {params.label}
+      <div className="mt-2 text-base font-medium" style={{ color: textColor, opacity: 0.7 }}>
+        {label}
       </div>
-      {params.showHours && countdown.diffDays >= 0 && (
+      {showHours && countdown.diffDays >= 0 && (
         <div className="mt-5 flex items-center justify-center gap-4">
           {items.map((item) => (
             <div
               key={item.label}
-              className="flex flex-col items-center gap-1 min-w-[3.5rem] py-2.5 px-3 rounded-xl bg-white/5 border border-white/10"
+              className="flex flex-col items-center gap-1 min-w-[3.5rem] py-2.5 px-3 rounded-xl"
+              style={{ backgroundColor: `${textColor}08`, border: `1px solid ${borderColor}` }}
             >
-              <span className="text-2xl font-mono font-bold text-zinc-100 tabular-nums">
+              <span className="text-2xl font-mono font-bold tabular-nums" style={{ color: textColor }}>
                 {item.value}
               </span>
-              <span className="text-[10px] uppercase tracking-wider text-zinc-500">
+              <span className="text-[10px] uppercase tracking-wider" style={{ color: textColor, opacity: 0.5 }}>
                 {item.label}
               </span>
             </div>
@@ -98,25 +108,31 @@ function CardStyle({
 /* ─── Simple Style ─── */
 
 function SimpleStyle({
-  params,
   countdown,
+  accentColor,
+  textColor,
+  label,
+  showHours,
 }: {
-  params: CountdownParams;
   countdown: ReturnType<typeof useCountdown>;
+  accentColor: string;
+  textColor: string;
+  label: string;
+  showHours: boolean;
 }) {
   return (
     <div className="text-center px-6">
       <div
         className="text-7xl font-bold tracking-tight"
-        style={{ color: "#" + params.color }}
+        style={{ color: accentColor }}
       >
         {countdown.dDayLabel}
       </div>
-      <div className="mt-3 text-white/70 text-lg font-medium">
-        {params.label}
+      <div className="mt-3 text-lg font-medium" style={{ color: textColor, opacity: 0.7 }}>
+        {label}
       </div>
-      {params.showHours && countdown.diffDays >= 0 && (
-        <div className="mt-4 text-white/50 text-2xl font-mono tabular-nums">
+      {showHours && countdown.diffDays >= 0 && (
+        <div className="mt-4 text-2xl font-mono tabular-nums" style={{ color: textColor, opacity: 0.5 }}>
           {countdown.hours.toString().padStart(2, "0")}:
           {countdown.minutes.toString().padStart(2, "0")}:
           {countdown.seconds.toString().padStart(2, "0")}
@@ -130,21 +146,18 @@ function SimpleStyle({
 
 export function CountdownWidget({ params }: { params: CountdownParams }) {
   const countdown = useCountdown(params.targetDate);
-
-  const bgStyle =
-    params.bg === "transparent"
-      ? undefined
-      : { backgroundColor: "#" + params.bg };
+  const c = resolveColors(params);
+  const bgStyle = c.bg === "transparent" ? undefined : { backgroundColor: c.bg };
 
   return (
     <div
-      className={`min-h-screen flex items-center justify-center w-full ${params.bg === "transparent" ? "bg-transparent" : ""}`}
+      className={`min-h-screen flex items-center justify-center w-full ${c.bg === "transparent" ? "bg-transparent" : ""}`}
       style={bgStyle}
     >
       {params.style === "simple" ? (
-        <SimpleStyle params={params} countdown={countdown} />
+        <SimpleStyle countdown={countdown} accentColor={c.accent} textColor={c.text} label={params.label} showHours={params.showHours} />
       ) : (
-        <CardStyle params={params} countdown={countdown} />
+        <CardStyle countdown={countdown} accentColor={c.accent} textColor={c.text} borderColor={c.border} label={params.label} showHours={params.showHours} />
       )}
     </div>
   );

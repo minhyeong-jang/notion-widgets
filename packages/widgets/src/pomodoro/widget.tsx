@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { resolveColors } from "@nw/widget-core";
 import type { PomodoroParams } from "./schema";
 
 type TimerState = "idle" | "working" | "break";
@@ -84,8 +85,7 @@ const stateLabels: Record<TimerState, { en: string; ko: string }> = {
 
 /* ─── Compact Style (default) ─── */
 
-function CompactStyle({ params, timer }: { params: PomodoroParams; timer: ReturnType<typeof usePomodoro> }) {
-  const accentColor = "#" + params.color;
+function CompactStyle({ timer, accentColor, textColor }: { timer: ReturnType<typeof usePomodoro>; accentColor: string; textColor: string }) {
   const breakColor = "#60a5fa";
   const ringColor = timer.state === "break" ? breakColor : accentColor;
 
@@ -102,7 +102,7 @@ function CompactStyle({ params, timer }: { params: PomodoroParams; timer: Return
         <svg className="w-24 h-24 -rotate-90" viewBox="0 0 100 100">
           <circle
             cx="50" cy="50" r={radius}
-            fill="none" stroke="white" strokeOpacity="0.08" strokeWidth="4"
+            fill="none" stroke={textColor} strokeOpacity="0.08" strokeWidth="4"
           />
           <circle
             cx="50" cy="50" r={radius}
@@ -113,7 +113,7 @@ function CompactStyle({ params, timer }: { params: PomodoroParams; timer: Return
           />
         </svg>
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-lg font-mono font-bold text-white tabular-nums">
+          <span className="text-lg font-mono font-bold tabular-nums" style={{ color: textColor }}>
             {timer.displayMin}:{timer.displaySec}
           </span>
         </div>
@@ -124,26 +124,28 @@ function CompactStyle({ params, timer }: { params: PomodoroParams; timer: Return
         <span className="text-sm font-medium" style={{ color: ringColor }}>
           {label.en}
         </span>
-        <span className="text-xs text-zinc-500">
+        <span className="text-xs" style={{ color: textColor, opacity: 0.5 }}>
           {timer.session}/{timer.totalSessions} sessions
         </span>
         <div className="flex items-center gap-2 mt-1">
           <button
             onClick={timer.handleToggle}
-            className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold"
-            style={{ backgroundColor: accentColor }}
+            className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold"
+            style={{ backgroundColor: accentColor, color: textColor }}
           >
             {!timer.isRunning ? "\u25B6" : "\u2759\u2759"}
           </button>
           <button
             onClick={timer.handleReset}
-            className="w-8 h-8 rounded-full flex items-center justify-center bg-white/10 text-white/70 text-xs hover:bg-white/20"
+            className="w-8 h-8 rounded-full flex items-center justify-center text-xs hover:opacity-80"
+            style={{ backgroundColor: `${textColor}1a`, color: textColor, opacity: 0.7 }}
           >
             {"\u21BA"}
           </button>
           <button
             onClick={timer.handleSkip}
-            className="w-8 h-8 rounded-full flex items-center justify-center bg-white/10 text-white/70 text-xs hover:bg-white/20"
+            className="w-8 h-8 rounded-full flex items-center justify-center text-xs hover:opacity-80"
+            style={{ backgroundColor: `${textColor}1a`, color: textColor, opacity: 0.7 }}
           >
             {"\u23ED"}
           </button>
@@ -155,8 +157,7 @@ function CompactStyle({ params, timer }: { params: PomodoroParams; timer: Return
 
 /* ─── Standard Style ─── */
 
-function StandardStyle({ params, timer }: { params: PomodoroParams; timer: ReturnType<typeof usePomodoro> }) {
-  const accentColor = "#" + params.color;
+function StandardStyle({ timer, accentColor, textColor }: { timer: ReturnType<typeof usePomodoro>; accentColor: string; textColor: string }) {
   const breakColor = "#60a5fa";
   const ringColor = timer.state === "break" ? breakColor : accentColor;
 
@@ -172,7 +173,7 @@ function StandardStyle({ params, timer }: { params: PomodoroParams; timer: Retur
         <svg className="w-full h-full -rotate-90" viewBox="0 0 200 200">
           <circle
             cx="100" cy="100" r={radius}
-            fill="none" stroke="white" strokeOpacity="0.1" strokeWidth="6"
+            fill="none" stroke={textColor} strokeOpacity="0.1" strokeWidth="6"
           />
           <circle
             cx="100" cy="100" r={radius}
@@ -183,7 +184,7 @@ function StandardStyle({ params, timer }: { params: PomodoroParams; timer: Retur
           />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="text-4xl font-mono font-bold text-white tabular-nums">
+          <span className="text-4xl font-mono font-bold tabular-nums" style={{ color: textColor }}>
             {timer.displayMin}:{timer.displaySec}
           </span>
           <span className="text-sm font-medium mt-1" style={{ color: ringColor }}>
@@ -195,26 +196,28 @@ function StandardStyle({ params, timer }: { params: PomodoroParams; timer: Retur
       <div className="flex items-center gap-3">
         <button
           onClick={timer.handleToggle}
-          className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-lg"
-          style={{ backgroundColor: accentColor }}
+          className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg"
+          style={{ backgroundColor: accentColor, color: textColor }}
         >
           {!timer.isRunning ? "\u25B6" : "\u2759\u2759"}
         </button>
         <button
           onClick={timer.handleReset}
-          className="w-10 h-10 rounded-full flex items-center justify-center bg-white/10 text-white/70 text-sm hover:bg-white/20"
+          className="w-10 h-10 rounded-full flex items-center justify-center text-sm hover:opacity-80"
+          style={{ backgroundColor: `${textColor}1a`, color: textColor, opacity: 0.7 }}
         >
           {"\u21BA"}
         </button>
         <button
           onClick={timer.handleSkip}
-          className="w-10 h-10 rounded-full flex items-center justify-center bg-white/10 text-white/70 text-sm hover:bg-white/20"
+          className="w-10 h-10 rounded-full flex items-center justify-center text-sm hover:opacity-80"
+          style={{ backgroundColor: `${textColor}1a`, color: textColor, opacity: 0.7 }}
         >
           {"\u23ED"}
         </button>
       </div>
 
-      <div className="text-white/40 text-sm">
+      <div className="text-sm" style={{ color: textColor, opacity: 0.4 }}>
         {timer.session}/{timer.totalSessions} sessions
       </div>
     </div>
@@ -225,21 +228,18 @@ function StandardStyle({ params, timer }: { params: PomodoroParams; timer: Retur
 
 export function PomodoroWidget({ params }: { params: PomodoroParams }) {
   const timer = usePomodoro(params);
-
-  const bgStyle =
-    params.bg === "transparent"
-      ? undefined
-      : { backgroundColor: "#" + params.bg };
+  const c = resolveColors(params);
+  const bgStyle = c.bg === "transparent" ? undefined : { backgroundColor: c.bg };
 
   return (
     <div
-      className={`min-h-screen flex items-center justify-center w-full ${params.bg === "transparent" ? "bg-transparent" : ""}`}
+      className={`min-h-screen flex items-center justify-center w-full ${c.bg === "transparent" ? "bg-transparent" : ""}`}
       style={bgStyle}
     >
       {params.style === "standard" ? (
-        <StandardStyle params={params} timer={timer} />
+        <StandardStyle timer={timer} accentColor={c.accent} textColor={c.text} />
       ) : (
-        <CompactStyle params={params} timer={timer} />
+        <CompactStyle timer={timer} accentColor={c.accent} textColor={c.text} />
       )}
     </div>
   );

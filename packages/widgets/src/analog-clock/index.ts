@@ -1,11 +1,12 @@
 import type { ControlDefinition } from "@nw/widget-core";
-import { registerWidget } from "@nw/widget-core";
+import { registerWidget, themeControl } from "@nw/widget-core";
 import { AnalogClockWidget } from "./widget";
 import { analogClockSchema, analogClockDefaults } from "./schema";
 
 export { AnalogClockWidget } from "./widget";
 
 const controls: ControlDefinition[] = [
+  themeControl,
   {
     key: "style",
     label: "Clock Style",

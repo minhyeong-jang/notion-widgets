@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getProgressLabels, formatDate } from "@nw/widget-core";
+import { getProgressLabels, formatDate, resolveColors } from "@nw/widget-core";
 import { ProgressBar } from "./progress-bar";
 import type { LifeProgressParams } from "./schema";
 
@@ -79,15 +79,15 @@ const gradients: Record<string, string> = {
 
 /* ─── Minimal Style (default) ─── */
 
-function ThinBar({ label, percentage, gradient }: { label: string; percentage: number; gradient: string }) {
+function ThinBar({ label, percentage, gradient, textColor, borderColor }: { label: string; percentage: number; gradient: string; textColor?: string; borderColor?: string }) {
   const clamped = Math.max(0, Math.min(percentage, 100));
   return (
     <div>
-      <div className="flex justify-between text-xs text-zinc-500 mb-1">
+      <div className="flex justify-between text-xs mb-1" style={{ color: textColor || undefined }}>
         <span>{label}</span>
         <span>{Math.round(clamped)}%</span>
       </div>
-      <div className="h-1.5 rounded-full bg-zinc-800 overflow-hidden">
+      <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: borderColor || undefined }}>
         <div
           className={`h-full rounded-full bg-gradient-to-r ${gradient} transition-all duration-1000 ease-out`}
           style={{ width: `${Math.max(clamped, clamped > 0 ? 2 : 0)}%` }}
@@ -97,7 +97,7 @@ function ThinBar({ label, percentage, gradient }: { label: string; percentage: n
   );
 }
 
-function MinimalStyle({ params, data }: { params: LifeProgressParams; data: ProgressData }) {
+function MinimalStyle({ params, data, textColor, borderColor }: { params: LifeProgressParams; data: ProgressData; textColor: string; borderColor: string }) {
   const l = getProgressLabels(params.locale);
 
   const bars: { key: string; label: string; pct: number; show: boolean }[] = [
@@ -112,7 +112,7 @@ function MinimalStyle({ params, data }: { params: LifeProgressParams; data: Prog
   return (
     <div className="w-full max-w-sm mx-auto px-6">
       {params.title && (
-        <h2 className="text-zinc-300 text-sm font-medium mb-5 text-center">
+        <h2 className="text-sm font-medium mb-5 text-center" style={{ color: textColor }}>
           {params.title}
         </h2>
       )}
@@ -123,6 +123,8 @@ function MinimalStyle({ params, data }: { params: LifeProgressParams; data: Prog
             label={b.label}
             percentage={b.pct}
             gradient={gradients[b.key]}
+            textColor={textColor}
+            borderColor={borderColor}
           />
         ))}
       </div>
@@ -132,16 +134,16 @@ function MinimalStyle({ params, data }: { params: LifeProgressParams; data: Prog
 
 /* ─── Card Style ─── */
 
-function CardStyle({ params, data }: { params: LifeProgressParams; data: ProgressData }) {
+function CardStyle({ params, data, accentColor, textColor }: { params: LifeProgressParams; data: ProgressData; accentColor: string; textColor: string }) {
   const l = getProgressLabels(params.locale);
   const targetDate = new Date(params.target + "T23:59:59");
   const formattedTarget = formatDate(targetDate, params.dateFormat, params.locale);
-  const cardStyle = { backgroundColor: "#" + params.color + "e6" };
+  const cardStyle = { backgroundColor: accentColor + "e6" };
 
   return (
     <div className="w-full mx-auto">
       <div className="rounded-xl p-6 shadow-lg backdrop-blur-sm w-full" style={cardStyle}>
-        <h2 className="text-white text-xl font-bold mb-4 text-center">
+        <h2 className="text-xl font-bold mb-4 text-center" style={{ color: textColor }}>
           {params.title}
         </h2>
         <div className="space-y-4">
@@ -153,8 +155,8 @@ function CardStyle({ params, data }: { params: LifeProgressParams; data: Progres
           {params.showDay && <ProgressBar label={l.day} percentage={data.day} />}
         </div>
         <div className="mt-6 text-center">
-          <p className="text-white/80 text-xs">{l.targetDate}</p>
-          <p className="text-white text-sm font-bold">{formattedTarget}</p>
+          <p className="text-xs" style={{ color: textColor, opacity: 0.8 }}>{l.targetDate}</p>
+          <p className="text-sm font-bold" style={{ color: textColor }}>{formattedTarget}</p>
         </div>
       </div>
     </div>
@@ -165,21 +167,18 @@ function CardStyle({ params, data }: { params: LifeProgressParams; data: Progres
 
 export function LifeProgressWidget({ params }: { params: LifeProgressParams }) {
   const data = useProgress(params);
-
-  const bgStyle =
-    params.bg === "transparent"
-      ? undefined
-      : { backgroundColor: "#" + params.bg };
+  const c = resolveColors(params);
+  const bgStyle = c.bg === "transparent" ? undefined : { backgroundColor: c.bg };
 
   return (
     <div
-      className={`min-h-screen flex items-center justify-center w-full ${params.bg === "transparent" ? "bg-transparent" : ""}`}
+      className={`min-h-screen flex items-center justify-center w-full ${c.bg === "transparent" ? "bg-transparent" : ""}`}
       style={bgStyle}
     >
       {params.style === "card" ? (
-        <CardStyle params={params} data={data} />
+        <CardStyle params={params} data={data} accentColor={c.accent} textColor={c.text} />
       ) : (
-        <MinimalStyle params={params} data={data} />
+        <MinimalStyle params={params} data={data} textColor={c.text} borderColor={c.border} />
       )}
     </div>
   );

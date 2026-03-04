@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { resolveColors } from "@nw/widget-core";
 import { FlipCard } from "./flip-clock";
 import { MinimalCard } from "./minimal-clock";
 import type { FlipClockParams } from "./schema";
@@ -40,10 +41,8 @@ export function FlipClockWidget({ params }: { params: FlipClockParams }) {
     : "";
   const secondsLabel = params.showLabel ? shortDate : "";
 
-  const bgStyle =
-    params.bg === "transparent"
-      ? undefined
-      : { backgroundColor: "#" + params.bg };
+  const c = resolveColors(params);
+  const bgStyle = c.bg === "transparent" ? undefined : { backgroundColor: c.bg };
 
   const isMinimal = params.style === "minimal";
   const Card = isMinimal ? MinimalCard : FlipCard;
@@ -51,35 +50,35 @@ export function FlipClockWidget({ params }: { params: FlipClockParams }) {
   if (isMinimal) {
     return (
       <div
-        className={`min-h-screen flex items-center justify-center w-full ${params.bg === "transparent" ? "bg-transparent" : ""}`}
+        className={`min-h-screen flex items-center justify-center w-full ${c.bg === "transparent" ? "bg-transparent" : ""}`}
         style={bgStyle}
       >
         <div className="flex items-center gap-3">
-          <Card value={hours} label={hoursLabel} color={params.color} />
+          <Card value={hours} label={hoursLabel} color={c.accent} />
           <div className="flex flex-col gap-2 mb-4">
             <div
               className="w-2 h-2 rounded-full animate-pulse"
-              style={{ backgroundColor: `#${params.color}` }}
+              style={{ backgroundColor: c.accent }}
             />
             <div
               className="w-2 h-2 rounded-full animate-pulse"
-              style={{ backgroundColor: `#${params.color}` }}
+              style={{ backgroundColor: c.accent }}
             />
           </div>
-          <Card value={minutes} label={minutesLabel} color={params.color} />
+          <Card value={minutes} label={minutesLabel} color={c.accent} />
           {params.showSeconds && (
             <>
               <div className="flex flex-col gap-2 mb-4">
                 <div
                   className="w-2 h-2 rounded-full animate-pulse"
-                  style={{ backgroundColor: `#${params.color}`, opacity: 0.5 }}
+                  style={{ backgroundColor: c.accent, opacity: 0.5 }}
                 />
                 <div
                   className="w-2 h-2 rounded-full animate-pulse"
-                  style={{ backgroundColor: `#${params.color}`, opacity: 0.5 }}
+                  style={{ backgroundColor: c.accent, opacity: 0.5 }}
                 />
               </div>
-              <Card value={seconds} label={secondsLabel} color={params.color} />
+              <Card value={seconds} label={secondsLabel} color={c.accent} />
             </>
           )}
         </div>
@@ -92,19 +91,19 @@ export function FlipClockWidget({ params }: { params: FlipClockParams }) {
 
   return (
     <div
-      className={`min-h-screen flex items-center justify-center w-full ${params.bg === "transparent" ? "bg-transparent" : ""}`}
+      className={`min-h-screen flex items-center justify-center w-full ${c.bg === "transparent" ? "bg-transparent" : ""}`}
       style={bgStyle}
     >
       <div className="flex w-full">
         <div className={`${cardWidth} pr-2`}>
-          <Card value={hours} label={hoursLabel} color={params.color} />
+          <Card value={hours} label={hoursLabel} color={c.accent} />
         </div>
         <div className={`${cardWidth} ${params.showSeconds ? "px-1" : "pl-2"}`}>
-          <Card value={minutes} label={minutesLabel} color={params.color} />
+          <Card value={minutes} label={minutesLabel} color={c.accent} />
         </div>
         {params.showSeconds && (
           <div className={`${cardWidth} pl-2`}>
-            <Card value={seconds} label={secondsLabel} color={params.color} />
+            <Card value={seconds} label={secondsLabel} color={c.accent} />
           </div>
         )}
       </div>

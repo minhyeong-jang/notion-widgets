@@ -11,8 +11,11 @@ export {
 export {
   LOCALE_OPTIONS,
   DATE_FORMAT_OPTIONS,
+  themeControl,
   localeControl,
   dateFormatControl,
   formatDate,
   getProgressLabels,
 } from "./presets";
+export type { WidgetColors } from "./resolve-colors";
+export { resolveColors } from "./resolve-colors";

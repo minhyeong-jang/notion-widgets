@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { resolveColors } from "@nw/widget-core";
 import type { AnalogClockParams } from "./schema";
 
 export function AnalogClockWidget({ params }: { params: AnalogClockParams }) {
@@ -21,33 +22,30 @@ export function AnalogClockWidget({ params }: { params: AnalogClockParams }) {
   const minuteAngle = minutes * 6 + seconds * 0.1;
   const secondAngle = seconds * 6;
 
-  const accentColor = "#" + params.color;
+  const c = resolveColors(params);
   const isVintage = params.style === "vintage";
   const isClassic = params.style === "classic";
 
   const hourNumbers = Array.from({ length: 12 }, (_, i) => i + 1);
 
-  const bgStyle =
-    params.bg === "transparent"
-      ? undefined
-      : { backgroundColor: "#" + params.bg };
+  const bgStyle = c.bg === "transparent" ? undefined : { backgroundColor: c.bg };
 
   const frameColor = isVintage
     ? "#8b7355"
     : isClassic
-      ? "white"
-      : accentColor;
+      ? c.text
+      : c.accent;
 
-  const handColor = isVintage ? "#4a3728" : "white";
-  const secondHandColor = isVintage ? "#8b4513" : accentColor;
-  const tickColor = isVintage ? "#4a3728" : "white";
+  const handColor = isVintage ? "#4a3728" : c.text;
+  const secondHandColor = isVintage ? "#8b4513" : c.accent;
+  const tickColor = isVintage ? "#4a3728" : c.text;
   const numberFont = isVintage ? "serif" : "sans-serif";
   const hourHandWidth = isClassic ? 4 : 2.5;
   const minuteHandWidth = isClassic ? 3 : 2;
 
   return (
     <div
-      className={`min-h-screen flex items-center justify-center w-full ${params.bg === "transparent" ? "bg-transparent" : ""}`}
+      className={`min-h-screen flex items-center justify-center w-full ${c.bg === "transparent" ? "bg-transparent" : ""}`}
       style={bgStyle}
     >
       <svg viewBox="0 0 200 200" className="w-full max-w-[280px]">
@@ -185,7 +183,7 @@ export function AnalogClockWidget({ params }: { params: AnalogClockParams }) {
           cx="100"
           cy="100"
           r={isClassic ? 4 : 3}
-          fill={isVintage ? "#8b7355" : accentColor}
+          fill={isVintage ? "#8b7355" : c.accent}
         />
         {isVintage && (
           <circle

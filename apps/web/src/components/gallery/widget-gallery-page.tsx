@@ -189,6 +189,152 @@ function AnalogClockPreview() {
   );
 }
 
+function WeatherPreview() {
+  return (
+    <div className="flex flex-col items-center gap-1">
+      <span className="text-3xl">☀️</span>
+      <span className="text-2xl font-bold text-zinc-200">18°C</span>
+      <span className="text-[10px] text-zinc-500">Seoul</span>
+    </div>
+  );
+}
+
+function WorldClockPreview() {
+  return (
+    <div className="flex items-center gap-4">
+      {[{ city: "NYC", time: "10:30" }, { city: "London", time: "15:30" }, { city: "Seoul", time: "00:30" }].map((tz) => (
+        <div key={tz.city} className="flex flex-col items-center gap-0.5">
+          <span className="text-lg font-mono font-bold text-zinc-200">{tz.time}</span>
+          <span className="text-[10px] text-zinc-500">{tz.city}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function MiniCalendarPreview() {
+  const days = ["S", "M", "T", "W", "T", "F", "S"];
+  const cells = Array.from({ length: 35 }, (_, i) => i - 3); // offset for month start
+  return (
+    <div className="w-full px-4">
+      <div className="text-center text-xs text-zinc-400 mb-2 font-medium">March 2026</div>
+      <div className="grid grid-cols-7 gap-0.5 text-[9px]">
+        {days.map((d) => (
+          <div key={d} className="text-center text-zinc-600 font-medium">{d}</div>
+        ))}
+        {cells.map((d, i) => (
+          <div
+            key={i}
+            className={`text-center py-0.5 rounded ${
+              d === 5 ? "bg-emerald-500/30 text-emerald-400 font-bold" : d > 0 && d <= 31 ? "text-zinc-400" : "text-zinc-700"
+            }`}
+          >
+            {d > 0 && d <= 31 ? d : ""}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function MoonPhasePreview() {
+  return (
+    <div className="flex flex-col items-center gap-2">
+      <svg className="w-16 h-16" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="40" fill="#fafafa" opacity="0.9" />
+        <ellipse cx="50" cy="50" rx="15" ry="40" fill="#18181b" />
+      </svg>
+      <span className="text-xs text-zinc-400">Waxing Gibbous</span>
+    </div>
+  );
+}
+
+function HabitHeatmapPreview() {
+  const weeks = 10;
+  return (
+    <div className="px-4 w-full">
+      <div className="text-[10px] text-zinc-500 mb-1.5">Year Progress</div>
+      <div className="flex gap-[2px]">
+        {Array.from({ length: weeks }, (_, w) => (
+          <div key={w} className="flex flex-col gap-[2px]">
+            {Array.from({ length: 7 }, (_, d) => {
+              const filled = w < 7 || (w === 7 && d < 3);
+              const intensity = filled ? [0.2, 0.35, 0.5, 0.7][(w * 7 + d) % 4] : 0;
+              return (
+                <div
+                  key={d}
+                  className="w-2.5 h-2.5 rounded-[2px]"
+                  style={{ backgroundColor: filled ? `rgba(127, 182, 134, ${intensity})` : "rgba(255,255,255,0.05)" }}
+                />
+              );
+            })}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function BreathingPreview() {
+  return (
+    <div className="flex flex-col items-center gap-2">
+      <div className="relative w-20 h-20 flex items-center justify-center">
+        <div className="absolute inset-0 rounded-full border-2 border-emerald-400/30" />
+        <div className="w-14 h-14 rounded-full bg-emerald-400/20 flex items-center justify-center">
+          <span className="text-emerald-400 text-xs font-medium">Inhale</span>
+        </div>
+      </div>
+      <span className="text-[10px] text-zinc-500">4-7-8</span>
+    </div>
+  );
+}
+
+function DailyTarotPreview() {
+  return (
+    <div className="flex flex-col items-center gap-2">
+      <div className="w-16 h-24 rounded-lg border border-violet-500/30 bg-violet-500/10 flex flex-col items-center justify-center gap-1">
+        <span className="text-violet-400 text-lg">★</span>
+        <span className="text-[9px] text-violet-300 font-medium">XVII</span>
+      </div>
+      <span className="text-xs text-zinc-400">The Star</span>
+    </div>
+  );
+}
+
+function StartupTipsPreview() {
+  return (
+    <div className="px-5 flex flex-col items-center gap-2 text-center">
+      <span className="text-emerald-400 text-sm font-bold">80/20 Rule</span>
+      <p className="text-[11px] text-zinc-400 leading-relaxed">
+        Focus on the 20% of efforts that produce 80% of results.
+      </p>
+      <span className="text-[9px] text-zinc-600">— Pareto Principle</span>
+    </div>
+  );
+}
+
+function FocusWordPreview() {
+  return (
+    <div className="flex flex-col items-center gap-1">
+      <span className="text-3xl font-bold tracking-widest text-zinc-100 uppercase">Focus</span>
+      <span className="text-[10px] text-zinc-600 tracking-wider">TODAY&apos;S WORD</span>
+    </div>
+  );
+}
+
+function DailyTipPreview() {
+  return (
+    <div className="px-5 flex flex-col items-center gap-2 text-center">
+      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20">
+        productivity
+      </span>
+      <p className="text-sm text-zinc-300 leading-relaxed">
+        Start your day with the hardest task first.
+      </p>
+    </div>
+  );
+}
+
 function WidgetPlaceholder({ name }: { name: string }) {
   return (
     <div className="flex flex-col items-center gap-2 text-zinc-600">
@@ -206,6 +352,16 @@ function WidgetPreview({ widgetId, name }: { widgetId: string; name: string }) {
     case "quote": return <QuotePreview />;
     case "pomodoro": return <PomodoroPreview />;
     case "analog-clock": return <AnalogClockPreview />;
+    case "weather": return <WeatherPreview />;
+    case "world-clock": return <WorldClockPreview />;
+    case "mini-calendar": return <MiniCalendarPreview />;
+    case "moon-phase": return <MoonPhasePreview />;
+    case "habit-heatmap": return <HabitHeatmapPreview />;
+    case "breathing": return <BreathingPreview />;
+    case "daily-tarot": return <DailyTarotPreview />;
+    case "startup-tips": return <StartupTipsPreview />;
+    case "focus-word": return <FocusWordPreview />;
+    case "daily-tip": return <DailyTipPreview />;
     default: return <WidgetPlaceholder name={name} />;
   }
 }

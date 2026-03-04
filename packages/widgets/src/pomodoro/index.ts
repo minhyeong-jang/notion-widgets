@@ -1,11 +1,12 @@
 import type { ControlDefinition } from "@nw/widget-core";
-import { registerWidget } from "@nw/widget-core";
+import { registerWidget, themeControl } from "@nw/widget-core";
 import { PomodoroWidget } from "./widget";
 import { pomodoroSchema, pomodoroDefaults } from "./schema";
 
 export { PomodoroWidget } from "./widget";
 
 const controls: ControlDefinition[] = [
+  themeControl,
   {
     key: "style",
     label: "Style",

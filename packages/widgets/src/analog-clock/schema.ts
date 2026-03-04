@@ -4,6 +4,7 @@ const hexColor = z.string().regex(/^[0-9a-fA-F]{6}$/).default("7fb686");
 const booleanStr = z.enum(["true", "false"]).transform(v => v === "true");
 
 export const analogClockSchema = z.object({
+  theme: z.string().default("custom"),
   style: z.enum(["minimal", "classic", "vintage"]).default("minimal"),
   color: hexColor,
   bg: z.string().default("18181b"),

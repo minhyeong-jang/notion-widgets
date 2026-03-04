@@ -1,11 +1,12 @@
 import type { ControlDefinition } from "@nw/widget-core";
-import { registerWidget, localeControl } from "@nw/widget-core";
+import { registerWidget, localeControl, themeControl } from "@nw/widget-core";
 import { QuoteWidget } from "./widget";
 import { quoteSchema, quoteDefaults } from "./schema";
 
 export { QuoteWidget } from "./widget";
 
 const controls: ControlDefinition[] = [
+  themeControl,
   {
     key: "color",
     label: "Accent Color",

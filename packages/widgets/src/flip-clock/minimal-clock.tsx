@@ -19,7 +19,7 @@ export function MinimalCard({
           >
             <span
               className="text-3xl sm:text-4xl font-bold"
-              style={{ color: `#${color}` }}
+              style={{ color }}
             >
               {digit}
             </span>

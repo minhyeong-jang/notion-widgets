@@ -5,6 +5,7 @@ const booleanStr = z.enum(["true", "false"]).transform(v => v === "true").defaul
 const dateStr = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
 
 export const countdownSchema = z.object({
+  theme: z.string().default("custom"),
   targetDate: dateStr.default("2026-12-31"),
   label: z.string().default("D-Day"),
   color: hexColor,

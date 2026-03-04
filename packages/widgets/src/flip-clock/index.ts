@@ -1,5 +1,5 @@
 import type { ControlDefinition } from "@nw/widget-core";
-import { registerWidget, localeControl } from "@nw/widget-core";
+import { registerWidget, localeControl, themeControl } from "@nw/widget-core";
 import { FlipClockWidget } from "./widget";
 import { flipClockSchema, flipClockDefaults } from "./schema";
 
@@ -8,6 +8,7 @@ export { MinimalCard } from "./minimal-clock";
 export { FlipClockWidget } from "./widget";
 
 const controls: ControlDefinition[] = [
+  themeControl,
   {
     key: "style",
     label: "Style",

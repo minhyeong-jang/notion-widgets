@@ -1,5 +1,5 @@
 import type { ControlDefinition } from "@nw/widget-core";
-import { registerWidget, localeControl, dateFormatControl } from "@nw/widget-core";
+import { registerWidget, localeControl, dateFormatControl, themeControl } from "@nw/widget-core";
 import { LifeProgressWidget } from "./widget";
 import { lifeProgressSchema, lifeProgressDefaults } from "./schema";
 
@@ -7,6 +7,7 @@ export { ProgressBar } from "./progress-bar";
 export { LifeProgressWidget } from "./widget";
 
 const controls: ControlDefinition[] = [
+  themeControl,
   {
     key: "style",
     label: "Style",

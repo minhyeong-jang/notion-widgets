@@ -22,7 +22,7 @@ export const FlipCard = ({ value, label, color }: { value: string; label: string
     }
   }, [value, topValue]);
 
-  const bgStyle = { backgroundColor: '#' + color };
+  const bgStyle = { backgroundColor: color };
 
   return (
     <div className="rounded-3xl p-4 w-full h-64 flex flex-col shadow-2xl relative" style={bgStyle}>

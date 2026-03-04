@@ -1,5 +1,6 @@
 "use client";
 
+import { resolveColors } from "@nw/widget-core";
 import type { QuoteParams } from "./schema";
 import { getQuotes, type Quote } from "./quotes";
 
@@ -24,26 +25,24 @@ const fontSizeMap = {
 export function QuoteWidget({ params }: { params: QuoteParams }) {
   const quotes = getQuotes(params.locale);
   const quote = params.mode === "random" ? getRandomQuote(quotes) : getDailyQuote(quotes);
-
-  const bgStyle =
-    params.bg === "transparent"
-      ? undefined
-      : { backgroundColor: "#" + params.bg };
+  const c = resolveColors(params);
+  const bgStyle = c.bg === "transparent" ? undefined : { backgroundColor: c.bg };
 
   return (
     <div
-      className={`min-h-screen flex items-center justify-center w-full ${params.bg === "transparent" ? "bg-transparent" : ""}`}
+      className={`min-h-screen flex items-center justify-center w-full ${c.bg === "transparent" ? "bg-transparent" : ""}`}
       style={bgStyle}
     >
       <div className="text-center px-8 max-w-lg mx-auto">
         <div
           className="text-6xl font-serif leading-none mb-4 opacity-30"
-          style={{ color: "#" + params.color }}
+          style={{ color: c.accent }}
         >
           &ldquo;
         </div>
         <p
-          className={`${fontSizeMap[params.fontSize]} font-medium leading-relaxed text-white/90`}
+          className={`${fontSizeMap[params.fontSize]} font-medium leading-relaxed`}
+          style={{ color: c.text, opacity: 0.9 }}
         >
           {quote.text}
         </p>
@@ -51,21 +50,21 @@ export function QuoteWidget({ params }: { params: QuoteParams }) {
           <div className="flex items-center gap-2">
             <div
               className="w-8 h-px"
-              style={{ backgroundColor: "#" + params.color }}
+              style={{ backgroundColor: c.accent }}
             />
             <span
               className="text-sm font-medium"
-              style={{ color: "#" + params.color }}
+              style={{ color: c.accent }}
             >
               {quote.author}
             </span>
             <div
               className="w-8 h-px"
-              style={{ backgroundColor: "#" + params.color }}
+              style={{ backgroundColor: c.accent }}
             />
           </div>
           {quote.title && (
-            <span className="text-xs text-white/40">
+            <span className="text-xs" style={{ color: c.text, opacity: 0.4 }}>
               {quote.title}
             </span>
           )}

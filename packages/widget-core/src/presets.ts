@@ -27,6 +27,26 @@ export const DATE_FORMAT_OPTIONS = [
 ] as const;
 
 /**
+ * Reusable theme ControlDefinition for widget registration.
+ */
+export const themeControl: ControlDefinition = {
+  key: "theme",
+  label: "Theme",
+  labelKo: "테마",
+  type: "select",
+  defaultValue: "custom",
+  options: [
+    { value: "custom", label: "Custom" },
+    { value: "default", label: "Dark" },
+    { value: "light", label: "Light" },
+    { value: "glassmorphism", label: "Glass" },
+    { value: "retro", label: "Retro" },
+    { value: "neon", label: "Neon" },
+  ],
+  group: "appearance",
+};
+
+/**
  * Reusable locale ControlDefinition for widget registration.
  */
 export const localeControl: ControlDefinition = {
