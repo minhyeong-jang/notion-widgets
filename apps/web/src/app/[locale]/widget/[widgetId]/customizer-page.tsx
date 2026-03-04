@@ -63,7 +63,7 @@ export function CustomizerPage({ widgetId, locale, dict }: CustomizerPageProps) 
   return (
     <div className="min-h-dvh bg-zinc-950 text-zinc-100">
       {/* Main content */}
-      <main className="mx-auto max-w-6xl px-4 pt-20 pb-6 sm:px-6">
+      <main className="mx-auto max-w-6xl px-4 pt-28 pb-6 sm:px-6">
         <div className="mb-6">
           <h1 className="text-xl font-bold text-zinc-100">{name}</h1>
           <p className="mt-1 text-sm text-zinc-500">{description}</p>

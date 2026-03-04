@@ -10,7 +10,7 @@ const en: Dictionary = {
   },
 
   hero: {
-    badge: "Make Notion beautiful",
+    badge: "Make Notion Beautiful",
     headingLine1: "No sign-up needed.",
     headingLine2: "One URL is all you need for",
     headingHighlight: "Notion Widgets",

@@ -66,7 +66,7 @@ export default async function OgImage({
           }}
         >
           <span style={{ color: "#7fb686", fontSize: 18 }}>
-            {isKo ? "감도 높은 Notion" : "Make Notion beautiful"}
+            {isKo ? "감도 높은 Notion" : "Make Notion Beautiful"}
           </span>
         </div>
 

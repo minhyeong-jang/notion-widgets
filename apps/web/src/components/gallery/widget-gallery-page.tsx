@@ -322,7 +322,7 @@ export function WidgetGalleryPage({
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100 font-[family-name:var(--font-geist-sans)]">
       {/* Page content */}
-      <main className="max-w-6xl mx-auto px-6 pt-24 pb-16">
+      <main className="max-w-6xl mx-auto px-6 pt-32 pb-16">
         {/* Title */}
         <div className="mb-12">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-zinc-50 tracking-tight mb-4">
