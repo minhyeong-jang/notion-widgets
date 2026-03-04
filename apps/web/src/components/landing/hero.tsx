@@ -40,11 +40,10 @@ export function Hero({ dict }: HeroProps) {
       />
 
       <div className="hero-content max-w-4xl mx-auto text-center">
-        {/* Badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-zinc-800 bg-zinc-900/60 backdrop-blur-sm mb-8 text-sm text-zinc-400">
-          <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+        {/* Tagline */}
+        <p className="text-sm tracking-widest uppercase text-zinc-500 mb-6">
           {dict.hero.badge}
-        </div>
+        </p>
 
         {/* Main heading */}
         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-zinc-50 leading-[1.1] mb-6">
