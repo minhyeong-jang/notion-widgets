@@ -14,20 +14,14 @@ import type { Dictionary } from "@/i18n/dictionaries/ko";
 import type { Locale } from "@/i18n/config";
 import { getWidgetName, getWidgetDescription } from "@/i18n/widget-locale";
 
-const categories = ["all", "time", "productivity", "lifestyle", "utility"] as const;
-type Category = (typeof categories)[number];
+const categoryOrder = ["time", "productivity", "lifestyle", "utility"] as const;
 
-const categoryColors: Record<string, string> = {
-  time: "bg-sky-500/10 text-sky-400 border-sky-500/20",
-  productivity: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
-  lifestyle: "bg-violet-500/10 text-violet-400 border-violet-500/20",
-  utility: "bg-amber-500/10 text-amber-400 border-amber-500/20",
+const categoryIcons: Record<string, string> = {
+  time: "text-sky-400",
+  productivity: "text-emerald-400",
+  lifestyle: "text-violet-400",
+  utility: "text-amber-400",
 };
-
-function getCategoryLabel(cat: string, dict: Dictionary): string {
-  if (cat === "all") return dict.gallery.filterAll;
-  return dict.categories[cat as keyof typeof dict.categories] ?? cat;
-}
 
 /* ─── Widget Preview Components ─── */
 
@@ -396,7 +390,6 @@ function WidgetCard({
     return () => observer.disconnect();
   }, []);
 
-  const category = widget.category ?? "utility";
   const name = getWidgetName(widget, locale);
   const description = getWidgetDescription(widget, locale);
 
@@ -412,17 +405,8 @@ function WidgetCard({
       <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-emerald-500/5 via-transparent to-violet-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
       <div className="relative">
-        {/* Category badge */}
-        <span
-          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${
-            categoryColors[category] ?? categoryColors.utility
-          }`}
-        >
-          {getCategoryLabel(category, dict)}
-        </span>
-
         {/* Widget visual preview */}
-        <div className="mt-5 mb-5 h-32 rounded-xl bg-zinc-800/50 border border-zinc-800/40 flex items-center justify-center overflow-hidden">
+        <div className="mb-5 h-32 rounded-xl bg-zinc-800/50 border border-zinc-800/40 flex items-center justify-center overflow-hidden">
           <WidgetPreview widgetId={widget.meta.id} name={name} />
         </div>
 
@@ -464,23 +448,27 @@ export function WidgetGalleryPage({
   locale: Locale;
 }) {
   const [widgets, setWidgets] = useState<WidgetDefinition[]>([]);
-  const [activeCategory, setActiveCategory] = useState<Category>("all");
 
   useEffect(() => {
     setWidgets(getAllWidgets());
   }, []);
 
-  const filtered =
-    activeCategory === "all"
-      ? widgets
-      : widgets.filter((w) => w.category === activeCategory);
+  const grouped = new Map<string, WidgetDefinition[]>();
+  for (const cat of categoryOrder) {
+    const items = widgets.filter((w) => w.category === cat);
+    if (items.length > 0) grouped.set(cat, items);
+  }
+  // Catch any uncategorized widgets
+  const uncategorized = widgets.filter(
+    (w) => !categoryOrder.includes((w.category ?? "") as typeof categoryOrder[number]),
+  );
+  if (uncategorized.length > 0) grouped.set("utility", [...(grouped.get("utility") ?? []), ...uncategorized]);
 
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100 font-[family-name:var(--font-geist-sans)]">
-      {/* Page content */}
       <main className="max-w-6xl mx-auto px-6 pt-32 pb-16">
         {/* Title */}
-        <div className="mb-12">
+        <div className="mb-14">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-zinc-50 tracking-tight mb-4">
             {dict.gallery.pageTitle}
           </h1>
@@ -489,44 +477,40 @@ export function WidgetGalleryPage({
           </p>
         </div>
 
-        {/* Category filter tabs */}
-        <div className="flex flex-wrap gap-2 mb-10">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`px-4 py-2 rounded-full text-sm font-medium border transition-all ${
-                activeCategory === cat
-                  ? "bg-zinc-100 text-zinc-900 border-zinc-100"
-                  : "bg-zinc-900/40 text-zinc-400 border-zinc-800 hover:border-zinc-700 hover:text-zinc-200"
-              }`}
-            >
-              {getCategoryLabel(cat, dict)}
-            </button>
-          ))}
-        </div>
+        {/* Category sections */}
+        <div className="space-y-16">
+          {categoryOrder.map((cat) => {
+            const items = grouped.get(cat);
+            if (!items || items.length === 0) return null;
+            const label = dict.categories[cat as keyof typeof dict.categories] ?? cat;
 
-        {/* Card grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filtered.map((widget) => (
-            <WidgetCard
-              key={widget.meta.id}
-              widget={widget}
-              locale={locale}
-              dict={dict}
-            />
-          ))}
+            return (
+              <section key={cat}>
+                <h2 className={`text-xl font-semibold mb-6 ${categoryIcons[cat] ?? "text-zinc-300"}`}>
+                  {label}
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {items.map((widget) => (
+                    <WidgetCard
+                      key={widget.meta.id}
+                      widget={widget}
+                      locale={locale}
+                      dict={dict}
+                    />
+                  ))}
+                </div>
+              </section>
+            );
+          })}
         </div>
 
         {/* Coming soon hint */}
-        {filtered.length > 0 && (
-          <div className="mt-8">
-            <div className="flex items-center justify-center gap-4 py-6 border border-dashed border-zinc-800 rounded-2xl text-zinc-600">
-              <Plus className="w-5 h-5" />
-              <span className="text-sm">{dict.gallery.comingSoon}</span>
-            </div>
+        <div className="mt-16">
+          <div className="flex items-center justify-center gap-4 py-6 border border-dashed border-zinc-800 rounded-2xl text-zinc-600">
+            <Plus className="w-5 h-5" />
+            <span className="text-sm">{dict.gallery.comingSoon}</span>
           </div>
-        )}
+        </div>
       </main>
     </div>
   );
