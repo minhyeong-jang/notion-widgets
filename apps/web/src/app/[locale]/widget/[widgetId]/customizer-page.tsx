@@ -35,11 +35,18 @@ export function CustomizerPage({ widgetId, locale, dict }: CustomizerPageProps) 
       setCurrentParams((prev) => {
         const next = { ...prev, [key]: value };
 
-        if (key === "colorTheme" && value !== "default") {
-          const ct = getColorTheme(value);
-          if (ct) {
-            next.color = ct.colors.accent;
-            next.bg = ct.colors.bg;
+        if (key === "colorTheme") {
+          if (value === "default" && widget) {
+            const colorDefault = widget.controls?.find((c) => c.key === "color");
+            const bgDefault = widget.controls?.find((c) => c.key === "bg");
+            if (colorDefault) next.color = String(colorDefault.defaultValue);
+            if (bgDefault) next.bg = String(bgDefault.defaultValue);
+          } else {
+            const ct = getColorTheme(value);
+            if (ct) {
+              next.color = ct.colors.accent;
+              next.bg = ct.colors.bg;
+            }
           }
         }
 

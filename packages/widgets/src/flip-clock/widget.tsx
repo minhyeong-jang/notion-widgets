@@ -201,18 +201,17 @@ export function FlipClockWidget({ params }: { params: FlipClockParams }) {
 
   /* ─── Flip ─── */
   if (params.variant === "flip") {
-    const cardWidth = params.showSeconds ? "w-1/3" : "w-1/2";
     return (
       <WidgetShell params={shellParams}>
-        <div className="flex w-full">
-          <div className={`${cardWidth} pr-2`}>
+        <div className={`flex items-center justify-center gap-2 ${params.showSeconds ? "max-w-[320px]" : "max-w-[220px]"} mx-auto`}>
+          <div className="w-24 shrink-0">
             <FlipCard value={hours} label={hoursLabel} color={accentColor} bg={bgColor} />
           </div>
-          <div className={`${cardWidth} ${params.showSeconds ? "px-1" : "pl-2"}`}>
+          <div className="w-24 shrink-0">
             <FlipCard value={minutes} label={minutesLabel} color={accentColor} bg={bgColor} />
           </div>
           {params.showSeconds && (
-            <div className={`${cardWidth} pl-2`}>
+            <div className="w-24 shrink-0">
               <FlipCard value={seconds} label={secondsLabel} color={accentColor} bg={bgColor} />
             </div>
           )}

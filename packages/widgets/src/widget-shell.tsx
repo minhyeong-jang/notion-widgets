@@ -30,7 +30,7 @@ export function WidgetShell({ params, children, className }: WidgetShellProps) {
   if (isTransparent) {
     bgColor = undefined;
   } else if (design.bgOpacity !== undefined) {
-    bgColor = hexToRgba(bgHex, design.bgOpacity);
+    bgColor = hexToRgba(bgHex.slice(0, 6), design.bgOpacity);
   } else {
     bgColor = `#${bgHex}`;
   }

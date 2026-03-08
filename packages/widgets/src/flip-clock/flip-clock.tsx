@@ -26,8 +26,12 @@ export const FlipCard = ({ value, label, color, bg }: { value: string; label: st
   const textStyle = { color };
 
   return (
-    <div className="rounded-3xl p-4 w-full h-64 flex flex-col shadow-2xl relative" style={bgStyle} suppressHydrationWarning>
-      <div className="text-md font-bold text-left min-h-[1.5rem]" style={{ ...textStyle, opacity: 0.5 }} suppressHydrationWarning>
+    <div
+      className="rounded-2xl p-3 aspect-[3/4] w-full flex flex-col relative"
+      style={bgStyle}
+      suppressHydrationWarning
+    >
+      <div className="text-[11px] font-semibold text-left min-h-[1rem] leading-tight" style={{ ...textStyle, opacity: 0.7 }} suppressHydrationWarning>
         {label || "\u00A0"}
       </div>
 
@@ -35,20 +39,20 @@ export const FlipCard = ({ value, label, color, bg }: { value: string; label: st
         className="relative flex-1 flex items-center justify-center"
         style={{ perspective: "400px" }}
       >
-        <div className="relative w-full h-32">
+        <div className="relative w-full" style={{ height: "60%" }}>
           {/* Static top panel */}
           <div className="absolute inset-x-0 top-0 h-1/2 overflow-hidden z-10" style={bgStyle}>
-            <div className="flex items-start justify-center h-full pt-8">
-              <span className="text-7xl font-bold" style={textStyle} suppressHydrationWarning>{topValue}</span>
+            <div className="flex items-end justify-center h-full">
+              <span className="text-[3rem] font-bold leading-none translate-y-[55%]" style={textStyle} suppressHydrationWarning>{topValue}</span>
             </div>
           </div>
 
           {/* Static bottom panel */}
           <div className="absolute inset-x-0 bottom-0 h-1/2 overflow-hidden z-10" style={bgStyle}>
-            <div className="flex items-start justify-center h-full pt-2">
+            <div className="flex items-start justify-center h-full">
               <span
-                className="text-7xl font-bold"
-                style={{ ...textStyle, marginTop: "-2.5rem" }}
+                className="text-[3rem] font-bold leading-none -translate-y-[45%]"
+                style={textStyle}
                 suppressHydrationWarning
               >
                 {bottomValue}
@@ -69,8 +73,8 @@ export const FlipCard = ({ value, label, color, bg }: { value: string; label: st
                   backfaceVisibility: "hidden",
                 }}
               >
-                <div className="flex items-start justify-center h-full pt-8">
-                  <span className="text-7xl font-bold" style={textStyle} suppressHydrationWarning>
+                <div className="flex items-end justify-center h-full">
+                  <span className="text-[3rem] font-bold leading-none translate-y-[55%]" style={textStyle} suppressHydrationWarning>
                     {topValue}
                   </span>
                 </div>
@@ -85,10 +89,10 @@ export const FlipCard = ({ value, label, color, bg }: { value: string; label: st
                   transformStyle: "preserve-3d",
                 }}
               >
-                <div className="flex items-start justify-center h-full pt-2">
+                <div className="flex items-start justify-center h-full">
                   <span
-                    className="text-7xl font-bold"
-                    style={{ ...textStyle, marginTop: "-2.5rem" }}
+                    className="text-[3rem] font-bold leading-none -translate-y-[45%]"
+                    style={textStyle}
                     suppressHydrationWarning
                   >
                     {value}
