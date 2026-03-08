@@ -102,7 +102,82 @@ export function WeatherWidget({ params }: { params: WeatherParams }) {
   const low = convertTemp(weather.tempMin, params.units);
   const unit = params.units === "F" ? "\u00B0F" : "\u00B0C";
 
-  if (params.style === "card") {
+  // Neon style: Teletext / Ceefax
+  if (params.style === "neon") {
+    // Map weather codes to ASCII symbols
+    const getAsciiWeather = (code: number): string => {
+      if (code === 0) return "*";                       // Clear
+      if (code <= 2) return "~*";                       // Mostly clear / partly cloudy
+      if (code === 3) return "~~~";                     // Overcast
+      if (code >= 45 && code <= 48) return "===";       // Fog
+      if (code >= 51 && code <= 57) return "' '";       // Drizzle
+      if (code >= 61 && code <= 67) return "'''";       // Rain
+      if (code >= 71 && code <= 77) return "* *";       // Snow
+      if (code >= 80 && code <= 82) return ",',";       // Showers
+      if (code >= 85 && code <= 86) return "*'*";       // Snow showers
+      if (code >= 95) return "/\\/";                    // Thunderstorm
+      return "?";
+    };
+
+    const asciiIcon = getAsciiWeather(weather.weatherCode);
+    const cityStr = weather.city.toUpperCase();
+    const tempStr = `${temp}${unit}`;
+    const hiloStr = `H:${high} L:${low}`;
+    const condStr = info.label.toUpperCase();
+
+    const innerWidth = 21;
+    const pad = (s: string) => {
+      const left = Math.floor((innerWidth - s.length) / 2);
+      const right = innerWidth - s.length - left;
+      return " ".repeat(Math.max(0, left)) + s + " ".repeat(Math.max(0, right));
+    };
+
+    return (
+      <WidgetShell params={params}>
+        <div
+          style={{
+            fontFamily: "monospace",
+            fontSize: "12px",
+            lineHeight: "1.5",
+            color: accentColor,
+            whiteSpace: "pre",
+          }}
+        >
+          <div style={{ opacity: 0.4 }}>{"\u250C" + "\u2500".repeat(innerWidth) + "\u2510"}</div>
+          <div>
+            <span style={{ opacity: 0.4 }}>{"\u2502"}</span>
+            <span style={{ opacity: 0.5 }}>{pad(cityStr)}</span>
+            <span style={{ opacity: 0.4 }}>{"\u2502"}</span>
+          </div>
+          <div style={{ opacity: 0.4 }}>{"\u251C" + "\u2500".repeat(innerWidth) + "\u2524"}</div>
+          <div>
+            <span style={{ opacity: 0.4 }}>{"\u2502"}</span>
+            <span>{pad(asciiIcon)}</span>
+            <span style={{ opacity: 0.4 }}>{"\u2502"}</span>
+          </div>
+          <div>
+            <span style={{ opacity: 0.4 }}>{"\u2502"}</span>
+            <span style={{ fontWeight: "bold", fontSize: "14px" }}>{pad(tempStr)}</span>
+            <span style={{ opacity: 0.4 }}>{"\u2502"}</span>
+          </div>
+          <div>
+            <span style={{ opacity: 0.4 }}>{"\u2502"}</span>
+            <span style={{ opacity: 0.6 }}>{pad(condStr.length <= innerWidth ? condStr : condStr.slice(0, innerWidth))}</span>
+            <span style={{ opacity: 0.4 }}>{"\u2502"}</span>
+          </div>
+          <div style={{ opacity: 0.4 }}>{"\u251C" + "\u2500".repeat(innerWidth) + "\u2524"}</div>
+          <div>
+            <span style={{ opacity: 0.4 }}>{"\u2502"}</span>
+            <span style={{ opacity: 0.5 }}>{pad(hiloStr)}</span>
+            <span style={{ opacity: 0.4 }}>{"\u2502"}</span>
+          </div>
+          <div style={{ opacity: 0.4 }}>{"\u2514" + "\u2500".repeat(innerWidth) + "\u2518"}</div>
+        </div>
+      </WidgetShell>
+    );
+  }
+
+  if (params.variant === "card") {
     return (
       <WidgetShell params={params}>
         <div

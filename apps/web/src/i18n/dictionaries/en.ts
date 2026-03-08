@@ -71,6 +71,7 @@ const en: Dictionary = {
 
   controlGroups: {
     appearance: "Appearance",
+    color: "Colors",
     content: "Content",
     advanced: "Advanced",
   },

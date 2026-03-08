@@ -1,8 +1,7 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
 import { useCallback, useState } from "react";
-import { getWidget, getThemeDesign } from "@nw/widget-core";
+import { getWidget, getColorTheme } from "@nw/widget-core";
 import "@nw/widgets";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/get-dictionary";
@@ -19,7 +18,6 @@ interface CustomizerPageProps {
 }
 
 export function CustomizerPage({ widgetId, locale, dict }: CustomizerPageProps) {
-  const searchParams = useSearchParams();
   const widget = getWidget(widgetId);
 
   const [currentParams, setCurrentParams] = useState<Record<string, string>>(() => {
@@ -29,9 +27,6 @@ export function CustomizerPage({ widgetId, locale, dict }: CustomizerPageProps) 
         params[control.key] = String(control.defaultValue);
       }
     }
-    searchParams.forEach((value, key) => {
-      params[key] = value;
-    });
     return params;
   });
 
@@ -40,14 +35,14 @@ export function CustomizerPage({ widgetId, locale, dict }: CustomizerPageProps) 
       setCurrentParams((prev) => {
         const next = { ...prev, [key]: value };
 
-        if (key === "theme") {
-          const design = getThemeDesign(value);
-          next.color = design.recommendedColors.accent;
-          next.bg = design.recommendedColors.bg;
+        if (key === "colorTheme" && value !== "default") {
+          const ct = getColorTheme(value);
+          if (ct) {
+            next.color = ct.colors.accent;
+            next.bg = ct.colors.bg;
+          }
         }
 
-        const qs = new URLSearchParams(next).toString();
-        window.history.replaceState(null, "", `?${qs}`);
         return next;
       });
     },

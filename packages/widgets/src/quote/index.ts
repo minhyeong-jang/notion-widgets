@@ -1,19 +1,20 @@
 import type { ControlDefinition } from "@nw/widget-core";
-import { registerWidget, localeControl, themeControl } from "@nw/widget-core";
+import { registerWidget, localeControl, styleControl, colorThemeControl } from "@nw/widget-core";
 import { QuoteWidget } from "./widget";
 import { quoteSchema, quoteDefaults } from "./schema";
 
 export { QuoteWidget } from "./widget";
 
 const controls: ControlDefinition[] = [
-  themeControl,
+  styleControl,
+  colorThemeControl,
   {
     key: "color",
     label: "Accent Color",
     labelKo: "강조 색상",
     type: "color",
     defaultValue: "7fb686",
-    group: "appearance",
+    group: "color",
   },
   {
     key: "bg",
@@ -21,7 +22,7 @@ const controls: ControlDefinition[] = [
     labelKo: "배경 색상",
     type: "color",
     defaultValue: "18181b",
-    group: "appearance",
+    group: "color",
   },
   localeControl,
   {

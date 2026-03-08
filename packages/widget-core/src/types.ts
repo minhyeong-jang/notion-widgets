@@ -9,7 +9,7 @@ export interface ControlDefinition {
   defaultValue: unknown;
   options?: Array<{ value: string; label: string }>;
   isPremium?: boolean;
-  group?: "appearance" | "content" | "advanced";
+  group?: "appearance" | "color" | "content" | "advanced";
 }
 
 export interface WidgetMeta {

@@ -1,19 +1,20 @@
 import type { ControlDefinition } from "@nw/widget-core";
-import { registerWidget, themeControl, localeControl } from "@nw/widget-core";
+import { registerWidget, styleControl, colorThemeControl, localeControl } from "@nw/widget-core";
 import { DailyTipWidget } from "./widget";
 import { dailyTipSchema, dailyTipDefaults } from "./schema";
 
 export { DailyTipWidget } from "./widget";
 
 const controls: ControlDefinition[] = [
-  themeControl,
+  styleControl,
+  colorThemeControl,
   {
     key: "color",
     label: "Accent Color",
     labelKo: "강조 색상",
     type: "color",
     defaultValue: "7fb686",
-    group: "appearance",
+    group: "color",
   },
   {
     key: "bg",
@@ -21,7 +22,7 @@ const controls: ControlDefinition[] = [
     labelKo: "배경 색상",
     type: "color",
     defaultValue: "18181b",
-    group: "appearance",
+    group: "color",
   },
   localeControl,
   {

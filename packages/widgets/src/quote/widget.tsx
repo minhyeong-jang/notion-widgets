@@ -27,6 +27,46 @@ export function QuoteWidget({ params }: { params: QuoteParams }) {
   const quote = params.mode === "random" ? getRandomQuote(quotes) : getDailyQuote(quotes);
   const accentColor = "#" + params.color;
 
+  if (params.style === "neon") {
+    return (
+      <WidgetShell params={params}>
+        <style>{`
+          @keyframes neon-blink {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0; }
+          }
+        `}</style>
+        <div className="text-left px-8 max-w-lg mx-auto" style={{ fontFamily: "var(--font-mono, 'Courier New', monospace)" }}>
+          <p
+            className={`${fontSizeMap[params.fontSize]} leading-relaxed`}
+            style={{ color: accentColor, opacity: 0.9 }}
+          >
+            <span style={{ opacity: 0.5 }}>&gt; </span>
+            {quote.text}
+            <span
+              style={{
+                animation: "neon-blink 1s step-end infinite",
+                marginLeft: "2px",
+              }}
+            >
+              _
+            </span>
+          </p>
+          <div className="mt-4" style={{ color: accentColor, opacity: 0.6 }}>
+            <span className="text-sm">
+              -- {quote.author.replace(/ /g, "_")}
+            </span>
+            {quote.title && (
+              <span className="text-xs ml-2" style={{ opacity: 0.4 }}>
+                [{quote.title}]
+              </span>
+            )}
+          </div>
+        </div>
+      </WidgetShell>
+    );
+  }
+
   return (
     <WidgetShell params={params}>
       <div className="text-center px-8 max-w-lg mx-auto">

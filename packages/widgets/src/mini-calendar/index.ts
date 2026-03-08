@@ -1,16 +1,17 @@
 import type { ControlDefinition } from "@nw/widget-core";
-import { registerWidget, themeControl, localeControl } from "@nw/widget-core";
+import { registerWidget, styleControl, colorThemeControl, localeControl } from "@nw/widget-core";
 import { MiniCalendarWidget } from "./widget";
 import { miniCalendarSchema, miniCalendarDefaults } from "./schema";
 
 export { MiniCalendarWidget } from "./widget";
 
 const controls: ControlDefinition[] = [
-  themeControl,
+  styleControl,
+  colorThemeControl,
   {
-    key: "style",
-    label: "Style",
-    labelKo: "스타일",
+    key: "variant",
+    label: "Variant",
+    labelKo: "변형",
     type: "select",
     defaultValue: "minimal",
     options: [
@@ -25,7 +26,7 @@ const controls: ControlDefinition[] = [
     labelKo: "강조 색상",
     type: "color",
     defaultValue: "7fb686",
-    group: "appearance",
+    group: "color",
   },
   {
     key: "bg",
@@ -33,7 +34,7 @@ const controls: ControlDefinition[] = [
     labelKo: "배경 색상",
     type: "color",
     defaultValue: "18181b",
-    group: "appearance",
+    group: "color",
   },
   localeControl,
   {

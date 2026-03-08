@@ -3,7 +3,8 @@ import { z } from "zod";
 const hexColor = z.string().regex(/^[0-9a-fA-F]{6}$/).default("7fb686");
 
 export const dailyTipSchema = z.object({
-  theme: z.string().default("minimal"),
+  style: z.string().default("minimal"),
+  colorTheme: z.string().default("default"),
   category: z.enum(["all", "productivity", "mindset", "tech", "life"]).default("all"),
   locale: z.string().default("en-US"),
   color: hexColor,

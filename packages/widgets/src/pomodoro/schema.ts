@@ -3,8 +3,9 @@ import { z } from "zod";
 const hexColor = z.string().regex(/^[0-9a-fA-F]{6}$/).default("ef4444");
 
 export const pomodoroSchema = z.object({
-  theme: z.string().default("minimal"),
-  style: z.enum(["compact", "standard"]).default("compact"),
+  style: z.string().default("minimal"),
+  colorTheme: z.string().default("default"),
+  variant: z.enum(["compact", "standard"]).default("compact"),
   workMinutes: z.string().default("25"),
   breakMinutes: z.string().default("5"),
   color: hexColor,

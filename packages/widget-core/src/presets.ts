@@ -27,22 +27,48 @@ export const DATE_FORMAT_OPTIONS = [
 ] as const;
 
 /**
- * Reusable theme ControlDefinition for widget registration.
+ * Reusable style ControlDefinition for widget registration.
+ * Style = visual design language (font, effects, layout).
  */
-export const themeControl: ControlDefinition = {
-  key: "theme",
-  label: "Theme",
-  labelKo: "테마",
+export const styleControl: ControlDefinition = {
+  key: "style",
+  label: "Style",
+  labelKo: "스타일",
   type: "select",
   defaultValue: "minimal",
   options: [
     { value: "minimal", label: "Minimal" },
     { value: "soft", label: "Soft" },
-    { value: "retro", label: "Retro" },
     { value: "neon", label: "Neon" },
     { value: "glass", label: "Glass" },
   ],
   group: "appearance",
+};
+
+/** @deprecated Use styleControl instead */
+export const themeControl = styleControl;
+
+/**
+ * Reusable color theme ControlDefinition for widget registration.
+ * Color theme = color preset (accent/bg/text combination).
+ */
+export const colorThemeControl: ControlDefinition = {
+  key: "colorTheme",
+  label: "Color Theme",
+  labelKo: "색상 테마",
+  type: "select",
+  defaultValue: "default",
+  options: [
+    { value: "default", label: "Default" },
+    { value: "red", label: "Red" },
+    { value: "blue", label: "Blue" },
+    { value: "ocean", label: "Ocean" },
+    { value: "forest", label: "Forest" },
+    { value: "sunset", label: "Sunset" },
+    { value: "purple", label: "Purple" },
+    { value: "light", label: "Light" },
+  ],
+  group: "color",
 };
 
 /**

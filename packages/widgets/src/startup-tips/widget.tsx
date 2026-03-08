@@ -27,11 +27,42 @@ export function StartupTipsWidget({ params }: { params: StartupTipsParams }) {
 
   const items = getPrinciplesByCategory(params.category);
   const principle = params.mode === "random" ? getRandomPrinciple(items) : getDailyPrinciple(items);
+  const principleIndex = items.indexOf(principle);
 
   const lang = params.locale.slice(0, 2);
   const name = lang === "ko" ? principle.name.ko : principle.name.en;
   const explanation = lang === "ko" ? principle.explanation.ko : principle.explanation.en;
   const sizes = fontSizeMap[params.fontSize];
+
+  if (params.style === "neon") {
+    const num = String(principleIndex + 1).padStart(2, "0");
+
+    return (
+      <WidgetShell params={params}>
+        <div
+          className="text-left px-6 max-w-md mx-auto w-full"
+          style={{ fontFamily: "var(--font-mono, 'Courier New', monospace)" }}
+        >
+          <div className={`${sizes.name} font-bold mb-2`} style={{ color: accentColor }}>
+            <span style={{ opacity: 0.4 }}>#{num} </span>
+            <span style={{ color: accentColor }}>
+              [SYS] {name}
+            </span>
+          </div>
+          <div
+            className={`${sizes.explanation} leading-relaxed mb-3`}
+            style={{ color: accentColor, opacity: 0.7, paddingLeft: "1rem" }}
+          >
+            <span style={{ opacity: 0.5 }}>{"\u2514\u2500 "}</span>
+            {explanation}
+          </div>
+          <div className="text-xs" style={{ color: accentColor, opacity: 0.35 }}>
+            src: {principle.source}
+          </div>
+        </div>
+      </WidgetShell>
+    );
+  }
 
   return (
     <WidgetShell params={params}>

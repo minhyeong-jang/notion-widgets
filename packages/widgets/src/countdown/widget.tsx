@@ -146,6 +146,149 @@ function SimpleStyle({
   );
 }
 
+/* ─── Neon: T-Minus Military Launch Style ─── */
+
+function NeonStyle({
+  countdown,
+  accentColor,
+  label,
+  showHours,
+}: {
+  countdown: ReturnType<typeof useCountdown>;
+  accentColor: string;
+  label: string;
+  showHours: boolean;
+}) {
+  const isUrgent = countdown.diffDays >= 0 && countdown.diffDays <= 1;
+  const isComplete = countdown.diffDays <= 0;
+
+  const monoStyle: React.CSSProperties = {
+    fontFamily: "'Courier New', 'Lucida Console', monospace",
+    color: accentColor,
+    textShadow: `0 0 8px ${accentColor}, 0 0 16px ${accentColor}66`,
+  };
+
+  const borderLine = `\u250C${"─".repeat(24)}\u2510`;
+  const bottomLine = `\u2514${"─".repeat(24)}\u2518`;
+
+  const statusText = isComplete
+    ? "STATUS: COMPLETE"
+    : isUrgent
+      ? "STATUS: CRITICAL"
+      : "STATUS: ACTIVE";
+
+  const tMinusText = countdown.diffDays > 0
+    ? `T- ${String(countdown.diffDays).padStart(4, " ")} DAYS`
+    : countdown.diffDays === 0
+      ? "T-  ZERO"
+      : `T+ ${String(Math.abs(countdown.diffDays)).padStart(4, " ")} DAYS`;
+
+  return (
+    <div
+      style={{
+        ...monoStyle,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: "2px",
+        padding: "16px 24px",
+        letterSpacing: "0.15em",
+      }}
+    >
+      {/* Top border */}
+      <div style={{ fontSize: "0.7rem", opacity: 0.4, whiteSpace: "pre" }}>
+        {borderLine}
+      </div>
+
+      {/* Header */}
+      <div
+        style={{
+          fontSize: "0.65rem",
+          textTransform: "uppercase",
+          letterSpacing: "0.3em",
+          opacity: 0.5,
+          marginBottom: "8px",
+        }}
+      >
+        COUNTDOWN
+      </div>
+
+      {/* Label */}
+      <div
+        style={{
+          fontSize: "0.75rem",
+          textTransform: "uppercase",
+          letterSpacing: "0.2em",
+          opacity: 0.6,
+          marginBottom: "4px",
+        }}
+      >
+        {label}
+      </div>
+
+      {/* T-minus display */}
+      <div
+        style={{
+          fontSize: "2.2rem",
+          fontWeight: 700,
+          letterSpacing: "0.1em",
+          whiteSpace: "pre",
+          animation: isUrgent ? "neon-blink 1s steps(1) infinite" : undefined,
+        }}
+      >
+        {tMinusText}
+      </div>
+
+      {/* Detailed time */}
+      {showHours && countdown.diffDays >= 0 && (
+        <div
+          style={{
+            fontSize: "1.1rem",
+            opacity: 0.7,
+            marginTop: "8px",
+            letterSpacing: "0.12em",
+          }}
+        >
+          {countdown.hours.toString().padStart(2, "0")}H{" "}
+          {countdown.minutes.toString().padStart(2, "0")}M{" "}
+          {countdown.seconds.toString().padStart(2, "0")}S
+        </div>
+      )}
+
+      {/* Status line */}
+      <div
+        style={{
+          fontSize: "0.6rem",
+          marginTop: "12px",
+          letterSpacing: "0.25em",
+          opacity: isUrgent ? 0.9 : 0.4,
+          color: isUrgent ? "#ff4444" : accentColor,
+          textShadow: isUrgent
+            ? "0 0 8px #ff4444, 0 0 16px #ff444466"
+            : `0 0 8px ${accentColor}66`,
+        }}
+      >
+        {statusText}
+      </div>
+
+      {/* Bottom border */}
+      <div style={{ fontSize: "0.7rem", opacity: 0.4, whiteSpace: "pre", marginTop: "4px" }}>
+        {bottomLine}
+      </div>
+
+      {/* Blink animation for urgent state */}
+      {isUrgent && (
+        <style>{`
+          @keyframes neon-blink {
+            0%, 70% { opacity: 1; }
+            71%, 100% { opacity: 0.3; }
+          }
+        `}</style>
+      )}
+    </div>
+  );
+}
+
 /* ─── Main Widget ─── */
 
 export function CountdownWidget({ params }: { params: CountdownParams }) {
@@ -156,7 +299,9 @@ export function CountdownWidget({ params }: { params: CountdownParams }) {
 
   return (
     <WidgetShell params={params}>
-      {params.style === "simple" ? (
+      {params.style === "neon" ? (
+        <NeonStyle countdown={countdown} accentColor={accentColor} label={params.label} showHours={params.showHours} />
+      ) : params.variant === "simple" ? (
         <SimpleStyle countdown={countdown} accentColor={accentColor} textColor={textColor} label={params.label} showHours={params.showHours} />
       ) : (
         <CardStyle countdown={countdown} accentColor={accentColor} textColor={textColor} borderColor={borderColor} label={params.label} showHours={params.showHours} />

@@ -56,6 +56,7 @@ export interface Dictionary {
   };
   controlGroups: {
     appearance: string;
+    color: string;
     content: string;
     advanced: string;
   };
@@ -140,6 +141,7 @@ const ko: Dictionary = {
 
   controlGroups: {
     appearance: "외관",
+    color: "색상",
     content: "콘텐츠",
     advanced: "고급",
   },

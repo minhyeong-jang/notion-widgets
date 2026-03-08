@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { Geist, Geist_Mono } from "next/font/google";
-import { locales, type Locale } from "@/i18n/config";
+import { locales, isValidLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/get-dictionary";
 import { Header } from "@/components/shared/header";
 
@@ -24,7 +25,9 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const dict = await getDictionary(locale as Locale);
+  if (!isValidLocale(locale)) return {};
+
+  const dict = await getDictionary(locale);
   const siteName = dict.meta.siteName;
 
   return {
@@ -76,12 +79,16 @@ export default async function LocaleLayout({
 }) {
   const { locale } = await params;
 
+  if (!isValidLocale(locale)) {
+    notFound();
+  }
+
   return (
     <html lang={locale}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Header locale={locale as Locale} />
+        <Header locale={locale} />
         {children}
       </body>
     </html>

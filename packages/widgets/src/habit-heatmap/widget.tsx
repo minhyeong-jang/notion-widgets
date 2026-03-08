@@ -90,6 +90,73 @@ function buildGrid(weeksCount: number): DayCell[] {
   return cells;
 }
 
+/* ─── Neon Heatmap: Pixel Block Display ─── */
+
+const intensityChars = ["\u00B7", "\u2591", "\u2592", "\u2593", "\u2588"]; // · ░ ▒ ▓ █
+
+function NeonHeatmap({ params, cells, weeks, accentColor }: { params: HabitHeatmapParams; cells: DayCell[]; weeks: DayCell[][]; accentColor: string }) {
+  const cellSize = Math.max(6, Math.min(14, Math.floor(340 / weeks.length)));
+  const gap = Math.max(1, Math.floor(cellSize * 0.15));
+
+  return (
+    <div className="flex flex-col items-center gap-3 px-4">
+      {params.label && (
+        <div
+          style={{
+            fontFamily: "monospace",
+            fontSize: "10px",
+            color: accentColor,
+            opacity: 0.5,
+            letterSpacing: "2px",
+          }}
+        >
+          {">"} {params.label.toUpperCase()} {"<"}
+        </div>
+      )}
+      <div className="flex" style={{ gap: `${gap}px` }}>
+        {weeks.map((week, wi) => (
+          <div key={wi} className="flex flex-col" style={{ gap: `${gap}px` }}>
+            {week.map((day, di) => (
+              <div
+                key={di}
+                style={{
+                  width: `${cellSize}px`,
+                  height: `${cellSize}px`,
+                  borderRadius: "0px",
+                  backgroundColor: day.isFuture || day.intensity === 0
+                    ? "transparent"
+                    : getIntensityColor(accentColor, day.intensity),
+                  opacity: day.isFuture ? 0.15 : 1,
+                  border: `1px solid ${accentColor}${day.isFuture ? "10" : "25"}`,
+                }}
+                title={day.date.toLocaleDateString()}
+              />
+            ))}
+          </div>
+        ))}
+      </div>
+      {/* Legend with ASCII chars */}
+      <div
+        style={{
+          fontFamily: "monospace",
+          fontSize: "10px",
+          color: accentColor,
+          opacity: 0.5,
+          display: "flex",
+          alignItems: "center",
+          gap: "6px",
+        }}
+      >
+        <span>Less</span>
+        {intensityChars.map((ch, i) => (
+          <span key={i} style={{ opacity: i === 0 ? 0.3 : 0.4 + i * 0.15 }}>{ch}</span>
+        ))}
+        <span>More</span>
+      </div>
+    </div>
+  );
+}
+
 export function HabitHeatmapWidget({ params }: { params: HabitHeatmapParams }) {
   const accentColor = "#" + params.color;
   const bgHex = params.bg;
@@ -107,6 +174,14 @@ export function HabitHeatmapWidget({ params }: { params: HabitHeatmapParams }) {
   const cellSize = Math.max(6, Math.min(14, Math.floor(340 / weeksCount)));
   const gap = Math.max(1, Math.floor(cellSize * 0.2));
   const emptyBg = isTransparentBg ? "rgba(255,255,255,0.05)" : accentColor + "15";
+
+  if (params.style === "neon") {
+    return (
+      <WidgetShell params={params}>
+        <NeonHeatmap params={params} cells={cells} weeks={weeks} accentColor={accentColor} />
+      </WidgetShell>
+    );
+  }
 
   return (
     <WidgetShell params={params}>

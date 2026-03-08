@@ -1,16 +1,17 @@
 import type { ControlDefinition } from "@nw/widget-core";
-import { registerWidget, themeControl } from "@nw/widget-core";
+import { registerWidget, styleControl, colorThemeControl } from "@nw/widget-core";
 import { WeatherWidget } from "./widget";
 import { weatherSchema, weatherDefaults } from "./schema";
 
 export { WeatherWidget } from "./widget";
 
 const controls: ControlDefinition[] = [
-  themeControl,
+  styleControl,
+  colorThemeControl,
   {
-    key: "style",
-    label: "Style",
-    labelKo: "\uC2A4\uD0C0\uC77C",
+    key: "variant",
+    label: "Variant",
+    labelKo: "변형",
     type: "select",
     defaultValue: "minimal",
     options: [
@@ -25,7 +26,7 @@ const controls: ControlDefinition[] = [
     labelKo: "\uAC15\uC870 \uC0C9\uC0C1",
     type: "color",
     defaultValue: "7fb686",
-    group: "appearance",
+    group: "color",
   },
   {
     key: "bg",
@@ -33,7 +34,7 @@ const controls: ControlDefinition[] = [
     labelKo: "\uBC30\uACBD \uC0C9\uC0C1",
     type: "color",
     defaultValue: "18181b",
-    group: "appearance",
+    group: "color",
   },
   {
     key: "city",

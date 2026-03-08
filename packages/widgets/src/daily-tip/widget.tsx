@@ -29,6 +29,12 @@ const categoryLabels: Record<string, { en: string; ko: string }> = {
   life: { en: "Life", ko: "\uC0DD\uD65C" },
 };
 
+function getTimestamp(): string {
+  const now = new Date();
+  const pad = (n: number) => n.toString().padStart(2, "0");
+  return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+}
+
 export function DailyTipWidget({ params }: { params: DailyTipParams }) {
   const accentColor = "#" + params.color;
 
@@ -40,6 +46,42 @@ export function DailyTipWidget({ params }: { params: DailyTipParams }) {
   const categoryLabel = lang === "ko"
     ? categoryLabels[tip.category].ko
     : categoryLabels[tip.category].en;
+
+  if (params.style === "neon") {
+    const timestamp = getTimestamp();
+
+    return (
+      <WidgetShell params={params}>
+        <div
+          className="text-left px-6 max-w-md mx-auto w-full"
+          style={{ fontFamily: "var(--font-mono, 'Courier New', monospace)" }}
+        >
+          <div className="mb-3">
+            <span
+              className="text-xs uppercase tracking-wider px-2 py-0.5"
+              style={{
+                color: accentColor,
+                border: `1px solid ${accentColor}40`,
+              }}
+            >
+              [{categoryLabel.toUpperCase()}]
+            </span>
+          </div>
+          <div className={`${fontSizeMap[params.fontSize]} leading-relaxed`}>
+            <span style={{ color: accentColor, opacity: 0.4 }}>
+              [{timestamp}]
+            </span>{" "}
+            <span style={{ color: accentColor, fontWeight: 700 }}>
+              [INFO]
+            </span>{" "}
+            <span style={{ color: accentColor, opacity: 0.85 }}>
+              {text}
+            </span>
+          </div>
+        </div>
+      </WidgetShell>
+    );
+  }
 
   return (
     <WidgetShell params={params}>

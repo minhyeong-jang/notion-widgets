@@ -81,6 +81,17 @@ function MoonSVG({ phase, accentColor, size }: { phase: number; accentColor: str
   );
 }
 
+const NEON_MOON_CHARS: Record<number, string> = {
+  0: "\u25CF", // ● New Moon (filled = dark)
+  1: "\u25D2", // ◒ Waxing Crescent
+  2: "\u25D1", // ◑ First Quarter
+  3: "\u25D1", // ◑ Waxing Gibbous (reuse quarter)
+  4: "\u25CB", // ○ Full Moon (empty = bright)
+  5: "\u25D0", // ◐ Waning Gibbous
+  6: "\u25D0", // ◐ Last Quarter
+  7: "\u25D3", // ◓ Waning Crescent
+};
+
 export function MoonPhaseWidget({ params }: { params: MoonPhaseParams }) {
   const accentColor = "#" + params.color;
 
@@ -88,7 +99,71 @@ export function MoonPhaseWidget({ params }: { params: MoonPhaseParams }) {
   const isKo = params.locale.startsWith("ko");
   const phaseName = isKo ? moon.nameKo : moon.name;
 
-  if (params.style === "detailed") {
+  if (params.style === "neon") {
+    const moonChar = NEON_MOON_CHARS[moon.phase] ?? "\u25CF";
+    const nextFullStr = moon.nextFullMoon.toLocaleDateString(params.locale, {
+      month: "short",
+      day: "numeric",
+    });
+
+    return (
+      <WidgetShell params={params}>
+        <div
+          className="flex flex-col items-center gap-4"
+          style={{ fontFamily: "var(--font-mono, 'Courier New', monospace)" }}
+        >
+          {/* ASCII Moon Character */}
+          <div
+            className="text-7xl leading-none"
+            style={{
+              color: accentColor,
+              textShadow: `0 0 20px ${accentColor}, 0 0 40px ${accentColor}60`,
+            }}
+          >
+            {moonChar}
+          </div>
+
+          {/* Data Table */}
+          <div
+            className="text-sm text-left"
+            style={{
+              color: accentColor,
+              minWidth: "220px",
+              border: `1px solid ${accentColor}25`,
+              padding: "12px 16px",
+            }}
+          >
+            <div className="flex justify-between mb-1">
+              <span style={{ opacity: 0.5 }}>PHASE</span>
+              <span style={{ fontWeight: 700 }}>{phaseName.toUpperCase()}</span>
+            </div>
+            <div
+              className="mb-1"
+              style={{
+                borderBottom: `1px solid ${accentColor}15`,
+                marginBottom: "4px",
+                paddingBottom: "4px",
+              }}
+            />
+            <div className="flex justify-between mb-1">
+              <span style={{ opacity: 0.5 }}>ILLUMIN.</span>
+              <span>{moon.illumination}%</span>
+            </div>
+            <div className="flex justify-between mb-1">
+              <span style={{ opacity: 0.5 }}>AGE</span>
+              <span>{moon.dayInCycle.toFixed(1)} {isKo ? "\uC77C" : "days"}</span>
+            </div>
+            <div className="flex justify-between">
+              <span style={{ opacity: 0.5 }}>NEXT FULL</span>
+              <span>{nextFullStr}</span>
+            </div>
+          </div>
+        </div>
+      </WidgetShell>
+    );
+  }
+
+  if (params.variant === "detailed") {
     const nextFullStr = moon.nextFullMoon.toLocaleDateString(params.locale, {
       month: "short",
       day: "numeric",

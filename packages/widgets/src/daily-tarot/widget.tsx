@@ -147,7 +147,88 @@ export function DailyTarotWidget({ params }: { params: DailyTarotParams }) {
   const keywords = isKo ? card.keywordsKo : card.keywords;
   const todayLabel = isKo ? "\uC624\uB298\uC758 \uCE74\uB4DC" : "Today's Card";
 
-  if (params.style === "detailed") {
+  // Neon style: RPG / Text Adventure
+  if (params.style === "neon") {
+    const cardName = name.toUpperCase();
+    const kwList = keywords.split(", ");
+    const innerWidth = 21;
+
+    const pad = (s: string, align: "center" | "left" = "center") => {
+      if (s.length >= innerWidth) return s.slice(0, innerWidth);
+      if (align === "center") {
+        const left = Math.floor((innerWidth - s.length) / 2);
+        const right = innerWidth - s.length - left;
+        return " ".repeat(left) + s + " ".repeat(right);
+      }
+      // left-align with 2-space indent
+      return "  " + s + " ".repeat(Math.max(0, innerWidth - s.length - 2));
+    };
+
+    return (
+      <WidgetShell params={params}>
+        <div className="flex flex-col items-center px-6">
+          <div
+            style={{
+              fontFamily: "monospace",
+              fontSize: "11px",
+              color: accentColor,
+              opacity: 0.5,
+              marginBottom: "8px",
+              letterSpacing: "2px",
+            }}
+          >
+            {todayLabel.toUpperCase()}
+          </div>
+          <div
+            style={{
+              fontFamily: "monospace",
+              fontSize: "12px",
+              lineHeight: "1.5",
+              color: accentColor,
+              whiteSpace: "pre",
+            }}
+          >
+            <div style={{ opacity: 0.4 }}>{"\u250C" + "\u2500".repeat(innerWidth) + "\u2510"}</div>
+            <div>
+              <span style={{ opacity: 0.4 }}>{"\u2502"}</span>
+              <span>{pad("")}</span>
+              <span style={{ opacity: 0.4 }}>{"\u2502"}</span>
+            </div>
+            <div>
+              <span style={{ opacity: 0.4 }}>{"\u2502"}</span>
+              <span style={{ fontWeight: "bold" }}>{pad("\u2605 " + cardName + " \u2605")}</span>
+              <span style={{ opacity: 0.4 }}>{"\u2502"}</span>
+            </div>
+            <div>
+              <span style={{ opacity: 0.4 }}>{"\u2502"}</span>
+              <span>{pad("[ " + card.number + " ]")}</span>
+              <span style={{ opacity: 0.4 }}>{"\u2502"}</span>
+            </div>
+            <div>
+              <span style={{ opacity: 0.4 }}>{"\u2502"}</span>
+              <span>{pad("")}</span>
+              <span style={{ opacity: 0.4 }}>{"\u2502"}</span>
+            </div>
+            {kwList.map((kw, i) => (
+              <div key={i}>
+                <span style={{ opacity: 0.4 }}>{"\u2502"}</span>
+                <span style={{ opacity: 0.7 }}>{pad(kw, "left")}</span>
+                <span style={{ opacity: 0.4 }}>{"\u2502"}</span>
+              </div>
+            ))}
+            <div>
+              <span style={{ opacity: 0.4 }}>{"\u2502"}</span>
+              <span>{pad("")}</span>
+              <span style={{ opacity: 0.4 }}>{"\u2502"}</span>
+            </div>
+            <div style={{ opacity: 0.4 }}>{"\u2514" + "\u2500".repeat(innerWidth) + "\u2518"}</div>
+          </div>
+        </div>
+      </WidgetShell>
+    );
+  }
+
+  if (params.variant === "detailed") {
     return (
       <WidgetShell params={params}>
         <div className="flex flex-col items-center gap-4 px-6 py-4 max-w-xs">

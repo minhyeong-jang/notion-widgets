@@ -1,4 +1,4 @@
-export interface ThemeDesign {
+export interface StyleDesign {
   id: string;
   name: string;
   nameKo: string;
@@ -21,7 +21,7 @@ export interface ThemeDesign {
   };
 }
 
-const themes: ThemeDesign[] = [
+const styles: StyleDesign[] = [
   {
     id: "minimal",
     name: "Minimal",
@@ -57,37 +57,18 @@ const themes: ThemeDesign[] = [
     },
   },
   {
-    id: "retro",
-    name: "Retro",
-    nameKo: "레트로",
-    isPremium: true,
-    fontFamily: "var(--font-geist-mono, 'Courier New', monospace)",
-    borderRadius: "2px",
-    borderWidth: "1px",
-    boxShadow: "0 0 12px rgba(51,255,51,0.1)",
-    textShadow: "0 0 8px currentColor",
-    bgOverlay:
-      "repeating-linear-gradient(0deg, rgba(0,0,0,0.15) 0px, rgba(0,0,0,0.15) 1px, transparent 1px, transparent 3px)",
-    recommendedColors: {
-      accent: "33ff33",
-      bg: "0a0a0a",
-      text: "33ff33",
-      border: "33ff33",
-    },
-  },
-  {
     id: "neon",
     name: "Neon",
     nameKo: "네온",
     isPremium: true,
-    fontFamily: "inherit",
-    borderRadius: "12px",
+    fontFamily: "var(--font-geist-mono, 'Courier New', monospace)",
+    borderRadius: "4px",
     borderWidth: "1px",
-    boxShadow: "0 0 30px rgba(255,0,255,0.15)",
+    boxShadow: "0 0 20px rgba(255,0,255,0.15)",
     textShadow: "0 0 10px currentColor, 0 0 30px currentColor",
     recommendedColors: {
       accent: "ff00ff",
-      bg: "0d0d0d",
+      bg: "0a0a0a",
       text: "ffffff",
       border: "ff00ff",
     },
@@ -113,18 +94,27 @@ const themes: ThemeDesign[] = [
   },
 ];
 
-const themeMap = new Map(themes.map((t) => [t.id, t]));
+const styleMap = new Map(styles.map((s) => [s.id, s]));
 
-const fallback = themeMap.get("minimal")!;
+const fallback = styleMap.get("minimal")!;
 
-export function getThemeDesign(id: string): ThemeDesign {
-  return themeMap.get(id) ?? fallback;
+export function getStyleDesign(id: string): StyleDesign {
+  return styleMap.get(id) ?? fallback;
 }
 
-export function getAllThemes(): ThemeDesign[] {
-  return [...themes];
+export function getAllStyles(): StyleDesign[] {
+  return [...styles];
 }
 
-export function getFreeThemes(): ThemeDesign[] {
-  return themes.filter((t) => !t.isPremium);
+export function getFreeStyles(): StyleDesign[] {
+  return styles.filter((s) => !s.isPremium);
 }
+
+/** @deprecated Use getStyleDesign instead */
+export const getThemeDesign = getStyleDesign;
+/** @deprecated Use getAllStyles instead */
+export const getAllThemes = getAllStyles;
+/** @deprecated Use getFreeStyles instead */
+export const getFreeThemes = getFreeStyles;
+/** @deprecated Use StyleDesign instead */
+export type ThemeDesign = StyleDesign;

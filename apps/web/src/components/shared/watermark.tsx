@@ -1,4 +1,11 @@
+"use client";
+
+import { useSearchParams } from "next/navigation";
+
 export function Watermark() {
+  const searchParams = useSearchParams();
+  const color = searchParams.get("color") || "ffffff";
+
   return (
     <div
       className="fixed bottom-1.5 right-2 pointer-events-none"
@@ -8,7 +15,8 @@ export function Watermark() {
         href="https://widgets.doriri.dev"
         target="_blank"
         rel="noopener noreferrer"
-        className="pointer-events-auto text-white/20 text-[10px] hover:text-white/40 transition-colors"
+        className="pointer-events-auto text-[10px] transition-opacity hover:opacity-40"
+        style={{ color: `#${color}`, opacity: 0.2 }}
       >
         Made with doriri
       </a>

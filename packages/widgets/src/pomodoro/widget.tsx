@@ -230,6 +230,155 @@ function StandardStyle({ timer, accentColor, textColor }: { timer: ReturnType<ty
   );
 }
 
+/* ─── Neon: Terminal Progress Bar ─── */
+
+function NeonStyle({
+  timer,
+  accentColor,
+}: {
+  timer: ReturnType<typeof usePomodoro>;
+  accentColor: string;
+}) {
+  const breakColor = "#60a5fa";
+  const activeColor = timer.state === "break" ? breakColor : accentColor;
+
+  const barWidth = 24;
+  const filled = Math.round(timer.progress * barWidth);
+  const empty = barWidth - filled;
+  const progressBar = "\u2588".repeat(filled) + "\u2591".repeat(empty);
+  const percent = Math.round(timer.progress * 100);
+
+  const modeLabel =
+    timer.state === "idle"
+      ? "MODE: STANDBY"
+      : timer.state === "working"
+        ? "MODE: WORK"
+        : "MODE: BREAK";
+
+  const monoStyle: React.CSSProperties = {
+    fontFamily: "'Courier New', 'Lucida Console', monospace",
+    color: activeColor,
+    textShadow: `0 0 8px ${activeColor}, 0 0 16px ${activeColor}66`,
+  };
+
+  return (
+    <div
+      style={{
+        ...monoStyle,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: "8px",
+        padding: "20px 24px",
+      }}
+    >
+      {/* Mode label */}
+      <div
+        style={{
+          fontSize: "0.65rem",
+          letterSpacing: "0.3em",
+          opacity: 0.6,
+          textTransform: "uppercase",
+        }}
+      >
+        {modeLabel}
+      </div>
+
+      {/* Timer digits */}
+      <div
+        style={{
+          fontSize: "3rem",
+          fontWeight: 700,
+          fontVariantNumeric: "tabular-nums",
+          letterSpacing: "0.08em",
+          lineHeight: 1,
+        }}
+      >
+        {timer.displayMin}:{timer.displaySec}
+      </div>
+
+      {/* Progress bar */}
+      <div
+        style={{
+          fontSize: "0.85rem",
+          letterSpacing: "0.02em",
+          whiteSpace: "pre",
+          marginTop: "4px",
+        }}
+      >
+        [{progressBar}] {String(percent).padStart(3, " ")}%
+      </div>
+
+      {/* Session counter */}
+      <div
+        style={{
+          fontSize: "0.6rem",
+          letterSpacing: "0.2em",
+          opacity: 0.4,
+          marginTop: "4px",
+        }}
+      >
+        SESSION {timer.session}/{timer.totalSessions}
+      </div>
+
+      {/* Terminal-style buttons */}
+      <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
+        <button
+          onClick={timer.handleToggle}
+          style={{
+            fontFamily: "'Courier New', monospace",
+            fontSize: "0.7rem",
+            letterSpacing: "0.15em",
+            color: activeColor,
+            background: `${activeColor}15`,
+            border: `1px solid ${activeColor}44`,
+            borderRadius: "2px",
+            padding: "6px 14px",
+            cursor: "pointer",
+            textShadow: `0 0 6px ${activeColor}88`,
+          }}
+        >
+          {!timer.isRunning ? "[START]" : "[PAUSE]"}
+        </button>
+        <button
+          onClick={timer.handleReset}
+          style={{
+            fontFamily: "'Courier New', monospace",
+            fontSize: "0.7rem",
+            letterSpacing: "0.15em",
+            color: activeColor,
+            background: "transparent",
+            border: `1px solid ${activeColor}33`,
+            borderRadius: "2px",
+            padding: "6px 14px",
+            cursor: "pointer",
+            opacity: 0.6,
+          }}
+        >
+          [RESET]
+        </button>
+        <button
+          onClick={timer.handleSkip}
+          style={{
+            fontFamily: "'Courier New', monospace",
+            fontSize: "0.7rem",
+            letterSpacing: "0.15em",
+            color: activeColor,
+            background: "transparent",
+            border: `1px solid ${activeColor}33`,
+            borderRadius: "2px",
+            padding: "6px 14px",
+            cursor: "pointer",
+            opacity: 0.6,
+          }}
+        >
+          [SKIP]
+        </button>
+      </div>
+    </div>
+  );
+}
+
 /* ─── Main Widget ─── */
 
 export function PomodoroWidget({ params }: { params: PomodoroParams }) {
@@ -239,7 +388,9 @@ export function PomodoroWidget({ params }: { params: PomodoroParams }) {
 
   return (
     <WidgetShell params={params}>
-      {params.style === "standard" ? (
+      {params.style === "neon" ? (
+        <NeonStyle timer={timer} accentColor={accentColor} />
+      ) : params.variant === "standard" ? (
         <StandardStyle timer={timer} accentColor={accentColor} textColor={textColor} />
       ) : (
         <CompactStyle timer={timer} accentColor={accentColor} textColor={textColor} />

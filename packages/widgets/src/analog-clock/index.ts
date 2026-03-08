@@ -1,16 +1,17 @@
 import type { ControlDefinition } from "@nw/widget-core";
-import { registerWidget, themeControl } from "@nw/widget-core";
+import { registerWidget, styleControl, colorThemeControl } from "@nw/widget-core";
 import { AnalogClockWidget } from "./widget";
 import { analogClockSchema, analogClockDefaults } from "./schema";
 
 export { AnalogClockWidget } from "./widget";
 
 const controls: ControlDefinition[] = [
-  themeControl,
+  styleControl,
+  colorThemeControl,
   {
-    key: "style",
-    label: "Clock Style",
-    labelKo: "시계 스타일",
+    key: "variant",
+    label: "Clock Variant",
+    labelKo: "시계 변형",
     type: "select",
     defaultValue: "minimal",
     options: [
@@ -26,7 +27,7 @@ const controls: ControlDefinition[] = [
     labelKo: "강조 색상",
     type: "color",
     defaultValue: "7fb686",
-    group: "appearance",
+    group: "color",
   },
   {
     key: "bg",
@@ -34,7 +35,7 @@ const controls: ControlDefinition[] = [
     labelKo: "배경 색상",
     type: "color",
     defaultValue: "18181b",
-    group: "appearance",
+    group: "color",
   },
   {
     key: "showNumbers",

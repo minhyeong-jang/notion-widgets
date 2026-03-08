@@ -204,6 +204,107 @@ function CardCalendar({
   );
 }
 
+function NeonCalendar({
+  today,
+  params,
+  accentColor,
+}: {
+  today: Date;
+  params: MiniCalendarParams;
+  accentColor: string;
+}) {
+  const dayNames = useMemo(() => getDayNames(params.locale, params.firstDay), [params.locale, params.firstDay]);
+  const monthName = useMemo(() => getMonthName(params.locale, today), [params.locale, today]);
+  const grid = useMemo(() => getCalendarGrid(today, params.firstDay), [today, params.firstDay]);
+
+  // Shorten day names to 2 chars for fixed-width
+  const shortDays = dayNames.map(d => d.slice(0, 2).toUpperCase());
+  const headerRow = shortDays.map(d => d.padStart(3)).join("");
+  const titleStr = monthName.toUpperCase();
+
+  // Build 6 rows of 7 days each
+  const rows: CalendarDay[][] = [];
+  for (let r = 0; r < 6; r++) {
+    rows.push(grid.slice(r * 7, (r + 1) * 7));
+  }
+
+  const borderWidth = 23; // inner content width in characters
+
+  return (
+    <div className="w-full max-w-[280px] mx-auto px-4">
+      <div style={{ fontFamily: "monospace", fontSize: "11px", lineHeight: "1.5", color: accentColor }}>
+        {/* Top border */}
+        <div style={{ opacity: 0.4 }}>{"\u250C" + "\u2500".repeat(borderWidth) + "\u2510"}</div>
+
+        {/* Month title centered */}
+        <div>
+          <span style={{ opacity: 0.4 }}>{"\u2502"}</span>
+          <span style={{ letterSpacing: "1px" }}>
+            {titleStr.length <= borderWidth
+              ? " ".repeat(Math.floor((borderWidth - titleStr.length) / 2)) + titleStr + " ".repeat(Math.ceil((borderWidth - titleStr.length) / 2))
+              : titleStr.slice(0, borderWidth)}
+          </span>
+          <span style={{ opacity: 0.4 }}>{"\u2502"}</span>
+        </div>
+
+        {/* Separator */}
+        <div style={{ opacity: 0.4 }}>{"\u251C" + "\u2500".repeat(borderWidth) + "\u2524"}</div>
+
+        {/* Day name header */}
+        <div>
+          <span style={{ opacity: 0.4 }}>{"\u2502"}</span>
+          <span style={{ opacity: 0.5 }}>{" " + headerRow + " "}</span>
+          <span style={{ opacity: 0.4 }}>{"\u2502"}</span>
+        </div>
+
+        {/* Day rows */}
+        {rows.map((row, ri) => (
+          <div key={ri}>
+            <span style={{ opacity: 0.4 }}>{"\u2502"}</span>
+            <span>{" "}</span>
+            {row.map((cell, ci) => {
+              const dayStr = String(cell.day).padStart(2);
+              const trailing = ci < 6 ? " " : "";
+              if (cell.isToday) {
+                return (
+                  <span key={ci}>
+                    <span
+                      style={{
+                        backgroundColor: accentColor,
+                        color: "#18181b",
+                        fontWeight: "bold",
+                        padding: "0 1px",
+                      }}
+                    >
+                      {dayStr}
+                    </span>
+                    {trailing}
+                  </span>
+                );
+              }
+              return (
+                <span
+                  key={ci}
+                  style={{
+                    opacity: cell.isCurrentMonth ? 0.8 : 0.2,
+                  }}
+                >
+                  {dayStr}{trailing}
+                </span>
+              );
+            })}
+            <span>{" "}</span>
+            <span style={{ opacity: 0.4 }}>{"\u2502"}</span>
+          </div>
+        ))}
+
+        {/* Bottom border */}
+        <div style={{ opacity: 0.4 }}>{"\u2514" + "\u2500".repeat(borderWidth) + "\u2518"}</div>
+      </div>
+    </div>
+  );
+}
+
 export function MiniCalendarWidget({ params }: { params: MiniCalendarParams }) {
   const [today, setToday] = useState(new Date());
   const accentColor = "#" + params.color;
@@ -223,7 +324,13 @@ export function MiniCalendarWidget({ params }: { params: MiniCalendarParams }) {
 
   return (
     <WidgetShell params={params}>
-      {params.style === "card" ? (
+      {params.style === "neon" ? (
+        <NeonCalendar
+          today={today}
+          params={params}
+          accentColor={accentColor}
+        />
+      ) : params.variant === "card" ? (
         <CardCalendar
           today={today}
           params={params}

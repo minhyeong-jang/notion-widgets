@@ -26,7 +26,7 @@ export function MinimalCard({
           </div>
         ))}
       </div>
-      <span className="text-[10px] text-zinc-500 min-h-[1rem]">
+      <span className="text-[10px] min-h-[1rem]" style={{ color, opacity: 0.5 }}>
         {label || "\u00A0"}
       </span>
     </div>

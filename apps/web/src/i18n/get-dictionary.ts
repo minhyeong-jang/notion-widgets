@@ -7,7 +7,8 @@ const dictionaries: Record<Locale, () => Promise<{ default: Dictionary }>> = {
 };
 
 export async function getDictionary(locale: Locale): Promise<Dictionary> {
-  const mod = await dictionaries[locale]();
+  const loader = dictionaries[locale] ?? dictionaries.ko;
+  const mod = await loader();
   return mod.default;
 }
 

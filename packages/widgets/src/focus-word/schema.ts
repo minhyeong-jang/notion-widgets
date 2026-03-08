@@ -3,9 +3,10 @@ import { z } from "zod";
 const hexColor = z.string().regex(/^[0-9a-fA-F]{6}$/).default("7fb686");
 
 export const focusWordSchema = z.object({
-  theme: z.string().default("minimal"),
+  style: z.string().default("minimal"),
+  colorTheme: z.string().default("default"),
   word: z.string().default(""),
-  style: z.enum(["minimal", "gradient", "bold"]).default("minimal"),
+  variant: z.enum(["minimal", "gradient", "bold"]).default("minimal"),
   color: hexColor,
   bg: z.string().default("18181b"),
 });

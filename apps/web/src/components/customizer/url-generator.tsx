@@ -15,18 +15,15 @@ interface UrlGeneratorProps {
 export function UrlGenerator({ widgetId, params, dict }: UrlGeneratorProps) {
   const [copied, setCopied] = useState(false);
 
-  const fullUrl =
-    typeof window !== "undefined"
-      ? `${window.location.origin}${buildEmbedUrl(widgetId, params)}`
-      : buildEmbedUrl(widgetId, params);
+  const embedPath = buildEmbedUrl(widgetId, params);
 
   const handleCopy = useCallback(async () => {
+    const fullUrl = `${window.location.origin}${embedPath}`;
     try {
       await navigator.clipboard.writeText(fullUrl);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      // Fallback for older browsers
       const textarea = document.createElement("textarea");
       textarea.value = fullUrl;
       document.body.appendChild(textarea);
@@ -36,14 +33,14 @@ export function UrlGenerator({ widgetId, params, dict }: UrlGeneratorProps) {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     }
-  }, [fullUrl]);
+  }, [embedPath]);
 
   return (
     <div className="space-y-3">
       <div className="flex flex-col sm:flex-row gap-2">
         <div className="flex-1 min-w-0 overflow-x-auto rounded-lg bg-zinc-900 border border-zinc-800 px-4 py-3">
           <code className="text-xs text-zinc-300 break-all">
-            {fullUrl}
+            {embedPath}
           </code>
         </div>
         <button

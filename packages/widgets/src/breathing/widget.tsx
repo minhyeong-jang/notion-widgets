@@ -252,13 +252,138 @@ function MinimalStyle({
   );
 }
 
+function NeonStyle({
+  phase,
+  countdown,
+  scale,
+  accent,
+}: {
+  phase: Phase;
+  countdown: number;
+  scale: number;
+  accent: string;
+}) {
+  // Generate waveform points based on scale (which maps to breathing amplitude)
+  const width = 320;
+  const height = 120;
+  const midY = height / 2;
+  // amplitude: scale goes 0.6-1.0, map to 8-45 px
+  const amplitude = 8 + (scale - 0.6) * (45 / 0.4);
+  const frequency = 3; // number of full waves visible
+  const points: string[] = [];
+
+  for (let x = 0; x <= width; x += 2) {
+    const y = midY - amplitude * Math.sin((x / width) * frequency * 2 * Math.PI);
+    points.push(`${x},${y.toFixed(1)}`);
+  }
+
+  const polylinePoints = points.join(" ");
+
+  return (
+    <div
+      className="flex flex-col items-center gap-4"
+      style={{ fontFamily: "var(--font-mono, 'Courier New', monospace)" }}
+    >
+      {/* Oscilloscope display */}
+      <div
+        style={{
+          border: `1px solid ${accent}30`,
+          padding: "12px",
+          position: "relative",
+        }}
+      >
+        <svg
+          width={width}
+          height={height}
+          viewBox={`0 0 ${width} ${height}`}
+          style={{ display: "block" }}
+        >
+          {/* Grid lines */}
+          <line
+            x1="0" y1={midY} x2={width} y2={midY}
+            stroke={accent}
+            strokeWidth="0.5"
+            opacity="0.15"
+          />
+          <line
+            x1={width / 2} y1="0" x2={width / 2} y2={height}
+            stroke={accent}
+            strokeWidth="0.5"
+            opacity="0.15"
+          />
+          {/* Horizontal grid */}
+          <line
+            x1="0" y1={midY - 30} x2={width} y2={midY - 30}
+            stroke={accent}
+            strokeWidth="0.3"
+            opacity="0.08"
+            strokeDasharray="4 4"
+          />
+          <line
+            x1="0" y1={midY + 30} x2={width} y2={midY + 30}
+            stroke={accent}
+            strokeWidth="0.3"
+            opacity="0.08"
+            strokeDasharray="4 4"
+          />
+          {/* Waveform */}
+          <polyline
+            points={polylinePoints}
+            fill="none"
+            stroke={accent}
+            strokeWidth="2"
+            style={{
+              filter: `drop-shadow(0 0 4px ${accent}) drop-shadow(0 0 8px ${accent}80)`,
+            }}
+          />
+        </svg>
+      </div>
+
+      {/* Phase and timer display */}
+      <div className="flex items-center gap-6">
+        <div style={{ color: accent }}>
+          <span style={{ opacity: 0.5 }}>PHASE: </span>
+          <span style={{ fontWeight: 700 }}>
+            {phase.label.toUpperCase()}
+          </span>
+        </div>
+        <div style={{ color: accent }}>
+          <span style={{ opacity: 0.5 }}>T: </span>
+          <span
+            className="text-2xl font-bold"
+            style={{
+              textShadow: `0 0 8px ${accent}80`,
+              letterSpacing: "0.1em",
+            }}
+          >
+            {String(countdown).padStart(2, "0")}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function BreathingWidget({ params }: { params: BreathingParams }) {
   const accentColor = "#" + params.color;
   const { phase, countdown, scale, phases, phaseIndex } = useBreathingAnimation(params.technique);
 
+  if (params.style === "neon") {
+    return (
+      <WidgetShell params={params}>
+        <NeonStyle
+          phase={phase}
+          countdown={countdown}
+          scale={scale}
+          accent={accentColor}
+        />
+      </WidgetShell>
+    );
+  }
+
   return (
     <WidgetShell params={params}>
-      {params.style === "circle" ? (
+      {params.variant === "circle" ? (
         <CircleStyle
           phase={phase}
           countdown={countdown}

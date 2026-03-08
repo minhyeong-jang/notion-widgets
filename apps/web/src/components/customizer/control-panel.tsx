@@ -18,7 +18,7 @@ interface ControlPanelProps {
   dict: Dictionary;
 }
 
-const groupOrder = ["appearance", "content", "advanced"];
+const groupOrder = ["appearance", "color", "content", "advanced"];
 
 function ControlRenderer({
   control,
@@ -120,6 +120,7 @@ export function ControlPanel({
 
   const groupLabels: Record<string, string> = {
     appearance: dict.controlGroups.appearance,
+    color: dict.controlGroups.color,
     content: dict.controlGroups.content,
     advanced: dict.controlGroups.advanced,
   };

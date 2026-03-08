@@ -177,6 +177,79 @@ function CardStyle({ params, data, accentColor, textColor }: { params: LifeProgr
   );
 }
 
+/* ─── Neon Style (Terminal Progress Bar) ─── */
+
+function NeonBar({ label, percentage, accentColor }: { label: string; percentage: number; accentColor: string }) {
+  const clamped = Math.max(0, Math.min(Math.round(percentage), 100));
+  const barWidth = 16;
+  const filled = Math.round((clamped / 100) * barWidth);
+  const empty = barWidth - filled;
+  const filledStr = "\u2588".repeat(filled);
+  const emptyStr = "\u2591".repeat(empty);
+  const pctStr = `${clamped}%`.padStart(4);
+
+  return (
+    <div style={{ fontFamily: "monospace", fontSize: "12px", lineHeight: "1.6", whiteSpace: "pre" }}>
+      <span style={{ color: accentColor, opacity: 0.6 }}>{label.toUpperCase().padEnd(8)}</span>
+      <span style={{ color: "#555" }}>[</span>
+      <span style={{ color: accentColor }}>{filledStr}</span>
+      <span style={{ color: "#333" }}>{emptyStr}</span>
+      <span style={{ color: "#555" }}>]</span>
+      <span style={{ color: accentColor }}> {pctStr}</span>
+    </div>
+  );
+}
+
+function NeonStyle({ params, data, accentColor }: { params: LifeProgressParams; data: ProgressData; accentColor: string }) {
+  const l = getProgressLabels(params.locale);
+
+  const bars: { key: string; label: string; pct: number; show: boolean }[] = [
+    { key: "target", label: params.label, pct: data.target, show: true },
+    { key: "year", label: l.year, pct: data.year, show: params.showYear },
+    { key: "month", label: l.month, pct: data.month, show: params.showMonth },
+    { key: "quarter", label: l.quarter, pct: data.quarter, show: params.showQuarter },
+    { key: "week", label: l.week, pct: data.week, show: params.showWeek },
+    { key: "day", label: l.day, pct: data.day, show: params.showDay },
+  ];
+
+  return (
+    <div className="w-full max-w-sm mx-auto px-4">
+      {params.title && (
+        <div
+          style={{
+            fontFamily: "monospace",
+            fontSize: "11px",
+            color: accentColor,
+            opacity: 0.5,
+            marginBottom: "12px",
+            textAlign: "center",
+            letterSpacing: "2px",
+          }}
+        >
+          {">"} {params.title.toUpperCase()} {"<"}
+        </div>
+      )}
+      <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
+        {bars.filter(b => b.show).map(b => (
+          <NeonBar key={b.key} label={b.label} percentage={b.pct} accentColor={accentColor} />
+        ))}
+      </div>
+      <div
+        style={{
+          fontFamily: "monospace",
+          fontSize: "10px",
+          color: accentColor,
+          opacity: 0.3,
+          marginTop: "12px",
+          textAlign: "center",
+        }}
+      >
+        {"─".repeat(32)}
+      </div>
+    </div>
+  );
+}
+
 /* ─── Main Widget ─── */
 
 export function LifeProgressWidget({ params }: { params: LifeProgressParams }) {
@@ -185,7 +258,9 @@ export function LifeProgressWidget({ params }: { params: LifeProgressParams }) {
 
   return (
     <WidgetShell params={params}>
-      {params.style === "card" ? (
+      {params.style === "neon" ? (
+        <NeonStyle params={params} data={data} accentColor={accentColor} />
+      ) : params.variant === "card" ? (
         <CardStyle params={params} data={data} accentColor={accentColor} textColor="#fafafa" />
       ) : (
         <MinimalStyle params={params} data={data} textColor="#fafafa" borderColor="#27272a" />

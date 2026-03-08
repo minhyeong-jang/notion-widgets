@@ -22,10 +22,41 @@ export function FocusWordWidget({ params }: { params: FocusWordParams }) {
   const hasCustomWord = params.word.trim().length > 0;
   const displayWord = hasCustomWord ? params.word.trim() : getDailyWord().en;
 
+  if (params.style === "neon") {
+    return (
+      <WidgetShell params={params}>
+        <div
+          className="text-center px-8 w-full"
+          style={{ fontFamily: "var(--font-mono, 'Courier New', monospace)" }}
+        >
+          <h1
+            className="text-5xl sm:text-7xl font-bold uppercase"
+            style={{
+              color: accentColor,
+              letterSpacing: "0.3em",
+              textShadow: `0 0 10px ${accentColor}, 0 0 20px ${accentColor}, 0 0 40px ${accentColor}80, 0 0 80px ${accentColor}40`,
+            }}
+          >
+            {displayWord}
+          </h1>
+          {!hasCustomWord && (
+            <div
+              className="mt-4 text-xs uppercase tracking-widest"
+              style={{ color: accentColor, opacity: 0.5 }}
+            >
+              <span style={{ opacity: 0.4 }}>&gt; </span>
+              word of the day
+            </div>
+          )}
+        </div>
+      </WidgetShell>
+    );
+  }
+
   return (
     <WidgetShell params={params}>
       <div className="text-center px-8 w-full">
-        {params.style === "minimal" && (
+        {params.variant === "minimal" && (
           <h1
             className="text-5xl sm:text-6xl font-light tracking-widest uppercase"
             style={{
@@ -37,7 +68,7 @@ export function FocusWordWidget({ params }: { params: FocusWordParams }) {
           </h1>
         )}
 
-        {params.style === "gradient" && (
+        {params.variant === "gradient" && (
           <h1
             className="text-5xl sm:text-6xl font-semibold tracking-wide"
             style={{
@@ -51,7 +82,7 @@ export function FocusWordWidget({ params }: { params: FocusWordParams }) {
           </h1>
         )}
 
-        {params.style === "bold" && (
+        {params.variant === "bold" && (
           <h1
             className="text-6xl sm:text-7xl font-black tracking-tight uppercase"
             style={{

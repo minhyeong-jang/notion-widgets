@@ -24,8 +24,8 @@ export function AnalogClockWidget({ params }: { params: AnalogClockParams }) {
 
   const accentColor = "#" + params.color;
   const textColor = "#fafafa";
-  const isVintage = params.style === "vintage";
-  const isClassic = params.style === "classic";
+  const isVintage = params.variant === "vintage";
+  const isClassic = params.variant === "classic";
 
   const hourNumbers = Array.from({ length: 12 }, (_, i) => i + 1);
 
@@ -41,6 +41,149 @@ export function AnalogClockWidget({ params }: { params: AnalogClockParams }) {
   const numberFont = isVintage ? "serif" : "sans-serif";
   const hourHandWidth = isClassic ? 4 : 2.5;
   const minuteHandWidth = isClassic ? 3 : 2;
+
+  /* ─── Neon: Radar Screen ─── */
+  if (params.style === "neon") {
+    const glowFilter = `drop-shadow(0 0 3px ${accentColor}) drop-shadow(0 0 6px ${accentColor}88)`;
+
+    // Generate trailing lines for the second hand (fading sweep trail)
+    const trailCount = 8;
+    const trailLines = Array.from({ length: trailCount }, (_, i) => {
+      const trailAngle = secondAngle - (i + 1) * 3;
+      const opacity = 0.4 - i * (0.35 / trailCount);
+      return (
+        <line
+          key={`trail-${i}`}
+          x1="100"
+          y1="100"
+          x2="100"
+          y2="18"
+          stroke={accentColor}
+          strokeWidth={1}
+          strokeOpacity={Math.max(0, opacity)}
+          strokeLinecap="round"
+          transform={`rotate(${trailAngle} 100 100)`}
+        />
+      );
+    });
+
+    return (
+      <WidgetShell params={params}>
+        <svg
+          viewBox="0 0 200 200"
+          className="w-full max-w-[280px]"
+          style={{ filter: glowFilter }}
+        >
+          <defs>
+            <filter id="neon-glow">
+              <feGaussianBlur stdDeviation="1" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+
+          {/* Concentric grid rings */}
+          {[25, 45, 65, 85].map((r) => (
+            <circle
+              key={r}
+              cx="100"
+              cy="100"
+              r={r}
+              fill="none"
+              stroke={accentColor}
+              strokeWidth={0.5}
+              strokeOpacity={0.15}
+            />
+          ))}
+
+          {/* Crosshair lines */}
+          <line x1="100" y1="5" x2="100" y2="195" stroke={accentColor} strokeWidth={0.5} strokeOpacity={0.12} />
+          <line x1="5" y1="100" x2="195" y2="100" stroke={accentColor} strokeWidth={0.5} strokeOpacity={0.12} />
+
+          {/* Outer ring */}
+          <circle
+            cx="100"
+            cy="100"
+            r="95"
+            fill="none"
+            stroke={accentColor}
+            strokeWidth={1.5}
+            strokeOpacity={0.5}
+          />
+
+          {/* Hour markers as bright blips */}
+          {hourNumbers.map((n) => {
+            const angle = (n * 30 - 90) * (Math.PI / 180);
+            const blipR = 88;
+            const cx = 100 + blipR * Math.cos(angle);
+            const cy = 100 + blipR * Math.sin(angle);
+            return (
+              <circle
+                key={n}
+                cx={cx}
+                cy={cy}
+                r={n % 3 === 0 ? 3 : 2}
+                fill={accentColor}
+                fillOpacity={n % 3 === 0 ? 0.9 : 0.5}
+              />
+            );
+          })}
+
+          {/* Hour hand */}
+          <line
+            x1="100"
+            y1="100"
+            x2="100"
+            y2="45"
+            stroke={accentColor}
+            strokeWidth={3}
+            strokeLinecap="round"
+            strokeOpacity={0.9}
+            transform={`rotate(${hourAngle} 100 100)`}
+            style={{ transition: "transform 0.3s ease" }}
+          />
+
+          {/* Minute hand */}
+          <line
+            x1="100"
+            y1="100"
+            x2="100"
+            y2="28"
+            stroke={accentColor}
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeOpacity={0.7}
+            transform={`rotate(${minuteAngle} 100 100)`}
+            style={{ transition: "transform 0.3s ease" }}
+          />
+
+          {/* Second hand trail */}
+          {params.showSeconds && trailLines}
+
+          {/* Second hand */}
+          {params.showSeconds && (
+            <line
+              x1="100"
+              y1="100"
+              x2="100"
+              y2="18"
+              stroke={accentColor}
+              strokeWidth={1.5}
+              strokeLinecap="round"
+              strokeOpacity={0.9}
+              transform={`rotate(${secondAngle} 100 100)`}
+            />
+          )}
+
+          {/* Center blip */}
+          <circle cx="100" cy="100" r="3" fill={accentColor} fillOpacity={0.9} />
+          <circle cx="100" cy="100" r="6" fill="none" stroke={accentColor} strokeWidth={0.5} strokeOpacity={0.3} />
+        </svg>
+      </WidgetShell>
+    );
+  }
 
   return (
     <WidgetShell params={params}>

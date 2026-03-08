@@ -126,8 +126,8 @@ export function FlipClockPreview() {
         </div>
       ))}
       <div className="flex flex-col gap-1.5 mx-0.5">
-        <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-        <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+        <div className="w-1.5 h-1.5 rounded-full bg-zinc-300" />
+        <div className="w-1.5 h-1.5 rounded-full bg-zinc-300" />
       </div>
       {["3", "4"].map((d, i) => (
         <div
@@ -311,7 +311,7 @@ export function AnalogClockPreview() {
         strokeWidth="1.5"
         strokeLinecap="round"
       />
-      <circle cx={cx} cy={cy} r="2.5" fill="#7fb686" />
+      <circle cx={cx} cy={cy} r="2.5" fill="white" />
     </svg>
   );
 }

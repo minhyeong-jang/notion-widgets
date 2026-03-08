@@ -25,7 +25,7 @@ const categoryIcons: Record<string, string> = {
 
 /* ─── Widget Preview Components ─── */
 
-function FlipClockPreview() {
+function ClockPreview() {
   return (
     <div className="flex items-center gap-1.5 font-mono">
       {["1", "2"].map((d, i) => (
@@ -37,8 +37,8 @@ function FlipClockPreview() {
         </div>
       ))}
       <div className="flex flex-col gap-1.5 mx-0.5">
-        <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-        <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+        <div className="w-1.5 h-1.5 rounded-full bg-zinc-300" />
+        <div className="w-1.5 h-1.5 rounded-full bg-zinc-300" />
       </div>
       {["3", "4"].map((d, i) => (
         <div
@@ -340,7 +340,7 @@ function WidgetPlaceholder({ name }: { name: string }) {
 
 function WidgetPreview({ widgetId, name }: { widgetId: string; name: string }) {
   switch (widgetId) {
-    case "flip-clock": return <FlipClockPreview />;
+    case "flip-clock": return <ClockPreview />;
     case "life-progress": return <LifeProgressPreview />;
     case "countdown": return <CountdownPreview />;
     case "quote": return <QuotePreview />;

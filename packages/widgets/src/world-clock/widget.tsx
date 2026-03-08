@@ -156,6 +156,140 @@ function ListStyle({
   );
 }
 
+/* ─── Neon: Split-Flap / Departure Board ─── */
+
+function NeonFlapChar({
+  char,
+  accentColor,
+}: {
+  char: string;
+  accentColor: string;
+}) {
+  return (
+    <span
+      style={{
+        display: "inline-block",
+        fontFamily: "'Courier New', 'Lucida Console', monospace",
+        fontSize: "1.15rem",
+        fontWeight: 700,
+        fontVariantNumeric: "tabular-nums",
+        color: accentColor,
+        backgroundColor: `${accentColor}12`,
+        border: `1px solid ${accentColor}22`,
+        borderRadius: "2px",
+        padding: "2px 4px",
+        minWidth: "1.1em",
+        textAlign: "center" as const,
+        lineHeight: 1.2,
+        textShadow: `0 0 6px ${accentColor}88`,
+      }}
+    >
+      {char}
+    </span>
+  );
+}
+
+function NeonStyle({
+  timezones,
+  now,
+  format,
+  accentColor,
+}: {
+  timezones: string[];
+  now: Date;
+  format: "12h" | "24h";
+  accentColor: string;
+}) {
+  const monoStyle: React.CSSProperties = {
+    fontFamily: "'Courier New', 'Lucida Console', monospace",
+    color: accentColor,
+    textShadow: `0 0 8px ${accentColor}, 0 0 16px ${accentColor}66`,
+  };
+
+  const dividerLine = "\u2500".repeat(32);
+
+  return (
+    <div
+      style={{
+        ...monoStyle,
+        display: "flex",
+        flexDirection: "column",
+        width: "100%",
+        maxWidth: "320px",
+        margin: "0 auto",
+        padding: "12px 20px",
+        gap: "0px",
+      }}
+    >
+      {timezones.map((tz, i) => {
+        const { time, period } = formatTime(now, tz, format);
+        const cityName = getCityName(tz).toUpperCase();
+
+        return (
+          <div key={tz}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "10px 0",
+              }}
+            >
+              {/* City name */}
+              <div
+                style={{
+                  fontSize: "0.7rem",
+                  letterSpacing: "0.25em",
+                  textTransform: "uppercase",
+                  opacity: 0.7,
+                  minWidth: "100px",
+                }}
+              >
+                {cityName}
+              </div>
+
+              {/* Time in flap characters */}
+              <div style={{ display: "flex", alignItems: "center", gap: "2px" }}>
+                {time.split("").map((char, ci) => (
+                  <NeonFlapChar key={ci} char={char} accentColor={accentColor} />
+                ))}
+                {period && (
+                  <span
+                    style={{
+                      fontSize: "0.6rem",
+                      letterSpacing: "0.15em",
+                      opacity: 0.5,
+                      marginLeft: "6px",
+                    }}
+                  >
+                    {period}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* Horizontal divider */}
+            {i < timezones.length - 1 && (
+              <div
+                style={{
+                  fontSize: "0.55rem",
+                  opacity: 0.15,
+                  textAlign: "center",
+                  lineHeight: 1,
+                  overflow: "hidden",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {dividerLine}
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 export function WorldClockWidget({ params }: { params: WorldClockParams }) {
   const [now, setNow] = useState(new Date());
   const accentColor = "#" + params.color;
@@ -175,7 +309,14 @@ export function WorldClockWidget({ params }: { params: WorldClockParams }) {
 
   return (
     <WidgetShell params={params}>
-      {params.style === "list" ? (
+      {params.style === "neon" ? (
+        <NeonStyle
+          timezones={timezones}
+          now={now}
+          format={params.format}
+          accentColor={accentColor}
+        />
+      ) : params.variant === "list" ? (
         <ListStyle
           timezones={timezones}
           now={now}
