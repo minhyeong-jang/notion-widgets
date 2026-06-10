@@ -4,7 +4,7 @@ export const focusWordSchema = z.object({
   style: z.string().default("minimal"),
   colorTheme: z.string().default("default"),
   word: z.string().default(""),
-  variant: z.enum(["minimal", "gradient", "bold"]).default("minimal"),
+  variant: z.enum(["minimal"]).default("minimal"),
 });
 
 export type FocusWordParams = z.infer<typeof focusWordSchema>;
