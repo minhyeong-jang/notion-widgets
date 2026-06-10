@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { getWidget, getColorTheme } from "@nw/widget-core";
+import { getWidget } from "@nw/widget-core";
 import "@nw/widgets";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/get-dictionary";
@@ -30,31 +30,9 @@ export function CustomizerPage({ widgetId, locale, dict }: CustomizerPageProps) 
     return params;
   });
 
-  const handleChange = useCallback(
-    (key: string, value: string) => {
-      setCurrentParams((prev) => {
-        const next = { ...prev, [key]: value };
-
-        if (key === "colorTheme") {
-          if (value === "default" && widget) {
-            const colorDefault = widget.controls?.find((c) => c.key === "color");
-            const bgDefault = widget.controls?.find((c) => c.key === "bg");
-            if (colorDefault) next.color = String(colorDefault.defaultValue);
-            if (bgDefault) next.bg = String(bgDefault.defaultValue);
-          } else {
-            const ct = getColorTheme(value);
-            if (ct) {
-              next.color = ct.colors.accent;
-              next.bg = ct.colors.bg;
-            }
-          }
-        }
-
-        return next;
-      });
-    },
-    [],
-  );
+  const handleChange = useCallback((key: string, value: string) => {
+    setCurrentParams((prev) => ({ ...prev, [key]: value }));
+  }, []);
 
   if (!widget) {
     return (

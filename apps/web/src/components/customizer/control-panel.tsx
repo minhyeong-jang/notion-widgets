@@ -3,7 +3,6 @@
 import type { ControlDefinition } from "@nw/widget-core";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/get-dictionary";
-import { ColorControl } from "./controls/color-control";
 import { SelectControl } from "./controls/select-control";
 import { ToggleControl } from "./controls/toggle-control";
 import { SliderControl } from "./controls/slider-control";
@@ -34,16 +33,6 @@ function ControlRenderer({
   const disabled = control.isPremium;
 
   switch (control.type) {
-    case "color":
-      return (
-        <ColorControl
-          control={control}
-          value={value}
-          onChange={onChange}
-          disabled={disabled}
-          locale={locale}
-        />
-      );
     case "select":
       return (
         <SelectControl
