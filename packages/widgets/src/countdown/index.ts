@@ -21,22 +21,6 @@ const controls: ControlDefinition[] = [
     group: "appearance",
   },
   {
-    key: "color",
-    label: "Accent Color",
-    labelKo: "강조 색상",
-    type: "color",
-    defaultValue: "fb7185",
-    group: "color",
-  },
-  {
-    key: "bg",
-    label: "Background Color",
-    labelKo: "배경 색상",
-    type: "color",
-    defaultValue: "18181b",
-    group: "color",
-  },
-  {
     key: "targetDate",
     label: "Target Date",
     labelKo: "목표 날짜",

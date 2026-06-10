@@ -21,22 +21,6 @@ const controls: ControlDefinition[] = [
     group: "appearance",
   },
   {
-    key: "color",
-    label: "Accent Color",
-    labelKo: "강조 색상",
-    type: "color",
-    defaultValue: "ef4444",
-    group: "color",
-  },
-  {
-    key: "bg",
-    label: "Background Color",
-    labelKo: "배경 색상",
-    type: "color",
-    defaultValue: "18181b",
-    group: "color",
-  },
-  {
     key: "workMinutes",
     label: "Work Minutes",
     labelKo: "집중 시간 (분)",

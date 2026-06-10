@@ -8,22 +8,6 @@ export { DailyTipWidget } from "./widget";
 const controls: ControlDefinition[] = [
   styleControl,
   colorThemeControl,
-  {
-    key: "color",
-    label: "Accent Color",
-    labelKo: "강조 색상",
-    type: "color",
-    defaultValue: "7fb686",
-    group: "color",
-  },
-  {
-    key: "bg",
-    label: "Background Color",
-    labelKo: "배경 색상",
-    type: "color",
-    defaultValue: "18181b",
-    group: "color",
-  },
   localeControl,
   {
     key: "category",

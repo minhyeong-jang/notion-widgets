@@ -21,22 +21,6 @@ const controls: ControlDefinition[] = [
     group: "appearance",
   },
   {
-    key: "color",
-    label: "Accent Color",
-    labelKo: "\uAC15\uC870 \uC0C9\uC0C1",
-    type: "color",
-    defaultValue: "7fb686",
-    group: "color",
-  },
-  {
-    key: "bg",
-    label: "Background Color",
-    labelKo: "\uBC30\uACBD \uC0C9\uC0C1",
-    type: "color",
-    defaultValue: "18181b",
-    group: "color",
-  },
-  {
     key: "deck",
     label: "Deck",
     labelKo: "\uB371",
