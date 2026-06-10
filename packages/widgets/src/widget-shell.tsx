@@ -1,10 +1,10 @@
 "use client";
 
 import type { ReactNode, CSSProperties } from "react";
-import { getStyleDesign } from "@nw/widget-core";
+import { getStyleDesign, resolveColors } from "@nw/widget-core";
 
 interface WidgetShellProps {
-  params: { style?: string; bg?: string };
+  params: { style?: string; colorTheme?: string };
   children: ReactNode;
   className?: string;
 }
@@ -23,7 +23,8 @@ function hexToRgba(hex: string, opacity: number): string {
  */
 export function WidgetShell({ params, children, className }: WidgetShellProps) {
   const design = getStyleDesign(params.style || "minimal");
-  const bgHex = params.bg || "18181b";
+  const colors = resolveColors(params.colorTheme);
+  const bgHex = colors.bg;
   const isTransparent = bgHex === "transparent";
 
   let bgColor: string | undefined;
