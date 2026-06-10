@@ -192,7 +192,7 @@ export function AnalogClockWidget({ params }: { params: AnalogClockParams }) {
           fill="none"
           stroke={frameColor}
           strokeWidth={isClassic ? 3 : 1.5}
-          strokeOpacity={isVintage ? 0.6 : 0.3}
+          strokeOpacity={isClassic ? 0.6 : 0.3}
         />
 
         {/* Hour markers */}
@@ -240,7 +240,7 @@ export function AnalogClockWidget({ params }: { params: AnalogClockParams }) {
                     fill={tickColor}
                     fillOpacity={0.8}
                     fontSize={isClassic ? 14 : 11}
-                    fontFamily={numberFont}
+                    fontFamily="inherit"
                     fontWeight={isClassic ? "bold" : "normal"}
                   >
                     {n}
