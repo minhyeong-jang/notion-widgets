@@ -68,7 +68,7 @@ export const colorThemeControl: ControlDefinition = {
     { value: "purple", label: "Purple" },
     { value: "light", label: "Light" },
   ],
-  group: "color",
+  group: "appearance",
 };
 
 /**

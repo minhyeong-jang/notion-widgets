@@ -75,3 +75,10 @@ export const COLOR_THEME_OPTIONS = colorThemes.map((t) => ({
   value: t.id,
   label: t.name,
 }));
+
+const DEFAULT_COLORS = { accent: "7fb686", bg: "18181b", text: "fafafa", border: "27272a" };
+
+export function resolveColors(colorThemeId?: string) {
+  const ct = getColorTheme(colorThemeId || "default");
+  return ct?.colors ?? DEFAULT_COLORS;
+}

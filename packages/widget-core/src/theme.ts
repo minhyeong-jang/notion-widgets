@@ -12,13 +12,6 @@ export interface StyleDesign {
   bgOverlay?: string;
   backdropFilter?: string;
   bgOpacity?: number;
-  // Recommended colors (hex without #)
-  recommendedColors: {
-    accent: string;
-    bg: string;
-    text: string;
-    border: string;
-  };
 }
 
 const styles: StyleDesign[] = [
@@ -32,12 +25,6 @@ const styles: StyleDesign[] = [
     borderWidth: "1px",
     boxShadow: "none",
     textShadow: "none",
-    recommendedColors: {
-      accent: "7fb686",
-      bg: "18181b",
-      text: "fafafa",
-      border: "27272a",
-    },
   },
   {
     id: "soft",
@@ -49,12 +36,6 @@ const styles: StyleDesign[] = [
     borderWidth: "1px",
     boxShadow: "0 2px 20px rgba(0,0,0,0.08)",
     textShadow: "none",
-    recommendedColors: {
-      accent: "7fb686",
-      bg: "fafaf9",
-      text: "1c1917",
-      border: "e7e5e4",
-    },
   },
   {
     id: "neon",
@@ -66,12 +47,6 @@ const styles: StyleDesign[] = [
     borderWidth: "1px",
     boxShadow: "0 0 20px rgba(255,0,255,0.15)",
     textShadow: "0 0 10px currentColor, 0 0 30px currentColor",
-    recommendedColors: {
-      accent: "ff00ff",
-      bg: "0a0a0a",
-      text: "ffffff",
-      border: "ff00ff",
-    },
   },
   {
     id: "glass",
@@ -85,12 +60,6 @@ const styles: StyleDesign[] = [
     textShadow: "none",
     backdropFilter: "blur(12px) saturate(180%)",
     bgOpacity: 0.12,
-    recommendedColors: {
-      accent: "a78bfa",
-      bg: "1a1a2e",
-      text: "ffffff",
-      border: "ffffff",
-    },
   },
 ];
 

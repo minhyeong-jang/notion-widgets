@@ -15,6 +15,7 @@ export {
   getColorTheme,
   getAllColorThemes,
   COLOR_THEME_OPTIONS,
+  resolveColors,
 } from "./color-theme";
 export {
   LOCALE_OPTIONS,
