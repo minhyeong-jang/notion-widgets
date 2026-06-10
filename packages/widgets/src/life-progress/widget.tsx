@@ -68,19 +68,19 @@ function useProgress(params: LifeProgressParams): ProgressData {
   return data;
 }
 
-/* ─── Gradient colors per bar type ─── */
-const gradients: Record<string, string> = {
-  target: "from-emerald-500 to-emerald-400",
-  year: "from-emerald-500 to-emerald-400",
-  month: "from-sky-500 to-sky-400",
-  quarter: "from-violet-500 to-violet-400",
-  week: "from-amber-500 to-amber-400",
-  day: "from-rose-500 to-rose-400",
+/* ─── Bar opacity per type (applied to accent color) ─── */
+const barOpacity: Record<string, number> = {
+  target: 1,
+  year: 0.9,
+  month: 0.75,
+  quarter: 0.65,
+  week: 0.55,
+  day: 0.45,
 };
 
 /* ─── Minimal Style (default) ─── */
 
-function ThinBar({ label, percentage, gradient, textColor, borderColor }: { label: string; percentage: number; gradient: string; textColor?: string; borderColor?: string }) {
+function ThinBar({ label, percentage, accentColor, opacity, textColor, borderColor }: { label: string; percentage: number; accentColor: string; opacity: number; textColor?: string; borderColor?: string }) {
   const clamped = Math.max(0, Math.min(percentage, 100));
   return (
     <div>
@@ -90,15 +90,15 @@ function ThinBar({ label, percentage, gradient, textColor, borderColor }: { labe
       </div>
       <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: borderColor || undefined }}>
         <div
-          className={`h-full rounded-full bg-gradient-to-r ${gradient} transition-all duration-1000 ease-out`}
-          style={{ width: `${Math.max(clamped, clamped > 0 ? 2 : 0)}%` }}
+          className="h-full rounded-full transition-all duration-1000 ease-out"
+          style={{ width: `${Math.max(clamped, clamped > 0 ? 2 : 0)}%`, backgroundColor: accentColor, opacity }}
         />
       </div>
     </div>
   );
 }
 
-function MinimalStyle({ params, data, textColor, borderColor }: { params: LifeProgressParams; data: ProgressData; textColor: string; borderColor: string }) {
+function MinimalStyle({ params, data, accentColor, textColor, borderColor }: { params: LifeProgressParams; data: ProgressData; accentColor: string; textColor: string; borderColor: string }) {
   const l = getProgressLabels(params.locale);
 
   const bars: { key: string; label: string; pct: number; show: boolean }[] = [
@@ -126,7 +126,8 @@ function MinimalStyle({ params, data, textColor, borderColor }: { params: LifePr
             key={b.key}
             label={b.label}
             percentage={b.pct}
-            gradient={gradients[b.key]}
+            accentColor={accentColor}
+            opacity={barOpacity[b.key] ?? 1}
             textColor={textColor}
             borderColor={borderColor}
           />
@@ -266,7 +267,7 @@ export function LifeProgressWidget({ params }: { params: LifeProgressParams }) {
       ) : params.variant === "card" ? (
         <CardStyle params={params} data={data} accentColor={accentColor} textColor={textColor} />
       ) : (
-        <MinimalStyle params={params} data={data} textColor={textColor} borderColor={borderColor} />
+        <MinimalStyle params={params} data={data} accentColor={accentColor} textColor={textColor} borderColor={borderColor} />
       )}
     </WidgetShell>
   );

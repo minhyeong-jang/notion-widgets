@@ -42,7 +42,8 @@ export function FlipClockWidget({ params }: { params: FlipClockParams }) {
   const secondsLabel = params.showLabel ? shortDate : "";
 
   const colors = resolveColors(params.colorTheme);
-  const accentColor = `#${colors.text}`;
+  const textColor = `#${colors.text}`;
+  const accentColor = `#${colors.accent}`;
   const bgColor = `#${colors.bg}`;
   /* ─── Flip ─── */
   if (params.variant === "flip") {
@@ -50,14 +51,14 @@ export function FlipClockWidget({ params }: { params: FlipClockParams }) {
       <WidgetShell params={params}>
         <div className={`flex items-center justify-center gap-2 ${params.showSeconds ? "max-w-[320px]" : "max-w-[220px]"} mx-auto`}>
           <div className="w-24 shrink-0">
-            <FlipCard value={hours} label={hoursLabel} color={accentColor} bg={bgColor} />
+            <FlipCard value={hours} label={hoursLabel} color={textColor} bg={bgColor} />
           </div>
           <div className="w-24 shrink-0">
-            <FlipCard value={minutes} label={minutesLabel} color={accentColor} bg={bgColor} />
+            <FlipCard value={minutes} label={minutesLabel} color={textColor} bg={bgColor} />
           </div>
           {params.showSeconds && (
             <div className="w-24 shrink-0">
-              <FlipCard value={seconds} label={secondsLabel} color={accentColor} bg={bgColor} />
+              <FlipCard value={seconds} label={secondsLabel} color={textColor} bg={bgColor} />
             </div>
           )}
         </div>
@@ -69,19 +70,19 @@ export function FlipClockWidget({ params }: { params: FlipClockParams }) {
   return (
     <WidgetShell params={params}>
       <div className="flex items-center gap-3">
-        <MinimalCard value={hours} label={hoursLabel} color={accentColor} />
+        <MinimalCard value={hours} label={hoursLabel} color={textColor} />
         <div className="flex flex-col gap-2 mb-4">
           <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: accentColor }} />
           <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: accentColor }} />
         </div>
-        <MinimalCard value={minutes} label={minutesLabel} color={accentColor} />
+        <MinimalCard value={minutes} label={minutesLabel} color={textColor} />
         {params.showSeconds && (
           <>
             <div className="flex flex-col gap-2 mb-4">
               <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: accentColor, opacity: 0.5 }} />
               <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: accentColor, opacity: 0.5 }} />
             </div>
-            <MinimalCard value={seconds} label={secondsLabel} color={accentColor} />
+            <MinimalCard value={seconds} label={secondsLabel} color={textColor} />
           </>
         )}
       </div>
