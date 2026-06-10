@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>doriri — Notion Marketplace Header</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .banner {
+    width: 1920px;
+    height: 480px;
+    background: linear-gradient(135deg, #0c0c0e 0%, #18181b 40%, #1a1c1e 70%, #0c0c0e 100%);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .banner-inner {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Subtle grid pattern */
+  .banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(127,182,134,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(127,182,134,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  /* Green glow - top right */
+  .glow-1 {
+    position: absolute;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(127,182,134,0.1) 0%, transparent 70%);
+    top: -250px;
+    right: 300px;
+    pointer-events: none;
+  }
+
+  /* Green glow - bottom left */
+  .glow-2 {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(82,176,122,0.07) 0%, transparent 70%);
+    bottom: -150px;
+    left: 50px;
+    pointer-events: none;
+  }
+
+  /* Green glow - center */
+  .glow-3 {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(127,182,134,0.05) 0%, transparent 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .left {
+    flex: 0 0 420px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .logo-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+
+  .logo-icon {
+    width: 56px;
+    height: 56px;
+  }
+
+  .logo-text {
+    font-size: 48px;
+    font-weight: 700;
+    color: #fafafa;
+    letter-spacing: -1.5px;
+  }
+
+  .tagline {
+    font-size: 24px;
+    font-weight: 400;
+    color: #a1a1aa;
+    line-height: 1.5;
+    margin-bottom: 28px;
+  }
+
+  .tagline em {
+    font-style: normal;
+    color: #7fb686;
+    font-weight: 500;
+  }
+
+  .features {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+
+  .feature-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 100px;
+    padding: 8px 16px;
+    font-size: 13px;
+    color: #a1a1aa;
+    font-weight: 400;
+  }
+
+  .feature-tag .icon {
+    font-size: 14px;
+  }
+
+  .feature-tag.highlight {
+    background: rgba(127,182,134,0.08);
+    border-color: rgba(127,182,134,0.2);
+    color: #7fb686;
+  }
+
+  .url-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(127,182,134,0.1);
+    border: 1px solid rgba(127,182,134,0.25);
+    border-radius: 100px;
+    padding: 10px 24px;
+    font-size: 15px;
+    color: #7fb686;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    width: fit-content;
+  }
+
+  .url-badge .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #7fb686;
+  }
+
+  .right {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  /* Widget cards showcase */
+  .widgets-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 190px);
+    grid-template-rows: repeat(2, 155px);
+    gap: 14px;
+    transform: perspective(1400px) rotateY(-6deg) rotateX(1.5deg);
+  }
+
+  .widget-card {
+    background: rgba(24,24,27,0.9);
+    border: 1px solid rgba(63,63,70,0.5);
+    border-radius: 14px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    backdrop-filter: blur(10px);
+  }
+
+  .widget-card.accent {
+    border-color: rgba(127,182,134,0.4);
+    box-shadow: 0 0 30px rgba(127,182,134,0.06);
+  }
+
+  .widget-name {
+    font-size: 12px;
+    font-weight: 500;
+    color: #71717a;
+    text-align: center;
+    letter-spacing: 0.3px;
+  }
+
+  .widget-card.accent .widget-name {
+    color: #7fb686;
+  }
+
+  /* Flip clock mini */
+  .flip-clock-mini {
+    display: flex;
+    gap: 3px;
+    align-items: center;
+  }
+
+  .flip-digit {
+    background: #27272a;
+    border-radius: 4px;
+    width: 26px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 700;
+    color: #fafafa;
+    font-variant-numeric: tabular-nums;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .flip-digit::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0;
+    top: 50%;
+    height: 1px;
+    background: rgba(0,0,0,0.3);
+  }
+
+  .flip-colon {
+    color: #7fb686;
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0 1px;
+  }
+
+  /* Progress bar mini */
+  .progress-mini {
+    width: 100%;
+    max-width: 130px;
+  }
+
+  .progress-label {
+    font-size: 10px;
+    color: #71717a;
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .progress-bar {
+    height: 5px;
+    background: #27272a;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    width: 24%;
+    background: linear-gradient(90deg, #7fb686, #52b07a);
+    border-radius: 3px;
+  }
+
+  /* Analog clock mini */
+  .analog-mini {
+    width: 56px;
+    height: 56px;
+    border: 2px solid #3f3f46;
+    border-radius: 50%;
+    position: relative;
+  }
+
+  .clock-center {
+    position: absolute;
+    width: 4px; height: 4px;
+    background: #7fb686;
+    border-radius: 50%;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+  }
+
+  .clock-hand {
+    position: absolute;
+    bottom: 50%; left: 50%;
+    transform-origin: bottom center;
+    border-radius: 2px;
+  }
+
+  .hand-hour {
+    width: 2.5px; height: 14px;
+    background: #fafafa;
+    transform: translateX(-50%) rotate(-30deg);
+  }
+
+  .hand-minute {
+    width: 2px; height: 20px;
+    background: #a1a1aa;
+    transform: translateX(-50%) rotate(60deg);
+  }
+
+  .hand-second {
+    width: 1px; height: 22px;
+    background: #7fb686;
+    transform: translateX(-50%) rotate(180deg);
+  }
+
+  /* Quote mini */
+  .quote-mini {
+    font-size: 11px;
+    color: #a1a1aa;
+    font-style: italic;
+    line-height: 1.4;
+    text-align: center;
+    max-width: 140px;
+  }
+
+  .quote-mini .author {
+    display: block;
+    font-style: normal;
+    color: #52525b;
+    font-size: 10px;
+    margin-top: 4px;
+  }
+
+  /* Pomodoro mini */
+  .pomo-mini {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .pomo-circle {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    border: 3px solid #27272a;
+    border-top-color: #7fb686;
+    border-right-color: #7fb686;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: #fafafa;
+    transform: rotate(45deg);
+  }
+
+  .pomo-circle span { transform: rotate(-45deg); }
+
+  .pomo-label {
+    font-size: 9px;
+    color: #52525b;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* Tarot mini */
+  .tarot-mini {
+    display: flex;
+    gap: 5px;
+  }
+
+  .tarot-card {
+    width: 30px; height: 44px;
+    border-radius: 4px;
+    border: 1px solid #3f3f46;
+    background: linear-gradient(135deg, #1e1e22, #27272a);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  .tarot-card:nth-child(2) {
+    transform: translateY(-4px);
+    border-color: rgba(127,182,134,0.4);
+    background: linear-gradient(135deg, #1a2a1e, #27272a);
+  }
+
+  /* Countdown mini */
+  .countdown-mini {
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+  }
+
+  .countdown-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+  }
+
+  .countdown-num {
+    font-size: 20px;
+    font-weight: 700;
+    color: #fafafa;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .countdown-label {
+    font-size: 8px;
+    color: #52525b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .countdown-sep {
+    font-size: 16px;
+    color: #3f3f46;
+    font-weight: 300;
+    margin-bottom: 14px;
+  }
+
+  /* D-Day mini */
+  .dday-mini {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .dday-event {
+    font-size: 10px;
+    color: #71717a;
+    letter-spacing: 0.3px;
+  }
+
+  .dday-number {
+    font-size: 22px;
+    font-weight: 800;
+    color: #fafafa;
+    letter-spacing: -1px;
+  }
+
+  .dday-number span {
+    color: #7fb686;
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  .dday-sub {
+    font-size: 9px;
+    color: #52525b;
+  }
+</style>
+</head>
+<body>
+
+<div class="banner">
+  <div class="glow-1"></div>
+  <div class="glow-2"></div>
+  <div class="glow-3"></div>
+
+  <div class="banner-inner">
+  <div class="left">
+    <div class="logo-row">
+      <svg class="logo-icon" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+        <rect width="512" height="512" rx="108" fill="#18181b"/>
+        <rect x="72" y="72" width="164" height="164" rx="32" fill="#7fb686"/>
+        <rect x="276" y="72" width="164" height="164" rx="32" fill="#3f3f46"/>
+        <rect x="72" y="276" width="164" height="164" rx="32" fill="#3f3f46"/>
+        <rect x="276" y="276" width="164" height="164" rx="32" fill="#52b07a"/>
+      </svg>
+      <span class="logo-text">doriri</span>
+    </div>
+    <p class="tagline">
+      Beautiful Notion widgets.<br>
+      <em>No sign-up</em>, just customize &amp; embed.
+    </p>
+    <div class="features">
+      <span class="feature-tag highlight"><span class="icon">&#10024;</span> 10+ Widgets</span>
+      <span class="feature-tag"><span class="icon">&#127912;</span> Themeable</span>
+      <span class="feature-tag"><span class="icon">&#9889;</span> URL-based</span>
+      <span class="feature-tag"><span class="icon">&#127760;</span> KO / EN</span>
+    </div>
+    <div class="url-badge">
+      <span class="dot"></span>
+      widgets.doriri.dev
+    </div>
+  </div>
+
+  <div class="right">
+    <div class="widgets-grid">
+      <!-- Row 1 -->
+      <!-- Flip Clock -->
+      <div class="widget-card accent">
+        <div class="flip-clock-mini">
+          <div class="flip-digit">1</div>
+          <div class="flip-digit">4</div>
+          <span class="flip-colon">:</span>
+          <div class="flip-digit">2</div>
+          <div class="flip-digit">7</div>
+        </div>
+        <div class="widget-name">Flip Clock</div>
+      </div>
+
+      <!-- Life Progress -->
+      <div class="widget-card">
+        <div class="progress-mini">
+          <div class="progress-label">
+            <span>2026</span>
+            <span style="color:#7fb686">24%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill"></div>
+          </div>
+        </div>
+        <div class="widget-name">Life Progress</div>
+      </div>
+
+      <!-- Analog Clock -->
+      <div class="widget-card">
+        <div class="analog-mini">
+          <div class="clock-center"></div>
+          <div class="clock-hand hand-hour"></div>
+          <div class="clock-hand hand-minute"></div>
+          <div class="clock-hand hand-second"></div>
+        </div>
+        <div class="widget-name">Analog Clock</div>
+      </div>
+
+      <!-- Countdown -->
+      <div class="widget-card accent">
+        <div class="countdown-mini">
+          <div class="countdown-unit">
+            <span class="countdown-num">12</span>
+            <span class="countdown-label">days</span>
+          </div>
+          <span class="countdown-sep">:</span>
+          <div class="countdown-unit">
+            <span class="countdown-num">07</span>
+            <span class="countdown-label">hrs</span>
+          </div>
+          <span class="countdown-sep">:</span>
+          <div class="countdown-unit">
+            <span class="countdown-num">34</span>
+            <span class="countdown-label">min</span>
+          </div>
+        </div>
+        <div class="widget-name">Countdown</div>
+      </div>
+
+      <!-- Row 2 -->
+      <!-- Quote -->
+      <div class="widget-card">
+        <div class="quote-mini">
+          "The only way to do great work is to love what you do."
+          <span class="author">— Steve Jobs</span>
+        </div>
+        <div class="widget-name">Daily Quote</div>
+      </div>
+
+      <!-- Pomodoro -->
+      <div class="widget-card accent">
+        <div class="pomo-mini">
+          <div class="pomo-circle"><span>25:00</span></div>
+          <div class="pomo-label">Focus</div>
+        </div>
+        <div class="widget-name">Pomodoro</div>
+      </div>
+
+      <!-- Daily Tarot -->
+      <div class="widget-card">
+        <div class="tarot-mini">
+          <div class="tarot-card">&#9733;</div>
+          <div class="tarot-card">&#9788;</div>
+          <div class="tarot-card">&#9789;</div>
+        </div>
+        <div class="widget-name">Daily Tarot</div>
+      </div>
+
+      <!-- D-Day -->
+      <div class="widget-card">
+        <div class="dday-mini">
+          <span class="dday-event">Vacation</span>
+          <span class="dday-number"><span>D-</span>42</span>
+          <span class="dday-sub">May 9, 2026</span>
+        </div>
+        <div class="widget-name">D-Day</div>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
+
+</body>
+</html>

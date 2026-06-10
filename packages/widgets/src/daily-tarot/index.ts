@@ -64,5 +64,5 @@ registerWidget({
   nameKo: "\uC624\uB298\uC758 \uD0C0\uB85C",
   descriptionKo: "\uB9E4\uC77C \uBC14\uB00C\uB294 \uD0C0\uB85C \uCE74\uB4DC\uC640 \uC758\uBBF8 \uD574\uC124",
   category: "lifestyle",
-  recommendedSize: { width: 300, height: 400 },
+  recommendedSize: { width: 420, height: 320 },
 });

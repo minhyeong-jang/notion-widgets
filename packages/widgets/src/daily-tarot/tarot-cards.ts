@@ -249,3 +249,47 @@ export function getDailyCard(deck: "major" | "full"): TarotCard {
   const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
   return cards[dayOfYear % cards.length];
 }
+
+/** Simple seeded PRNG for deterministic daily spread */
+function seededRandom(seed: number): () => number {
+  let s = seed;
+  return () => {
+    s = (s * 1664525 + 1013904223) & 0xffffffff;
+    return (s >>> 0) / 0xffffffff;
+  };
+}
+
+export interface SpreadCard {
+  card: TarotCard;
+  position: "past" | "present" | "future";
+  positionLabel: string;
+  positionLabelKo: string;
+  reversed: boolean;
+}
+
+export function getDailySpread(deck: "major" | "full"): SpreadCard[] {
+  const cards = deck === "major" ? [...majorArcana] : [...allCards];
+  const now = new Date();
+  const start = new Date(now.getFullYear(), 0, 0);
+  const diff = now.getTime() - start.getTime();
+  const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const rng = seededRandom(dayOfYear * 7919 + now.getFullYear());
+
+  // Fisher-Yates shuffle with seeded random
+  for (let i = cards.length - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    [cards[i], cards[j]] = [cards[j], cards[i]];
+  }
+
+  const positions = [
+    { position: "past" as const, positionLabel: "Past", positionLabelKo: "과거" },
+    { position: "present" as const, positionLabel: "Present", positionLabelKo: "현재" },
+    { position: "future" as const, positionLabel: "Future", positionLabelKo: "미래" },
+  ];
+
+  return positions.map((pos, i) => ({
+    card: cards[i],
+    ...pos,
+    reversed: rng() > 0.7,
+  }));
+}

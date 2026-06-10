@@ -1,72 +1,71 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { WidgetShell } from "../widget-shell";
 import type { DailyTarotParams } from "./schema";
-import { getDailyCard } from "./tarot-cards";
+import { getDailySpread, type SpreadCard } from "./tarot-cards";
 
-function CardArt({
+/* ─── Mini Card SVG ─── */
+
+function MiniCardArt({
   number,
   accent,
   isMajor,
+  reversed,
 }: {
   number: string;
   accent: string;
   isMajor: boolean;
+  reversed: boolean;
 }) {
-  const size = 220;
-  const cx = size / 2;
-  const cy = size / 2;
+  const w = 100;
+  const h = 140;
+  const cx = w / 2;
+  const cy = h / 2;
 
   return (
-    <svg width={size} height={size * 1.4} viewBox={`0 0 ${size} ${size * 1.4}`}>
-      {/* Card border */}
+    <svg
+      width={w}
+      height={h}
+      viewBox={`0 0 ${w} ${h}`}
+      style={reversed ? { transform: "rotate(180deg)" } : undefined}
+    >
       <rect
-        x="4"
-        y="4"
-        width={size - 8}
-        height={size * 1.4 - 8}
-        rx="12"
-        ry="12"
-        fill="none"
-        stroke={accent}
-        strokeWidth="1.5"
-        opacity="0.4"
-      />
-      {/* Inner border */}
-      <rect
-        x="12"
-        y="12"
-        width={size - 24}
-        height={size * 1.4 - 24}
+        x="2"
+        y="2"
+        width={w - 4}
+        height={h - 4}
         rx="8"
-        ry="8"
         fill={accent + "08"}
         stroke={accent}
+        strokeWidth="1"
+        opacity="0.3"
+      />
+      <rect
+        x="8"
+        y="8"
+        width={w - 16}
+        height={h - 16}
+        rx="5"
+        fill="none"
+        stroke={accent}
         strokeWidth="0.5"
-        opacity="0.2"
+        opacity="0.15"
       />
 
-      {/* Decorative elements */}
       {isMajor ? (
         <>
-          {/* Star pattern for major arcana */}
-          <circle cx={cx} cy={cy * 1.1} r="45" fill="none" stroke={accent} strokeWidth="1" opacity="0.3" />
-          <circle cx={cx} cy={cy * 1.1} r="30" fill="none" stroke={accent} strokeWidth="0.5" opacity="0.2" />
-          <circle cx={cx} cy={cy * 1.1} r="15" fill={accent} opacity="0.15" />
-          {/* Rays */}
-          {[0, 45, 90, 135, 180, 225, 270, 315].map((angle) => {
+          <circle cx={cx} cy={cy} r="20" fill="none" stroke={accent} strokeWidth="0.8" opacity="0.25" />
+          <circle cx={cx} cy={cy} r="10" fill={accent} opacity="0.12" />
+          {[0, 60, 120, 180, 240, 300].map((angle) => {
             const rad = (angle * Math.PI) / 180;
-            const x1 = cx + Math.cos(rad) * 20;
-            const y1 = cy * 1.1 + Math.sin(rad) * 20;
-            const x2 = cx + Math.cos(rad) * 55;
-            const y2 = cy * 1.1 + Math.sin(rad) * 55;
             return (
               <line
                 key={angle}
-                x1={x1}
-                y1={y1}
-                x2={x2}
-                y2={y2}
+                x1={cx + Math.cos(rad) * 12}
+                y1={cy + Math.sin(rad) * 12}
+                x2={cx + Math.cos(rad) * 24}
+                y2={cy + Math.sin(rad) * 24}
                 stroke={accent}
                 strokeWidth="0.5"
                 opacity="0.2"
@@ -76,230 +75,301 @@ function CardArt({
         </>
       ) : (
         <>
-          {/* Diamond pattern for minor arcana */}
           <rect
-            x={cx - 30}
-            y={cy * 1.1 - 30}
-            width="60"
-            height="60"
-            rx="4"
-            fill="none"
-            stroke={accent}
-            strokeWidth="1"
-            opacity="0.3"
-            transform={`rotate(45, ${cx}, ${cy * 1.1})`}
-          />
-          <rect
-            x={cx - 18}
-            y={cy * 1.1 - 18}
-            width="36"
-            height="36"
+            x={cx - 14}
+            y={cy - 14}
+            width="28"
+            height="28"
             rx="2"
             fill={accent}
-            opacity="0.1"
-            transform={`rotate(45, ${cx}, ${cy * 1.1})`}
+            opacity="0.08"
+            transform={`rotate(45, ${cx}, ${cy})`}
+          />
+          <rect
+            x={cx - 8}
+            y={cy - 8}
+            width="16"
+            height="16"
+            rx="1"
+            fill="none"
+            stroke={accent}
+            strokeWidth="0.8"
+            opacity="0.25"
+            transform={`rotate(45, ${cx}, ${cy})`}
           />
         </>
       )}
 
-      {/* Card number - top */}
       <text
-        x="24"
-        y="36"
+        x="14"
+        y="24"
         fill={accent}
-        fontSize="16"
+        fontSize="11"
         fontWeight="bold"
         fontFamily="serif"
-        opacity="0.7"
+        opacity="0.6"
       >
         {number}
       </text>
-
-      {/* Card number - bottom (inverted) */}
       <text
-        x={size - 24}
-        y={size * 1.4 - 20}
+        x={w - 14}
+        y={h - 14}
         fill={accent}
-        fontSize="16"
+        fontSize="11"
         fontWeight="bold"
         fontFamily="serif"
-        opacity="0.7"
+        opacity="0.6"
         textAnchor="end"
-        transform={`rotate(180, ${size - 24}, ${size * 1.4 - 28})`}
+        transform={`rotate(180, ${w - 14}, ${h - 18})`}
       >
         {number}
       </text>
-
-      {/* Corner decorations */}
-      <circle cx="24" cy={size * 1.4 - 24} r="3" fill={accent} opacity="0.2" />
-      <circle cx={size - 24} cy="24" r="3" fill={accent} opacity="0.2" />
     </svg>
   );
 }
 
-export function DailyTarotWidget({ params }: { params: DailyTarotParams }) {
-  const accentColor = "#" + params.color;
+/* ─── Card Back SVG ─── */
 
-  const card = getDailyCard(params.deck);
-  const isKo = params.locale.startsWith("ko");
-  const name = isKo ? card.nameKo : card.name;
-  const meaning = isKo ? card.meaningKo : card.meaning;
-  const keywords = isKo ? card.keywordsKo : card.keywords;
-  const todayLabel = isKo ? "\uC624\uB298\uC758 \uCE74\uB4DC" : "Today's Card";
+function CardBack({ accent }: { accent: string }) {
+  const w = 100;
+  const h = 140;
+  const cx = w / 2;
+  const cy = h / 2;
 
-  // Neon style: RPG / Text Adventure
-  if (params.style === "neon") {
-    const cardName = name.toUpperCase();
-    const kwList = keywords.split(", ");
-    const innerWidth = 21;
-
-    const pad = (s: string, align: "center" | "left" = "center") => {
-      if (s.length >= innerWidth) return s.slice(0, innerWidth);
-      if (align === "center") {
-        const left = Math.floor((innerWidth - s.length) / 2);
-        const right = innerWidth - s.length - left;
-        return " ".repeat(left) + s + " ".repeat(right);
-      }
-      // left-align with 2-space indent
-      return "  " + s + " ".repeat(Math.max(0, innerWidth - s.length - 2));
-    };
-
-    return (
-      <WidgetShell params={params}>
-        <div className="flex flex-col items-center px-6">
-          <div
-            style={{
-              fontFamily: "monospace",
-              fontSize: "11px",
-              color: accentColor,
-              opacity: 0.5,
-              marginBottom: "8px",
-              letterSpacing: "2px",
-            }}
-          >
-            {todayLabel.toUpperCase()}
-          </div>
-          <div
-            style={{
-              fontFamily: "monospace",
-              fontSize: "12px",
-              lineHeight: "1.5",
-              color: accentColor,
-              whiteSpace: "pre",
-            }}
-          >
-            <div style={{ opacity: 0.4 }}>{"\u250C" + "\u2500".repeat(innerWidth) + "\u2510"}</div>
-            <div>
-              <span style={{ opacity: 0.4 }}>{"\u2502"}</span>
-              <span>{pad("")}</span>
-              <span style={{ opacity: 0.4 }}>{"\u2502"}</span>
-            </div>
-            <div>
-              <span style={{ opacity: 0.4 }}>{"\u2502"}</span>
-              <span style={{ fontWeight: "bold" }}>{pad("\u2605 " + cardName + " \u2605")}</span>
-              <span style={{ opacity: 0.4 }}>{"\u2502"}</span>
-            </div>
-            <div>
-              <span style={{ opacity: 0.4 }}>{"\u2502"}</span>
-              <span>{pad("[ " + card.number + " ]")}</span>
-              <span style={{ opacity: 0.4 }}>{"\u2502"}</span>
-            </div>
-            <div>
-              <span style={{ opacity: 0.4 }}>{"\u2502"}</span>
-              <span>{pad("")}</span>
-              <span style={{ opacity: 0.4 }}>{"\u2502"}</span>
-            </div>
-            {kwList.map((kw, i) => (
-              <div key={i}>
-                <span style={{ opacity: 0.4 }}>{"\u2502"}</span>
-                <span style={{ opacity: 0.7 }}>{pad(kw, "left")}</span>
-                <span style={{ opacity: 0.4 }}>{"\u2502"}</span>
-              </div>
-            ))}
-            <div>
-              <span style={{ opacity: 0.4 }}>{"\u2502"}</span>
-              <span>{pad("")}</span>
-              <span style={{ opacity: 0.4 }}>{"\u2502"}</span>
-            </div>
-            <div style={{ opacity: 0.4 }}>{"\u2514" + "\u2500".repeat(innerWidth) + "\u2518"}</div>
-          </div>
-        </div>
-      </WidgetShell>
-    );
-  }
-
-  if (params.variant === "detailed") {
-    return (
-      <WidgetShell params={params}>
-        <div className="flex flex-col items-center gap-4 px-6 py-4 max-w-xs">
-          <div className="text-xs font-medium opacity-50" style={{ color: accentColor }}>
-            {todayLabel}
-          </div>
-          <CardArt number={card.number} accent={accentColor} isMajor={card.isMajor} />
-          <div className="text-center">
-            <div
-              className="text-lg font-bold"
-              style={{
-                color: accentColor,
-                textShadow: "var(--w-text-shadow)",
-              }}
-            >
-              {name}
-            </div>
-            <div className="text-sm mt-2 leading-relaxed opacity-70" style={{ color: accentColor }}>
-              {meaning}
-            </div>
-            <div className="flex flex-wrap justify-center gap-1.5 mt-3">
-              {keywords.split(", ").map((kw, i) => (
-                <span
-                  key={i}
-                  className="text-xs px-2 py-0.5 rounded-full"
-                  style={{
-                    backgroundColor: accentColor + "1a",
-                    color: accentColor,
-                  }}
-                >
-                  {kw}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </WidgetShell>
-    );
-  }
-
-  // Minimal style
   return (
-    <WidgetShell params={params}>
-      <div className="flex flex-col items-center gap-3 px-6">
-        <div className="text-xs font-medium opacity-50" style={{ color: accentColor }}>
-          {todayLabel}
-        </div>
+    <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`}>
+      <rect
+        x="2"
+        y="2"
+        width={w - 4}
+        height={h - 4}
+        rx="8"
+        fill={accent + "15"}
+        stroke={accent}
+        strokeWidth="1"
+        opacity="0.4"
+      />
+      {/* Cross-hatch pattern */}
+      <line x1={cx - 20} y1={cy - 20} x2={cx + 20} y2={cy + 20} stroke={accent} strokeWidth="0.5" opacity="0.2" />
+      <line x1={cx + 20} y1={cy - 20} x2={cx - 20} y2={cy + 20} stroke={accent} strokeWidth="0.5" opacity="0.2" />
+      <circle cx={cx} cy={cy} r="16" fill="none" stroke={accent} strokeWidth="0.8" opacity="0.3" />
+      <circle cx={cx} cy={cy} r="6" fill={accent} opacity="0.2" />
+    </svg>
+  );
+}
+
+/* ─── Single Spread Card ─── */
+
+function SpreadCardView({
+  spread,
+  accent,
+  isKo,
+  flipped,
+  offset,
+}: {
+  spread: SpreadCard;
+  accent: string;
+  isKo: boolean;
+  flipped: boolean;
+  offset: number;
+}) {
+  const { card, positionLabel, positionLabelKo, reversed } = spread;
+  const name = isKo ? card.nameKo : card.name;
+  const keywords = (isKo ? card.keywordsKo : card.keywords).split(", ");
+  const posLabel = isKo ? positionLabelKo : positionLabel;
+  const reversedLabel = reversed ? (isKo ? " (역방향)" : " (Rev)") : "";
+
+  return (
+    <div
+      className="flex flex-col items-center gap-2"
+      style={{ transform: `translateY(${offset}px)` }}
+    >
+      {/* Position label */}
+      <div
+        className="text-[10px] font-semibold uppercase tracking-widest"
+        style={{ color: accent, opacity: 0.5 }}
+      >
+        {posLabel}
+      </div>
+
+      {/* Card with flip */}
+      <div
+        className="relative"
+        style={{
+          width: 100,
+          height: 140,
+          perspective: "600px",
+        }}
+      >
         <div
-          className="text-3xl font-bold font-serif"
+          className="absolute inset-0 transition-transform duration-700"
           style={{
-            color: accentColor,
-            textShadow: "var(--w-text-shadow)",
+            transformStyle: "preserve-3d",
+            transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
           }}
         >
-          {card.number}
+          {/* Back face */}
+          <div
+            className="absolute inset-0"
+            style={{ backfaceVisibility: "hidden" }}
+          >
+            <CardBack accent={accent} />
+          </div>
+          {/* Front face */}
+          <div
+            className="absolute inset-0"
+            style={{
+              backfaceVisibility: "hidden",
+              transform: "rotateY(180deg)",
+            }}
+          >
+            <MiniCardArt
+              number={card.number}
+              accent={accent}
+              isMajor={card.isMajor}
+              reversed={reversed}
+            />
+          </div>
         </div>
-        <div className="text-lg font-medium" style={{ color: accentColor }}>
-          {name}
+      </div>
+
+      {/* Card info (visible after flip) */}
+      <div
+        className="flex flex-col items-center gap-1 transition-opacity duration-500"
+        style={{ opacity: flipped ? 1 : 0 }}
+      >
+        <div
+          className="text-xs font-bold text-center leading-tight"
+          style={{ color: accent }}
+        >
+          {name}{reversedLabel}
         </div>
-        <div className="flex flex-wrap justify-center gap-1.5 mt-1">
-          {keywords.split(", ").map((kw, i) => (
+        <div className="flex flex-wrap justify-center gap-1">
+          {keywords.map((kw, i) => (
             <span
               key={i}
-              className="text-xs px-2 py-0.5 rounded-full"
+              className="text-[9px] px-1.5 py-0.5 rounded-full"
               style={{
-                backgroundColor: accentColor + "1a",
-                color: accentColor,
+                backgroundColor: accent + "18",
+                color: accent,
+                opacity: 0.8,
               }}
             >
               {kw}
             </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Main Widget ─── */
+
+export function DailyTarotWidget({ params }: { params: DailyTarotParams }) {
+  const accentColor = "#" + params.color;
+  const spread = getDailySpread(params.deck);
+  const isKo = params.locale.startsWith("ko");
+  const todayLabel = isKo ? "오늘의 타로" : "Today's Tarot";
+
+  const [flipped, setFlipped] = useState([false, false, false]);
+
+  useEffect(() => {
+    const timers = [
+      setTimeout(() => setFlipped((p) => [true, p[1], p[2]]), 400),
+      setTimeout(() => setFlipped((p) => [p[0], true, p[2]]), 900),
+      setTimeout(() => setFlipped((p) => [p[0], p[1], true]), 1400),
+    ];
+    return () => timers.forEach(clearTimeout);
+  }, []);
+
+  // Neon style
+  if (params.style === "neon") {
+    return (
+      <WidgetShell params={params}>
+        <div className="flex flex-col items-center gap-4 px-4 py-3">
+          <div
+            style={{
+              fontFamily: "monospace",
+              fontSize: "10px",
+              color: accentColor,
+              opacity: 0.5,
+              letterSpacing: "3px",
+            }}
+          >
+            {todayLabel.toUpperCase()}
+          </div>
+          <div className="flex items-start justify-center gap-4">
+            {spread.map((s, i) => (
+              <SpreadCardView
+                key={s.position}
+                spread={s}
+                accent={accentColor}
+                isKo={isKo}
+                flipped={flipped[i]}
+                offset={i === 1 ? -8 : 0}
+              />
+            ))}
+          </div>
+        </div>
+      </WidgetShell>
+    );
+  }
+
+  // Detailed variant
+  if (params.variant === "detailed") {
+    return (
+      <WidgetShell params={params}>
+        <div className="flex flex-col items-center gap-4 px-4 py-3">
+          <div className="text-[10px] font-semibold uppercase tracking-widest" style={{ color: accentColor, opacity: 0.5 }}>
+            {todayLabel}
+          </div>
+          <div className="flex items-start justify-center gap-4">
+            {spread.map((s, i) => (
+              <SpreadCardView
+                key={s.position}
+                spread={s}
+                accent={accentColor}
+                isKo={isKo}
+                flipped={flipped[i]}
+                offset={i === 1 ? -8 : 0}
+              />
+            ))}
+          </div>
+          {/* Reading summary */}
+          <div
+            className="text-center text-xs leading-relaxed max-w-sm transition-opacity duration-700"
+            style={{
+              color: accentColor,
+              opacity: flipped[2] ? 0.6 : 0,
+            }}
+          >
+            {isKo
+              ? `${spread[0].card.nameKo}에서 ${spread[1].card.nameKo}를 거쳐 ${spread[2].card.nameKo}로 향하는 흐름입니다.`
+              : `A journey from ${spread[0].card.name} through ${spread[1].card.name} toward ${spread[2].card.name}.`}
+          </div>
+        </div>
+      </WidgetShell>
+    );
+  }
+
+  // Minimal (default)
+  return (
+    <WidgetShell params={params}>
+      <div className="flex flex-col items-center gap-4 px-4 py-3">
+        <div className="text-[10px] font-semibold uppercase tracking-widest" style={{ color: accentColor, opacity: 0.5 }}>
+          {todayLabel}
+        </div>
+        <div className="flex items-start justify-center gap-4">
+          {spread.map((s, i) => (
+            <SpreadCardView
+              key={s.position}
+              spread={s}
+              accent={accentColor}
+              isKo={isKo}
+              flipped={flipped[i]}
+              offset={i === 1 ? -8 : 0}
+            />
           ))}
         </div>
       </div>
