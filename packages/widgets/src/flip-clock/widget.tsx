@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { resolveColors } from "@nw/widget-core";
 import { WidgetShell } from "../widget-shell";
 import { FlipCard } from "./flip-clock";
 import { MinimalCard } from "./minimal-clock";
@@ -176,8 +177,9 @@ export function FlipClockWidget({ params }: { params: FlipClockParams }) {
     : "";
   const secondsLabel = params.showLabel ? shortDate : "";
 
-  const accentColor = "#" + params.color;
-  const bgColor = "#" + params.bg;
+  const colors = resolveColors(params.colorTheme);
+  const accentColor = `#${colors.text}`;
+  const bgColor = `#${colors.bg}`;
   const shellParams = { ...params, style: getShellStyle(params.variant) };
 
   /* ─── Neon ─── */

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import { resolveColors } from "@nw/widget-core";
 import { WidgetShell } from "../widget-shell";
 import type { BreathingParams } from "./schema";
 
@@ -365,7 +366,8 @@ function NeonStyle({
 }
 
 export function BreathingWidget({ params }: { params: BreathingParams }) {
-  const accentColor = "#" + params.color;
+  const colors = resolveColors(params.colorTheme);
+  const accentColor = `#${colors.accent}`;
   const { phase, countdown, scale, phases, phaseIndex } = useBreathingAnimation(params.technique);
 
   if (params.style === "neon") {

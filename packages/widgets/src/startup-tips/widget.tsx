@@ -1,5 +1,6 @@
 "use client";
 
+import { resolveColors } from "@nw/widget-core";
 import { WidgetShell } from "../widget-shell";
 import type { StartupTipsParams } from "./schema";
 import { getPrinciplesByCategory, type Principle } from "./principles";
@@ -23,7 +24,8 @@ const fontSizeMap = {
 } as const;
 
 export function StartupTipsWidget({ params }: { params: StartupTipsParams }) {
-  const accentColor = "#" + params.color;
+  const colors = resolveColors(params.colorTheme);
+  const accentColor = `#${colors.accent}`;
 
   const items = getPrinciplesByCategory(params.category);
   const principle = params.mode === "random" ? getRandomPrinciple(items) : getDailyPrinciple(items);

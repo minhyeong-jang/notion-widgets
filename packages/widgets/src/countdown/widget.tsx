@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { resolveColors } from "@nw/widget-core";
 import { WidgetShell } from "../widget-shell";
 import type { CountdownParams } from "./schema";
 
@@ -262,10 +263,8 @@ function NeonStyle({
           marginTop: "12px",
           letterSpacing: "0.25em",
           opacity: isUrgent ? 0.9 : 0.4,
-          color: isUrgent ? "#ff4444" : accentColor,
-          textShadow: isUrgent
-            ? "0 0 8px #ff4444, 0 0 16px #ff444466"
-            : `0 0 8px ${accentColor}66`,
+          color: accentColor,
+          textShadow: `0 0 8px ${accentColor}66`,
         }}
       >
         {statusText}
@@ -293,9 +292,10 @@ function NeonStyle({
 
 export function CountdownWidget({ params }: { params: CountdownParams }) {
   const countdown = useCountdown(params.targetDate);
-  const accentColor = "#" + params.color;
-  const textColor = "#fafafa";
-  const borderColor = "#" + params.color + "33";
+  const colors = resolveColors(params.colorTheme);
+  const accentColor = `#${colors.accent}`;
+  const textColor = `#${colors.text}`;
+  const borderColor = `#${colors.border}`;
 
   return (
     <WidgetShell params={params}>

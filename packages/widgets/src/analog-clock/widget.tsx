@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { resolveColors } from "@nw/widget-core";
 import { WidgetShell } from "../widget-shell";
 import type { AnalogClockParams } from "./schema";
 
@@ -22,23 +23,18 @@ export function AnalogClockWidget({ params }: { params: AnalogClockParams }) {
   const minuteAngle = minutes * 6 + seconds * 0.1;
   const secondAngle = seconds * 6;
 
-  const accentColor = "#" + params.color;
-  const textColor = "#fafafa";
-  const isVintage = params.variant === "vintage";
+  const colors = resolveColors(params.colorTheme);
+  const accentColor = `#${colors.accent}`;
+  const textColor = `#${colors.text}`;
   const isClassic = params.variant === "classic";
 
   const hourNumbers = Array.from({ length: 12 }, (_, i) => i + 1);
 
-  const frameColor = isVintage
-    ? "#8b7355"
-    : isClassic
-      ? textColor
-      : accentColor;
+  const frameColor = isClassic ? textColor : accentColor;
 
-  const handColor = isVintage ? "#4a3728" : textColor;
-  const secondHandColor = isVintage ? "#8b4513" : accentColor;
-  const tickColor = isVintage ? "#4a3728" : textColor;
-  const numberFont = isVintage ? "serif" : "sans-serif";
+  const handColor = textColor;
+  const secondHandColor = accentColor;
+  const tickColor = textColor;
   const hourHandWidth = isClassic ? 4 : 2.5;
   const minuteHandWidth = isClassic ? 3 : 2;
 
@@ -322,19 +318,8 @@ export function AnalogClockWidget({ params }: { params: AnalogClockParams }) {
           cx="100"
           cy="100"
           r={isClassic ? 4 : 3}
-          fill={isVintage ? "#8b7355" : accentColor}
+          fill={accentColor}
         />
-        {isVintage && (
-          <circle
-            cx="100"
-            cy="100"
-            r={5}
-            fill="none"
-            stroke="#8b7355"
-            strokeWidth={1}
-            strokeOpacity={0.5}
-          />
-        )}
       </svg>
     </WidgetShell>
   );

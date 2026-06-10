@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getProgressLabels, formatDate } from "@nw/widget-core";
+import { getProgressLabels, formatDate, resolveColors } from "@nw/widget-core";
 import { WidgetShell } from "../widget-shell";
 import { ProgressBar } from "./progress-bar";
 import type { LifeProgressParams } from "./schema";
@@ -191,10 +191,10 @@ function NeonBar({ label, percentage, accentColor }: { label: string; percentage
   return (
     <div style={{ fontFamily: "monospace", fontSize: "12px", lineHeight: "1.6", whiteSpace: "pre" }}>
       <span style={{ color: accentColor, opacity: 0.6 }}>{label.toUpperCase().padEnd(8)}</span>
-      <span style={{ color: "#555" }}>[</span>
+      <span style={{ color: accentColor, opacity: 0.4 }}>[</span>
       <span style={{ color: accentColor }}>{filledStr}</span>
-      <span style={{ color: "#333" }}>{emptyStr}</span>
-      <span style={{ color: "#555" }}>]</span>
+      <span style={{ color: accentColor, opacity: 0.2 }}>{emptyStr}</span>
+      <span style={{ color: accentColor, opacity: 0.4 }}>]</span>
       <span style={{ color: accentColor }}> {pctStr}</span>
     </div>
   );
@@ -254,16 +254,19 @@ function NeonStyle({ params, data, accentColor }: { params: LifeProgressParams; 
 
 export function LifeProgressWidget({ params }: { params: LifeProgressParams }) {
   const data = useProgress(params);
-  const accentColor = "#" + params.color;
+  const colors = resolveColors(params.colorTheme);
+  const accentColor = `#${colors.accent}`;
+  const textColor = `#${colors.text}`;
+  const borderColor = `#${colors.border}`;
 
   return (
     <WidgetShell params={params}>
       {params.style === "neon" ? (
         <NeonStyle params={params} data={data} accentColor={accentColor} />
       ) : params.variant === "card" ? (
-        <CardStyle params={params} data={data} accentColor={accentColor} textColor="#fafafa" />
+        <CardStyle params={params} data={data} accentColor={accentColor} textColor={textColor} />
       ) : (
-        <MinimalStyle params={params} data={data} textColor="#fafafa" borderColor="#27272a" />
+        <MinimalStyle params={params} data={data} textColor={textColor} borderColor={borderColor} />
       )}
     </WidgetShell>
   );

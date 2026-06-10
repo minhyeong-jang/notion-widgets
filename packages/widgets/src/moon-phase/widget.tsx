@@ -1,5 +1,6 @@
 "use client";
 
+import { resolveColors } from "@nw/widget-core";
 import { WidgetShell } from "../widget-shell";
 import type { MoonPhaseParams } from "./schema";
 import { getMoonPhase } from "./moon-calc";
@@ -93,7 +94,8 @@ const NEON_MOON_CHARS: Record<number, string> = {
 };
 
 export function MoonPhaseWidget({ params }: { params: MoonPhaseParams }) {
-  const accentColor = "#" + params.color;
+  const colors = resolveColors(params.colorTheme);
+  const accentColor = `#${colors.accent}`;
 
   const moon = getMoonPhase(new Date());
   const isKo = params.locale.startsWith("ko");

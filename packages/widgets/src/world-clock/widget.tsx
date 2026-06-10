@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { resolveColors } from "@nw/widget-core";
 import { WidgetShell } from "../widget-shell";
 import type { WorldClockParams } from "./schema";
 
@@ -292,7 +293,8 @@ function NeonStyle({
 
 export function WorldClockWidget({ params }: { params: WorldClockParams }) {
   const [now, setNow] = useState(new Date());
-  const accentColor = "#" + params.color;
+  const colors = resolveColors(params.colorTheme);
+  const accentColor = `#${colors.accent}`;
 
   useEffect(() => {
     const timer = setInterval(() => {

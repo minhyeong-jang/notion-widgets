@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { resolveColors } from "@nw/widget-core";
 import { WidgetShell } from "../widget-shell";
 import type { DailyTarotParams } from "./schema";
 import { getDailySpread, type SpreadCard } from "./tarot-cards";
@@ -267,7 +268,8 @@ function SpreadCardView({
 /* ─── Main Widget ─── */
 
 export function DailyTarotWidget({ params }: { params: DailyTarotParams }) {
-  const accentColor = "#" + params.color;
+  const colors = resolveColors(params.colorTheme);
+  const accentColor = `#${colors.accent}`;
   const spread = getDailySpread(params.deck);
   const isKo = params.locale.startsWith("ko");
   const todayLabel = isKo ? "오늘의 타로" : "Today's Tarot";

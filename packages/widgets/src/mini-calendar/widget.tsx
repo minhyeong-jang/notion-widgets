@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
+import { resolveColors } from "@nw/widget-core";
 import { WidgetShell } from "../widget-shell";
 import type { MiniCalendarParams } from "./schema";
 
@@ -84,11 +85,13 @@ function MinimalCalendar({
   params,
   accentColor,
   textColor,
+  bgColor,
 }: {
   today: Date;
   params: MiniCalendarParams;
   accentColor: string;
   textColor: string;
+  bgColor: string;
 }) {
   const dayNames = useMemo(() => getDayNames(params.locale, params.firstDay), [params.locale, params.firstDay]);
   const monthName = useMemo(() => getMonthName(params.locale, today), [params.locale, today]);
@@ -127,7 +130,7 @@ function MinimalCalendar({
             } ${!cell.isCurrentMonth ? "opacity-20" : ""}`}
             style={
               cell.isToday
-                ? { backgroundColor: accentColor, color: "#18181b" }
+                ? { backgroundColor: accentColor, color: bgColor }
                 : { color: textColor }
             }
           >
@@ -144,11 +147,13 @@ function CardCalendar({
   params,
   accentColor,
   textColor,
+  bgColor,
 }: {
   today: Date;
   params: MiniCalendarParams;
   accentColor: string;
   textColor: string;
+  bgColor: string;
 }) {
   const dayNames = useMemo(() => getDayNames(params.locale, params.firstDay), [params.locale, params.firstDay]);
   const monthName = useMemo(() => getMonthName(params.locale, today), [params.locale, today]);
@@ -187,7 +192,7 @@ function CardCalendar({
             } ${!cell.isCurrentMonth ? "opacity-15" : ""}`}
             style={
               cell.isToday
-                ? { backgroundColor: accentColor, color: "#18181b" }
+                ? { backgroundColor: accentColor, color: bgColor }
                 : {
                     color: textColor,
                     backgroundColor: cell.isCurrentMonth
@@ -208,10 +213,12 @@ function NeonCalendar({
   today,
   params,
   accentColor,
+  bgColor,
 }: {
   today: Date;
   params: MiniCalendarParams;
   accentColor: string;
+  bgColor: string;
 }) {
   const dayNames = useMemo(() => getDayNames(params.locale, params.firstDay), [params.locale, params.firstDay]);
   const monthName = useMemo(() => getMonthName(params.locale, today), [params.locale, today]);
@@ -271,7 +278,7 @@ function NeonCalendar({
                     <span
                       style={{
                         backgroundColor: accentColor,
-                        color: "#18181b",
+                        color: bgColor,
                         fontWeight: "bold",
                         padding: "0 1px",
                       }}
@@ -307,7 +314,10 @@ function NeonCalendar({
 
 export function MiniCalendarWidget({ params }: { params: MiniCalendarParams }) {
   const [today, setToday] = useState(new Date());
-  const accentColor = "#" + params.color;
+  const colors = resolveColors(params.colorTheme);
+  const accentColor = `#${colors.accent}`;
+  const textColor = `#${colors.text}`;
+  const bgColor = `#${colors.bg}`;
 
   useEffect(() => {
     // Update at midnight to keep "today" highlight correct
@@ -329,20 +339,23 @@ export function MiniCalendarWidget({ params }: { params: MiniCalendarParams }) {
           today={today}
           params={params}
           accentColor={accentColor}
+          bgColor={bgColor}
         />
       ) : params.variant === "card" ? (
         <CardCalendar
           today={today}
           params={params}
           accentColor={accentColor}
-          textColor={accentColor}
+          textColor={textColor}
+          bgColor={bgColor}
         />
       ) : (
         <MinimalCalendar
           today={today}
           params={params}
           accentColor={accentColor}
-          textColor={accentColor}
+          textColor={textColor}
+          bgColor={bgColor}
         />
       )}
     </WidgetShell>

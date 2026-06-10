@@ -1,5 +1,6 @@
 "use client";
 
+import { resolveColors } from "@nw/widget-core";
 import { WidgetShell } from "../widget-shell";
 import type { QuoteParams } from "./schema";
 import { getQuotes, type Quote } from "./quotes";
@@ -25,7 +26,9 @@ const fontSizeMap = {
 export function QuoteWidget({ params }: { params: QuoteParams }) {
   const quotes = getQuotes(params.locale);
   const quote = params.mode === "random" ? getRandomQuote(quotes) : getDailyQuote(quotes);
-  const accentColor = "#" + params.color;
+  const colors = resolveColors(params.colorTheme);
+  const accentColor = `#${colors.accent}`;
+  const textColor = `#${colors.text}`;
 
   if (params.style === "neon") {
     return (
@@ -78,7 +81,7 @@ export function QuoteWidget({ params }: { params: QuoteParams }) {
         </div>
         <p
           className={`${fontSizeMap[params.fontSize]} font-medium leading-relaxed`}
-          style={{ color: "#fafafa", opacity: 0.9 }}
+          style={{ color: textColor, opacity: 0.9 }}
         >
           {quote.text}
         </p>
@@ -100,7 +103,7 @@ export function QuoteWidget({ params }: { params: QuoteParams }) {
             />
           </div>
           {quote.title && (
-            <span className="text-xs" style={{ color: "#fafafa", opacity: 0.4 }}>
+            <span className="text-xs" style={{ color: textColor, opacity: 0.4 }}>
               {quote.title}
             </span>
           )}

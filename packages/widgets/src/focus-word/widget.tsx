@@ -1,5 +1,6 @@
 "use client";
 
+import { resolveColors } from "@nw/widget-core";
 import { WidgetShell } from "../widget-shell";
 import type { FocusWordParams } from "./schema";
 import { focusWords } from "./words";
@@ -17,7 +18,8 @@ function getDailyWord(): { en: string; ko: string } {
 }
 
 export function FocusWordWidget({ params }: { params: FocusWordParams }) {
-  const accentColor = "#" + params.color;
+  const colors = resolveColors(params.colorTheme);
+  const accentColor = `#${colors.accent}`;
 
   const hasCustomWord = params.word.trim().length > 0;
   const displayWord = hasCustomWord ? params.word.trim() : getDailyWord().en;
@@ -56,43 +58,15 @@ export function FocusWordWidget({ params }: { params: FocusWordParams }) {
   return (
     <WidgetShell params={params}>
       <div className="text-center px-8 w-full">
-        {params.variant === "minimal" && (
-          <h1
-            className="text-5xl sm:text-6xl font-light tracking-widest uppercase"
-            style={{
-              color: accentColor,
-              textShadow: "var(--w-text-shadow)",
-            }}
-          >
-            {displayWord}
-          </h1>
-        )}
-
-        {params.variant === "gradient" && (
-          <h1
-            className="text-5xl sm:text-6xl font-semibold tracking-wide"
-            style={{
-              background: `linear-gradient(135deg, ${accentColor}, ${accentColor}88)`,
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}
-          >
-            {displayWord}
-          </h1>
-        )}
-
-        {params.variant === "bold" && (
-          <h1
-            className="text-6xl sm:text-7xl font-black tracking-tight uppercase"
-            style={{
-              color: accentColor,
-              textShadow: "var(--w-text-shadow)",
-            }}
-          >
-            {displayWord}
-          </h1>
-        )}
+        <h1
+          className="text-5xl sm:text-6xl font-light tracking-widest uppercase"
+          style={{
+            color: accentColor,
+            textShadow: "var(--w-text-shadow)",
+          }}
+        >
+          {displayWord}
+        </h1>
 
         {!hasCustomWord && (
           <div

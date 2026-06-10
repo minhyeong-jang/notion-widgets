@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { resolveColors } from "@nw/widget-core";
 import { WidgetShell } from "../widget-shell";
 import type { PomodoroParams } from "./schema";
 
@@ -86,7 +87,7 @@ const stateLabels: Record<TimerState, { en: string; ko: string }> = {
 /* ─── Compact Style (default) ─── */
 
 function CompactStyle({ timer, accentColor, textColor }: { timer: ReturnType<typeof usePomodoro>; accentColor: string; textColor: string }) {
-  const breakColor = "#60a5fa";
+  const breakColor = `${accentColor}88`;
   const ringColor = timer.state === "break" ? breakColor : accentColor;
 
   const radius = 36;
@@ -161,7 +162,7 @@ function CompactStyle({ timer, accentColor, textColor }: { timer: ReturnType<typ
 /* ─── Standard Style ─── */
 
 function StandardStyle({ timer, accentColor, textColor }: { timer: ReturnType<typeof usePomodoro>; accentColor: string; textColor: string }) {
-  const breakColor = "#60a5fa";
+  const breakColor = `${accentColor}88`;
   const ringColor = timer.state === "break" ? breakColor : accentColor;
 
   const radius = 90;
@@ -239,7 +240,7 @@ function NeonStyle({
   timer: ReturnType<typeof usePomodoro>;
   accentColor: string;
 }) {
-  const breakColor = "#60a5fa";
+  const breakColor = `${accentColor}88`;
   const activeColor = timer.state === "break" ? breakColor : accentColor;
 
   const barWidth = 24;
@@ -383,8 +384,9 @@ function NeonStyle({
 
 export function PomodoroWidget({ params }: { params: PomodoroParams }) {
   const timer = usePomodoro(params);
-  const accentColor = "#" + params.color;
-  const textColor = "#fafafa";
+  const colors = resolveColors(params.colorTheme);
+  const accentColor = `#${colors.accent}`;
+  const textColor = `#${colors.text}`;
 
   return (
     <WidgetShell params={params}>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
+import { resolveColors } from "@nw/widget-core";
 import { WidgetShell } from "../widget-shell";
 import type { HabitHeatmapParams } from "./schema";
 
@@ -158,9 +159,9 @@ function NeonHeatmap({ params, cells, weeks, accentColor }: { params: HabitHeatm
 }
 
 export function HabitHeatmapWidget({ params }: { params: HabitHeatmapParams }) {
-  const accentColor = "#" + params.color;
-  const bgHex = params.bg;
-  const isTransparentBg = bgHex === "transparent";
+  const colors = resolveColors(params.colorTheme);
+  const accentColor = `#${colors.accent}`;
+  const isTransparentBg = colors.bg === "transparent";
   const weeksCount = Math.max(12, Math.min(52, parseInt(params.weeks, 10) || 20));
 
   const cells = useMemo(() => buildGrid(weeksCount), [weeksCount]);
@@ -173,7 +174,7 @@ export function HabitHeatmapWidget({ params }: { params: HabitHeatmapParams }) {
 
   const cellSize = Math.max(6, Math.min(14, Math.floor(340 / weeksCount)));
   const gap = Math.max(1, Math.floor(cellSize * 0.2));
-  const emptyBg = isTransparentBg ? "rgba(255,255,255,0.05)" : accentColor + "15";
+  const emptyBg = isTransparentBg ? `#${colors.text}0d` : accentColor + "15";
 
   if (params.style === "neon") {
     return (

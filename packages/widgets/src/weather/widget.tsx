@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { resolveColors } from "@nw/widget-core";
 import { WidgetShell } from "../widget-shell";
 import type { WeatherParams } from "./schema";
 import { getWeatherInfo } from "./weather-codes";
@@ -68,7 +69,8 @@ export function WeatherWidget({ params }: { params: WeatherParams }) {
     return () => clearInterval(interval);
   }, [fetchWeather]);
 
-  const accentColor = "#" + params.color;
+  const colors = resolveColors(params.colorTheme);
+  const accentColor = `#${colors.accent}`;
 
   if (loading) {
     return (

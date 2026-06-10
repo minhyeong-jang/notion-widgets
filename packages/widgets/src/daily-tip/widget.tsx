@@ -1,5 +1,6 @@
 "use client";
 
+import { resolveColors } from "@nw/widget-core";
 import { WidgetShell } from "../widget-shell";
 import type { DailyTipParams } from "./schema";
 import { getTipsByCategory, type Tip } from "./tips";
@@ -36,7 +37,8 @@ function getTimestamp(): string {
 }
 
 export function DailyTipWidget({ params }: { params: DailyTipParams }) {
-  const accentColor = "#" + params.color;
+  const colors = resolveColors(params.colorTheme);
+  const accentColor = `#${colors.accent}`;
 
   const items = getTipsByCategory(params.category);
   const tip = params.mode === "random" ? getRandomTip(items) : getDailyTip(items);
