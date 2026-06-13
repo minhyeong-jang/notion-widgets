@@ -51,8 +51,8 @@ export default async function WidgetCustomizerRoute({
   return (
     <Suspense
       fallback={
-        <div className="min-h-dvh flex items-center justify-center bg-zinc-950">
-          <div className="text-zinc-500">Loading...</div>
+        <div className="min-h-dvh flex items-center justify-center" style={{ backgroundColor: "var(--bg)" }}>
+          <div style={{ color: "var(--text-faint)" }}>Loading...</div>
         </div>
       }
     >

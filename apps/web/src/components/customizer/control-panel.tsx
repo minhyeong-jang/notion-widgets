@@ -118,7 +118,7 @@ export function ControlPanel({
     <div className="space-y-6">
       {sortedGroups.map((group) => (
         <div key={group}>
-          <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-500 mb-3">
+          <h3 className="font-mono text-xs font-bold uppercase tracking-wider mb-3" style={{ color: "var(--text-faint)" }}>
             {groupLabels[group] ?? group}
           </h3>
           <div className="space-y-3">

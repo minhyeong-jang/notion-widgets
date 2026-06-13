@@ -15,7 +15,6 @@ export function PreviewFrame({
   widgetId,
   params,
   recommendedSize,
-  dict,
 }: PreviewFrameProps) {
   const src = buildEmbedUrl(widgetId, params);
   const aspectRatio = recommendedSize
@@ -40,29 +39,23 @@ export function PreviewFrame({
   };
 
   return (
-    <div className="w-full">
-      <div
-        className="relative w-full overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900"
-        style={{ aspectRatio }}
-      >
+    <div className="relative w-full" style={{ aspectRatio }}>
+      <iframe
+        src={activeSrc}
+        className="absolute inset-0 w-full h-full"
+        style={{ border: "none" }}
+        title="Widget Preview"
+      />
+      {nextSrc && (
         <iframe
-          src={activeSrc}
-          className="absolute inset-0 w-full h-full"
-          title="Widget Preview"
+          ref={nextIframeRef}
+          src={nextSrc}
+          className="absolute inset-0 w-full h-full opacity-0 pointer-events-none"
+          style={{ border: "none" }}
+          title="Widget Preview Loading"
+          onLoad={handleNextLoad}
         />
-        {nextSrc && (
-          <iframe
-            ref={nextIframeRef}
-            src={nextSrc}
-            className="absolute inset-0 w-full h-full opacity-0 pointer-events-none"
-            title="Widget Preview Loading"
-            onLoad={handleNextLoad}
-          />
-        )}
-      </div>
-      <p className="mt-2 text-xs text-zinc-600 text-center">
-        {dict.customizer.livePreview}
-      </p>
+      )}
     </div>
   );
 }
