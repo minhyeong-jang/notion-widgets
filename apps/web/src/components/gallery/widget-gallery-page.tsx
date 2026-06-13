@@ -465,7 +465,7 @@ export function WidgetGalleryPage({
   if (uncategorized.length > 0) grouped.set("utility", [...(grouped.get("utility") ?? []), ...uncategorized]);
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-100 font-[family-name:var(--font-geist-sans)]">
+    <div className="min-h-screen bg-bg text-text">
       <main className="max-w-6xl mx-auto px-6 pt-32 pb-16">
         {/* Title */}
         <div className="mb-14">

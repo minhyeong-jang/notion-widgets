@@ -14,7 +14,7 @@ export default async function HomePage({
   const dict = await getDictionary(locale as Locale);
 
   return (
-    <main className="min-h-screen bg-zinc-950 text-zinc-100 font-[family-name:var(--font-geist-sans)]">
+    <main className="min-h-screen bg-bg text-text">
       <Hero dict={dict} />
       <WidgetGallery dict={dict} locale={locale as Locale} showViewAll />
       <HowItWorks dict={dict} />
