@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { locales, isValidLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/get-dictionary";
 import { Header } from "@/components/shared/header";
+import { ThemeSwitcher } from "@/components/shared/theme-switcher";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -93,6 +94,7 @@ export default async function LocaleLayout({
       <body className="antialiased">
         <Header locale={locale} />
         {children}
+        <ThemeSwitcher />
       </body>
     </html>
   );

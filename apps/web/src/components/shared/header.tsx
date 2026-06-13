@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { locales, type Locale } from "@/i18n/config";
-import { Globe } from "lucide-react";
 
 interface HeaderProps {
   locale: Locale;
@@ -19,65 +18,88 @@ export function Header({ locale }: HeaderProps) {
 
   const isHome =
     pathname === `/${locale}` || pathname === `/${locale}/`;
-  const isWidgets = pathname.includes("/widgets") || pathname.includes("/widget/");
+  const isWidgets =
+    pathname.includes("/widgets") || pathname.includes("/widget/");
+  const isFeedback = pathname.includes("/feedback");
+
+  const navItems = [
+    {
+      href: `/${locale}/`,
+      label: locale === "ko" ? "홈" : "Home",
+      active: isHome,
+    },
+    {
+      href: `/${locale}/widgets/`,
+      label: locale === "ko" ? "위젯" : "Widgets",
+      active: isWidgets,
+    },
+    {
+      href: `/${locale}/feedback/`,
+      label: locale === "ko" ? "제보" : "Feedback",
+      active: isFeedback,
+    },
+  ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 border-b border-zinc-800/40 bg-zinc-950/80 backdrop-blur-xl">
-      <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
-        {/* Left: Logo */}
+    <header
+      className="fixed top-0 left-0 right-0 z-50"
+      style={{
+        background: "color-mix(in srgb, var(--bg) 82%, transparent)",
+        backdropFilter: "blur(12px)",
+        WebkitBackdropFilter: "blur(12px)",
+        borderBottom: "1px solid var(--border-soft)",
+      }}
+    >
+      <div className="mx-auto flex items-center justify-between" style={{ maxWidth: 1080, padding: "0 32px", height: 60 }}>
+        {/* Logo */}
         <Link
           href={`/${locale}/`}
-          className="flex items-center gap-2 text-lg font-semibold text-zinc-200 tracking-tight hover:text-white transition-colors"
+          className="flex items-center gap-2 transition-opacity hover:opacity-80"
         >
-          <svg className="w-6 h-6" viewBox="0 0 512 512" fill="none">
-            <rect width="512" height="512" rx="108" fill="#18181b"/>
-            <rect x="72" y="72" width="164" height="164" rx="32" fill="#7fb686"/>
-            <rect x="276" y="72" width="164" height="164" rx="32" fill="#3f3f46"/>
-            <rect x="72" y="276" width="164" height="164" rx="32" fill="#3f3f46"/>
-            <rect x="276" y="276" width="164" height="164" rx="32" fill="#52b07a"/>
+          <svg viewBox="0 0 512 512" fill="none" width="22" height="22">
+            <rect width="512" height="512" rx="108" fill="#18181b" />
+            <rect x="72" y="72" width="164" height="164" rx="32" style={{ fill: "var(--accent)" }} />
+            <rect x="276" y="72" width="164" height="164" rx="32" fill="#3f3f46" />
+            <rect x="72" y="276" width="164" height="164" rx="32" fill="#3f3f46" />
+            <rect x="276" y="276" width="164" height="164" rx="32" style={{ fill: "var(--accent-deep)" }} />
           </svg>
-          Notion Widgets
+          <span className="text-text font-bold" style={{ fontSize: 15 }}>
+            Notion Widgets
+          </span>
         </Link>
 
-        {/* Center: Nav */}
-        <nav className="absolute left-1/2 -translate-x-1/2 flex items-center gap-1 bg-zinc-900/60 border border-zinc-800/60 rounded-full px-1 py-1">
-          <Link
-            href={`/${locale}/`}
-            className={`px-4 py-1.5 rounded-full text-sm transition-colors ${
-              isHome
-                ? "text-zinc-100 bg-zinc-800 font-medium"
-                : "text-zinc-500 hover:text-zinc-300"
-            }`}
-          >
-            {locale === "ko" ? "홈" : "Home"}
-          </Link>
-          <Link
-            href={`/${locale}/widgets/`}
-            className={`px-4 py-1.5 rounded-full text-sm transition-colors ${
-              isWidgets
-                ? "text-zinc-100 bg-zinc-800 font-medium"
-                : "text-zinc-500 hover:text-zinc-300"
-            }`}
-          >
-            {locale === "ko" ? "위젯" : "Widgets"}
-          </Link>
+        {/* Nav pill */}
+        <nav className="hidden sm:flex items-center bg-surface border border-border rounded-full" style={{ padding: 3 }}>
+          {navItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`rounded-full transition-colors ${
+                item.active
+                  ? "bg-surface-2 text-text font-semibold"
+                  : "text-text-faint hover:text-text-dim"
+              }`}
+              style={{ fontSize: 13.5, padding: "6px 16px" }}
+            >
+              {item.label}
+            </Link>
+          ))}
         </nav>
 
-        {/* Right: Language Switcher */}
-        <div className="flex items-center gap-1 text-sm bg-zinc-900/60 border border-zinc-800/60 rounded-full px-2 py-1">
-          <Globe className="w-3.5 h-3.5 text-zinc-500 mr-1" />
+        {/* Language switcher */}
+        <div className="flex items-center gap-1 font-mono" style={{ fontSize: 11 }}>
           {locales.map((loc) => (
             <a
               key={loc}
               href={switchedPath(loc)}
               hrefLang={loc}
-              className={`px-2.5 py-1 rounded-full transition-colors text-xs font-medium ${
+              className={`transition-colors ${
                 loc === locale
-                  ? "text-zinc-100 bg-zinc-700/80"
-                  : "text-zinc-500 hover:text-zinc-300"
+                  ? "text-text font-semibold"
+                  : "text-text-faint hover:text-text-dim"
               }`}
             >
-              {loc === "ko" ? "KO" : "EN"}
+              {loc.toUpperCase()}
             </a>
           ))}
         </div>

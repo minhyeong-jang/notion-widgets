@@ -8,6 +8,7 @@ import { Plus, ArrowRight } from "lucide-react";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/get-dictionary";
 import { WidgetCard } from "@/components/shared/widget-card";
+import { getWidgetName, getWidgetDescription } from "@/i18n/widget-locale";
 
 interface WidgetGalleryProps {
   dict: Dictionary;
@@ -39,9 +40,12 @@ export function WidgetGallery({ dict, locale, showViewAll }: WidgetGalleryProps)
         {widgets.map((widget) => (
           <WidgetCard
             key={widget.meta.id}
-            widget={widget}
+            widgetId={widget.meta.id}
+            name={getWidgetName(widget, locale)}
+            description={getWidgetDescription(widget, locale)}
             locale={locale}
-            dict={dict}
+            recommendedSize={widget.recommendedSize}
+            category={widget.category}
           />
         ))}
       </div>
