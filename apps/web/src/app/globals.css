@@ -44,14 +44,14 @@
     --border-soft: #eeebe3;
     --border-strong: #d6d2c7;
     --track: #e4e0d5;
-    --text: #1c1917;
-    --text-dim: #6b665e;
-    --text-faint: #9b9489;
+    --text: #1a1814;
+    --text-dim: #57524a;
+    --text-faint: #847e73;
     --heat-empty: rgba(0, 0, 0, 0.06);
     --shadow: rgba(0, 0, 0, 0.14);
 
-    --accent: #4f9e69;
-    --accent-bright: #3d8556;
+    --accent: #3d8f5a;
+    --accent-bright: #357a4d;
     --accent-deep: #52b07a;
     --accent-dim: #bfe0c8;
     --accent-tint: rgba(79, 158, 105, 0.14);

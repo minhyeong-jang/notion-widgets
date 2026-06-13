@@ -42,7 +42,7 @@ export function Header({ locale }: HeaderProps) {
 
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-50"
+      className="sticky top-0 z-50"
       style={{
         background: "color-mix(in srgb, var(--bg) 82%, transparent)",
         backdropFilter: "blur(12px)",

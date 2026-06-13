@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import type { Locale } from "@/i18n/config";
 
 interface WidgetCardProps {
@@ -17,6 +18,20 @@ export function WidgetCard({
   description,
   locale,
 }: WidgetCardProps) {
+  const [accent, setAccent] = useState("green");
+
+  useEffect(() => {
+    const saved = localStorage.getItem("nw-accent-v1");
+    if (saved) setAccent(saved);
+
+    const handler = (e: Event) => {
+      const a = (e as CustomEvent).detail;
+      if (a) setAccent(a);
+    };
+    window.addEventListener("nw-accent-change", handler);
+    return () => window.removeEventListener("nw-accent-change", handler);
+  }, []);
+
   return (
     <a
       href={`/${locale}/widget/${widgetId}/`}
@@ -38,7 +53,7 @@ export function WidgetCard({
         style={{ height: 116, borderRadius: 9 }}
       >
         <iframe
-          src={`/embed/${widgetId}`}
+          src={`/embed/${widgetId}?accent=${accent}`}
           className="pointer-events-none w-full h-full"
           style={{ border: "none" }}
           loading="lazy"

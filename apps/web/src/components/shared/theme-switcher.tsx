@@ -14,7 +14,7 @@ const MODES: Record<string, Record<string, string>> = {
   light: {
     "--bg": "#faf9f7", "--bg-soft": "#f1efe9", "--surface": "#ffffff", "--surface-2": "#f6f4ef",
     "--inset": "#f3f1ea", "--border": "#e6e3da", "--border-soft": "#eeebe3", "--border-strong": "#d6d2c7",
-    "--track": "#e4e0d5", "--text": "#1c1917", "--text-dim": "#6b665e", "--text-faint": "#9b9489",
+    "--track": "#e4e0d5", "--text": "#1a1814", "--text-dim": "#57524a", "--text-faint": "#847e73",
     "--heat-empty": "rgba(0,0,0,0.06)", "--shadow": "rgba(0,0,0,0.14)",
   },
 };
@@ -22,7 +22,7 @@ const MODES: Record<string, Record<string, string>> = {
 const ACCENTS: Record<string, Record<string, Record<string, string>>> = {
   green: {
     dark: { "--accent": "#7fb686", "--accent-bright": "#98cc9f", "--accent-deep": "#52b07a", "--accent-dim": "#2c5b3e", "--accent-tint": "rgba(127,182,134,0.12)", "--btn-text": "#0e1a10" },
-    light: { "--accent": "#4f9e69", "--accent-bright": "#3d8556", "--accent-deep": "#52b07a", "--accent-dim": "#bfe0c8", "--accent-tint": "rgba(79,158,105,0.14)", "--btn-text": "#ffffff" },
+    light: { "--accent": "#3d8f5a", "--accent-bright": "#357a4d", "--accent-deep": "#52b07a", "--accent-dim": "#bfe0c8", "--accent-tint": "rgba(61,143,90,0.14)", "--btn-text": "#ffffff" },
   },
   red: {
     dark: { "--accent": "#ef4444", "--accent-bright": "#f87171", "--accent-deep": "#c93636", "--accent-dim": "#5e2222", "--accent-tint": "rgba(239,68,68,0.12)", "--btn-text": "#1a0d0d" },
@@ -112,12 +112,14 @@ export function ThemeSwitcher() {
     localStorage.setItem(LS_MODE, newMode);
     applyVars(MODES[newMode]!);
     applyVars(ACCENTS[accent]![newMode]!);
+    window.dispatchEvent(new CustomEvent("nw-mode-change", { detail: newMode }));
   }
 
   function changeAccent(newAccent: string) {
     setAccent(newAccent);
     localStorage.setItem(LS_ACCENT, newAccent);
     applyVars(ACCENTS[newAccent]![mode]!);
+    window.dispatchEvent(new CustomEvent("nw-accent-change", { detail: newAccent }));
   }
 
   if (!mounted) return null;

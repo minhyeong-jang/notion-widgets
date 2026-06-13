@@ -16,7 +16,22 @@ export function PreviewFrame({
   params,
   recommendedSize,
 }: PreviewFrameProps) {
-  const src = buildEmbedUrl(widgetId, params);
+  const [mode, setMode] = useState("dark");
+
+  useEffect(() => {
+    const saved = localStorage.getItem("nw-mode-v1");
+    if (saved) setMode(saved);
+
+    const handler = (e: Event) => {
+      const m = (e as CustomEvent).detail;
+      if (m) setMode(m);
+    };
+    window.addEventListener("nw-mode-change", handler);
+    return () => window.removeEventListener("nw-mode-change", handler);
+  }, []);
+
+  const allParams = { ...params, mode };
+  const src = buildEmbedUrl(widgetId, allParams);
   const aspectRatio = recommendedSize
     ? `${recommendedSize.width} / ${recommendedSize.height}`
     : "16 / 9";

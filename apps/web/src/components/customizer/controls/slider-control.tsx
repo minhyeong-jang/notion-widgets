@@ -27,7 +27,7 @@ export function SliderControl({
 }: SliderControlProps) {
   return (
     <div className="flex items-center justify-between gap-3">
-      <label className="text-sm text-zinc-300 shrink-0">
+      <label className="text-sm shrink-0" style={{ color: "var(--text-dim)" }}>
         {getControlLabel(control, locale)}
         {control.isPremium && <span className="ml-1 text-xs">&#128274;</span>}
       </label>
@@ -40,9 +40,10 @@ export function SliderControl({
           min={min}
           max={max}
           step={step}
-          className="w-24 accent-emerald-500 disabled:opacity-40 disabled:cursor-not-allowed"
+          className="w-24 disabled:opacity-40 disabled:cursor-not-allowed"
+          style={{ accentColor: "var(--accent)" }}
         />
-        <span className="text-xs font-mono text-zinc-400 w-8 text-right">
+        <span className="text-xs font-mono w-8 text-right" style={{ color: "var(--text-faint)" }}>
           {value}
         </span>
       </div>

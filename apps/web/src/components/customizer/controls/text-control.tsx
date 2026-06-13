@@ -32,7 +32,7 @@ export function TextControl({
 
   return (
     <div className="flex items-center justify-between gap-3">
-      <label className="text-sm text-zinc-300 shrink-0">
+      <label className="text-sm shrink-0" style={{ color: "var(--text-dim)" }}>
         {getControlLabel(control, locale)}
         {control.isPremium && <span className="ml-1 text-xs">&#128274;</span>}
       </label>
@@ -53,7 +53,12 @@ export function TextControl({
           }
         }}
         disabled={disabled}
-        className="w-40 px-2 py-1 text-sm bg-zinc-800 border border-zinc-700 rounded text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none focus:border-zinc-500"
+        className="w-40 px-2 py-1 text-sm rounded disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none"
+        style={{
+          backgroundColor: "var(--inset)",
+          border: "1px solid var(--border)",
+          color: "var(--text)",
+        }}
         placeholder={String(control.defaultValue)}
       />
     </div>

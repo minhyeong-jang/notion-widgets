@@ -1,9 +1,12 @@
 "use client";
 
 import { Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import "@nw/widgets";
 import { getWidget, type WidgetDefinition } from "@nw/widget-core";
 import { useWidgetParams } from "@/hooks/use-widget-params";
+import { useColorMode } from "@/hooks/use-color-mode";
+import { ColorModeContext } from "@nw/widgets/color-mode-context";
 import { Watermark } from "@/components/shared/watermark";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -19,8 +22,12 @@ function WidgetSkeleton() {
   );
 }
 
-export function WidgetRenderer({ widgetId }: { widgetId: string }) {
+function WidgetRendererInner({ widgetId }: { widgetId: string }) {
   const widget = getWidget(widgetId);
+  const searchParams = useSearchParams();
+  const modeParam = searchParams.get("mode") as "dark" | "light" | null;
+  const systemMode = useColorMode();
+  const colorMode = modeParam || systemMode;
 
   if (!widget) {
     return (
@@ -31,9 +38,19 @@ export function WidgetRenderer({ widgetId }: { widgetId: string }) {
   }
 
   return (
+    <ColorModeContext.Provider value={colorMode}>
+      <Suspense fallback={<WidgetSkeleton />}>
+        <WidgetWithParams widget={widget} />
+        <Watermark />
+      </Suspense>
+    </ColorModeContext.Provider>
+  );
+}
+
+export function WidgetRenderer({ widgetId }: { widgetId: string }) {
+  return (
     <Suspense fallback={<WidgetSkeleton />}>
-      <WidgetWithParams widget={widget} />
-      <Watermark />
+      <WidgetRendererInner widgetId={widgetId} />
     </Suspense>
   );
 }
