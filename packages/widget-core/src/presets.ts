@@ -49,27 +49,28 @@ export const styleControl: ControlDefinition = {
 export const themeControl = styleControl;
 
 /**
- * Reusable color theme ControlDefinition for widget registration.
- * Color theme = color preset (accent/bg/text combination).
+ * Reusable accent color ControlDefinition for widget registration.
+ * Accent = color identity (green, red, blue, etc.).
  */
-export const colorThemeControl: ControlDefinition = {
-  key: "colorTheme",
-  label: "Color Theme",
-  labelKo: "색상 테마",
+export const accentControl: ControlDefinition = {
+  key: "accent",
+  label: "Color",
+  labelKo: "색상",
   type: "select",
-  defaultValue: "default",
+  defaultValue: "green",
   options: [
-    { value: "default", label: "Default" },
+    { value: "green", label: "Green" },
     { value: "red", label: "Red" },
     { value: "blue", label: "Blue" },
     { value: "ocean", label: "Ocean" },
-    { value: "forest", label: "Forest" },
     { value: "sunset", label: "Sunset" },
     { value: "purple", label: "Purple" },
-    { value: "light", label: "Light" },
   ],
   group: "appearance",
 };
+
+/** @deprecated Use accentControl instead */
+export const colorThemeControl = accentControl;
 
 /**
  * Reusable locale ControlDefinition for widget registration.

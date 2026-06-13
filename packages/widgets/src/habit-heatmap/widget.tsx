@@ -159,7 +159,7 @@ function NeonHeatmap({ params, cells, weeks, accentColor }: { params: HabitHeatm
 }
 
 export function HabitHeatmapWidget({ params }: { params: HabitHeatmapParams }) {
-  const colors = resolveColors(params.colorTheme);
+  const colors = resolveColors(params.accent);
   const accentColor = `#${colors.accent}`;
   const isTransparentBg = colors.bg === "transparent";
   const weeksCount = Math.max(12, Math.min(52, parseInt(params.weeks, 10) || 20));

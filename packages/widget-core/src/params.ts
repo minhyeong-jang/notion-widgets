@@ -1,4 +1,5 @@
 import type { WidgetDefinition } from "./types";
+import { mapLegacyTheme } from "./color-theme";
 
 export function parseWidgetParams<TParams>(
   widget: WidgetDefinition<TParams>,
@@ -8,6 +9,12 @@ export function parseWidgetParams<TParams>(
   searchParams.forEach((value, key) => {
     raw[key] = value;
   });
+
+  // Backward compat: map old colorTheme to accent
+  if (raw.colorTheme && !raw.accent) {
+    raw.accent = mapLegacyTheme(raw.colorTheme);
+    delete raw.colorTheme;
+  }
 
   const result = widget.paramsSchema.safeParse(raw);
   if (result.success) {

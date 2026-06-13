@@ -292,7 +292,7 @@ function NeonStyle({
 
 export function CountdownWidget({ params }: { params: CountdownParams }) {
   const countdown = useCountdown(params.targetDate);
-  const colors = resolveColors(params.colorTheme);
+  const colors = resolveColors(params.accent);
   const accentColor = `#${colors.accent}`;
   const textColor = `#${colors.text}`;
   const borderColor = `#${colors.border}`;

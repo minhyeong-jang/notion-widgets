@@ -37,7 +37,7 @@ function getTimestamp(): string {
 }
 
 export function DailyTipWidget({ params }: { params: DailyTipParams }) {
-  const colors = resolveColors(params.colorTheme);
+  const colors = resolveColors(params.accent);
   const accentColor = `#${colors.accent}`;
 
   const items = getTipsByCategory(params.category);

@@ -366,7 +366,7 @@ function NeonStyle({
 }
 
 export function BreathingWidget({ params }: { params: BreathingParams }) {
-  const colors = resolveColors(params.colorTheme);
+  const colors = resolveColors(params.accent);
   const accentColor = `#${colors.accent}`;
   const { phase, countdown, scale, phases, phaseIndex } = useBreathingAnimation(params.technique);
 

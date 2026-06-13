@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const breathingSchema = z.object({
   style: z.string().default("minimal"),
-  colorTheme: z.string().default("default"),
+  accent: z.string().default("green"),
   technique: z.enum(["4-7-8", "box", "equal"]).default("4-7-8"),
   variant: z.enum(["circle", "minimal"]).default("circle"),
 });

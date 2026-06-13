@@ -10,12 +10,12 @@ export {
   getAllThemes,
   getFreeThemes,
 } from "./theme";
-export type { ColorTheme } from "./color-theme";
+export type { ResolvedColors, ModeColors, AccentColors } from "./color-theme";
 export {
-  getColorTheme,
-  getAllColorThemes,
-  COLOR_THEME_OPTIONS,
   resolveColors,
+  getAllAccents,
+  ACCENT_IDS,
+  mapLegacyTheme,
 } from "./color-theme";
 export {
   LOCALE_OPTIONS,
@@ -24,6 +24,7 @@ export {
   themeControl,
   localeControl,
   dateFormatControl,
+  accentControl,
   colorThemeControl,
   formatDate,
   getProgressLabels,

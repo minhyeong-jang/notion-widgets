@@ -384,7 +384,7 @@ function NeonStyle({
 
 export function PomodoroWidget({ params }: { params: PomodoroParams }) {
   const timer = usePomodoro(params);
-  const colors = resolveColors(params.colorTheme);
+  const colors = resolveColors(params.accent);
   const accentColor = `#${colors.accent}`;
   const textColor = `#${colors.text}`;
 

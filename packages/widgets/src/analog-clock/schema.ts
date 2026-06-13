@@ -4,7 +4,7 @@ const booleanStr = z.enum(["true", "false"]).transform(v => v === "true");
 
 export const analogClockSchema = z.object({
   style: z.string().default("minimal"),
-  colorTheme: z.string().default("default"),
+  accent: z.string().default("green"),
   variant: z.enum(["minimal", "classic"]).default("minimal"),
   showNumbers: booleanStr.default("false"),
   showSeconds: booleanStr.default("false"),

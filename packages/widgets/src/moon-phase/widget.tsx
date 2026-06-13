@@ -94,7 +94,7 @@ const NEON_MOON_CHARS: Record<number, string> = {
 };
 
 export function MoonPhaseWidget({ params }: { params: MoonPhaseParams }) {
-  const colors = resolveColors(params.colorTheme);
+  const colors = resolveColors(params.accent);
   const accentColor = `#${colors.accent}`;
 
   const moon = getMoonPhase(new Date());

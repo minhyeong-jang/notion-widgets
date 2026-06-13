@@ -314,7 +314,7 @@ function NeonCalendar({
 
 export function MiniCalendarWidget({ params }: { params: MiniCalendarParams }) {
   const [today, setToday] = useState(new Date());
-  const colors = resolveColors(params.colorTheme);
+  const colors = resolveColors(params.accent);
   const accentColor = `#${colors.accent}`;
   const textColor = `#${colors.text}`;
   const bgColor = `#${colors.bg}`;

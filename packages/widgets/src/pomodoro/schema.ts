@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const pomodoroSchema = z.object({
   style: z.string().default("minimal"),
-  colorTheme: z.string().default("default"),
+  accent: z.string().default("green"),
   variant: z.enum(["compact", "standard"]).default("compact"),
   workMinutes: z.string().default("25"),
   breakMinutes: z.string().default("5"),

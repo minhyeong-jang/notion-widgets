@@ -41,7 +41,7 @@ export function FlipClockWidget({ params }: { params: FlipClockParams }) {
     : "";
   const secondsLabel = params.showLabel ? shortDate : "";
 
-  const colors = resolveColors(params.colorTheme);
+  const colors = resolveColors(params.accent);
   const textColor = `#${colors.text}`;
   const accentColor = `#${colors.accent}`;
   const bgColor = `#${colors.bg}`;

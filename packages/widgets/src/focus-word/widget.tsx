@@ -18,7 +18,7 @@ function getDailyWord(): { en: string; ko: string } {
 }
 
 export function FocusWordWidget({ params }: { params: FocusWordParams }) {
-  const colors = resolveColors(params.colorTheme);
+  const colors = resolveColors(params.accent);
   const accentColor = `#${colors.accent}`;
 
   const hasCustomWord = params.word.trim().length > 0;

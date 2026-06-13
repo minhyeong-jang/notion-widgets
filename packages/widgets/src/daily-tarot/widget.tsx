@@ -268,7 +268,7 @@ function SpreadCardView({
 /* ─── Main Widget ─── */
 
 export function DailyTarotWidget({ params }: { params: DailyTarotParams }) {
-  const colors = resolveColors(params.colorTheme);
+  const colors = resolveColors(params.accent);
   const accentColor = `#${colors.accent}`;
   const spread = getDailySpread(params.deck);
   const isKo = params.locale.startsWith("ko");

@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const habitHeatmapSchema = z.object({
   style: z.string().default("minimal"),
-  colorTheme: z.string().default("default"),
+  accent: z.string().default("green"),
   weeks: z.string().default("20"),
   label: z.string().default("Year Progress"),
 });

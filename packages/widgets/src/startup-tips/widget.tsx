@@ -24,7 +24,7 @@ const fontSizeMap = {
 } as const;
 
 export function StartupTipsWidget({ params }: { params: StartupTipsParams }) {
-  const colors = resolveColors(params.colorTheme);
+  const colors = resolveColors(params.accent);
   const accentColor = `#${colors.accent}`;
 
   const items = getPrinciplesByCategory(params.category);

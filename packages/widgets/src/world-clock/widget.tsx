@@ -293,7 +293,7 @@ function NeonStyle({
 
 export function WorldClockWidget({ params }: { params: WorldClockParams }) {
   const [now, setNow] = useState(new Date());
-  const colors = resolveColors(params.colorTheme);
+  const colors = resolveColors(params.accent);
   const accentColor = `#${colors.accent}`;
 
   useEffect(() => {

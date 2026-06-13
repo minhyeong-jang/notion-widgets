@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const moonPhaseSchema = z.object({
   style: z.string().default("minimal"),
-  colorTheme: z.string().default("default"),
+  accent: z.string().default("green"),
   variant: z.enum(["minimal", "detailed"]).default("minimal"),
   locale: z.string().default("en-US"),
 });

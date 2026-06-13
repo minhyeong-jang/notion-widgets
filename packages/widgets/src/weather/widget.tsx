@@ -69,7 +69,7 @@ export function WeatherWidget({ params }: { params: WeatherParams }) {
     return () => clearInterval(interval);
   }, [fetchWeather]);
 
-  const colors = resolveColors(params.colorTheme);
+  const colors = resolveColors(params.accent);
   const accentColor = `#${colors.accent}`;
 
   if (loading) {

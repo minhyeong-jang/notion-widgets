@@ -23,7 +23,7 @@ export function AnalogClockWidget({ params }: { params: AnalogClockParams }) {
   const minuteAngle = minutes * 6 + seconds * 0.1;
   const secondAngle = seconds * 6;
 
-  const colors = resolveColors(params.colorTheme);
+  const colors = resolveColors(params.accent);
   const accentColor = `#${colors.accent}`;
   const textColor = `#${colors.text}`;
   const isClassic = params.variant === "classic";

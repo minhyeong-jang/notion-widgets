@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const quoteSchema = z.object({
   style: z.string().default("minimal"),
-  colorTheme: z.string().default("default"),
+  accent: z.string().default("green"),
   locale: z.string().default("ko-KR"),
   fontSize: z.enum(["sm", "md", "lg"]).default("md"),
   mode: z.enum(["daily", "random"]).default("daily"),

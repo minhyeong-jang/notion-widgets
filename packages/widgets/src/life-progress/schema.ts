@@ -5,7 +5,7 @@ const dateStr = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
 
 export const lifeProgressSchema = z.object({
   style: z.string().default("minimal"),
-  colorTheme: z.string().default("default"),
+  accent: z.string().default("green"),
   variant: z.enum(["minimal", "card"]).default("minimal"),
   target: dateStr.default("2026-12-31"),
   start: dateStr.default("2026-01-01"),

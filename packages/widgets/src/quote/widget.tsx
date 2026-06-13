@@ -26,7 +26,7 @@ const fontSizeMap = {
 export function QuoteWidget({ params }: { params: QuoteParams }) {
   const quotes = getQuotes(params.locale);
   const quote = params.mode === "random" ? getRandomQuote(quotes) : getDailyQuote(quotes);
-  const colors = resolveColors(params.colorTheme);
+  const colors = resolveColors(params.accent);
   const accentColor = `#${colors.accent}`;
   const textColor = `#${colors.text}`;
 

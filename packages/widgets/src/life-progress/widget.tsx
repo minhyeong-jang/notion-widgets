@@ -255,7 +255,7 @@ function NeonStyle({ params, data, accentColor }: { params: LifeProgressParams; 
 
 export function LifeProgressWidget({ params }: { params: LifeProgressParams }) {
   const data = useProgress(params);
-  const colors = resolveColors(params.colorTheme);
+  const colors = resolveColors(params.accent);
   const accentColor = `#${colors.accent}`;
   const textColor = `#${colors.text}`;
   const borderColor = `#${colors.border}`;
