@@ -6,7 +6,6 @@ import { getDictionary } from "@/i18n/get-dictionary";
 import { getWidgetName, getWidgetDescription } from "@/i18n/widget-locale";
 import { JsonLd } from "@/components/seo/json-ld";
 import { WidgetGalleryPage } from "@/components/gallery/widget-gallery-page";
-import { Footer } from "@/components/shared/footer";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -68,7 +67,6 @@ export default async function WidgetsPage({
     <>
       <JsonLd data={itemListJsonLd} />
       <WidgetGalleryPage dict={dict} locale={locale as Locale} />
-      <Footer />
     </>
   );
 }
