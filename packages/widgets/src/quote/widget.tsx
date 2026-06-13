@@ -2,6 +2,7 @@
 
 import { resolveColors } from "@nw/widget-core";
 import { WidgetShell } from "../widget-shell";
+import { useWidgetColorMode } from "../color-mode-context";
 import type { QuoteParams } from "./schema";
 import { getQuotes, type Quote } from "./quotes";
 
@@ -26,7 +27,8 @@ const fontSizeMap = {
 export function QuoteWidget({ params }: { params: QuoteParams }) {
   const quotes = getQuotes(params.locale);
   const quote = params.mode === "random" ? getRandomQuote(quotes) : getDailyQuote(quotes);
-  const colors = resolveColors(params.accent);
+  const colorMode = useWidgetColorMode();
+  const colors = resolveColors(params.accent, colorMode);
   const accentColor = `#${colors.accent}`;
   const textColor = `#${colors.text}`;
 

@@ -16,6 +16,9 @@ import "./habit-heatmap";
 import "./breathing";
 import "./daily-tarot";
 
+// Re-export color mode context
+export { ColorModeContext, useWidgetColorMode } from "./color-mode-context";
+
 // Re-export for direct use
 export { FlipCard, FlipClockWidget } from "./flip-clock";
 export { ProgressBar, LifeProgressWidget } from "./life-progress";

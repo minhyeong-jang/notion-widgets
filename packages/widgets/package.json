@@ -5,6 +5,7 @@
   "type": "module",
   "exports": {
     ".": { "types": "./src/index.ts", "default": "./src/index.ts" },
+    "./color-mode-context": { "types": "./src/color-mode-context.tsx", "default": "./src/color-mode-context.tsx" },
     "./flip-clock": { "types": "./src/flip-clock/index.ts", "default": "./src/flip-clock/index.ts" },
     "./flip-clock/widget": { "types": "./src/flip-clock/widget.tsx", "default": "./src/flip-clock/widget.tsx" },
     "./life-progress": { "types": "./src/life-progress/index.ts", "default": "./src/life-progress/index.ts" },

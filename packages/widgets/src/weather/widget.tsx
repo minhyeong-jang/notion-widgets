@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { resolveColors } from "@nw/widget-core";
 import { WidgetShell } from "../widget-shell";
+import { useWidgetColorMode } from "../color-mode-context";
 import type { WeatherParams } from "./schema";
 import { getWeatherInfo } from "./weather-codes";
 
@@ -69,7 +70,8 @@ export function WeatherWidget({ params }: { params: WeatherParams }) {
     return () => clearInterval(interval);
   }, [fetchWeather]);
 
-  const colors = resolveColors(params.accent);
+  const mode = useWidgetColorMode();
+  const colors = resolveColors(params.accent, mode);
   const accentColor = `#${colors.accent}`;
 
   if (loading) {

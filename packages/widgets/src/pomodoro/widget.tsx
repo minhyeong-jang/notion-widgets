@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { resolveColors } from "@nw/widget-core";
 import { WidgetShell } from "../widget-shell";
+import { useWidgetColorMode } from "../color-mode-context";
 import type { PomodoroParams } from "./schema";
 
 type TimerState = "idle" | "working" | "break";
@@ -384,7 +385,8 @@ function NeonStyle({
 
 export function PomodoroWidget({ params }: { params: PomodoroParams }) {
   const timer = usePomodoro(params);
-  const colors = resolveColors(params.accent);
+  const mode = useWidgetColorMode();
+  const colors = resolveColors(params.accent, mode);
   const accentColor = `#${colors.accent}`;
   const textColor = `#${colors.text}`;
 

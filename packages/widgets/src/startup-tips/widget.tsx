@@ -2,6 +2,7 @@
 
 import { resolveColors } from "@nw/widget-core";
 import { WidgetShell } from "../widget-shell";
+import { useWidgetColorMode } from "../color-mode-context";
 import type { StartupTipsParams } from "./schema";
 import { getPrinciplesByCategory, type Principle } from "./principles";
 
@@ -24,7 +25,8 @@ const fontSizeMap = {
 } as const;
 
 export function StartupTipsWidget({ params }: { params: StartupTipsParams }) {
-  const colors = resolveColors(params.accent);
+  const mode = useWidgetColorMode();
+  const colors = resolveColors(params.accent, mode);
   const accentColor = `#${colors.accent}`;
 
   const items = getPrinciplesByCategory(params.category);

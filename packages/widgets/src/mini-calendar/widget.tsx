@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { resolveColors } from "@nw/widget-core";
 import { WidgetShell } from "../widget-shell";
+import { useWidgetColorMode } from "../color-mode-context";
 import type { MiniCalendarParams } from "./schema";
 
 function getDayNames(locale: string, firstDay: "sun" | "mon"): string[] {
@@ -314,7 +315,8 @@ function NeonCalendar({
 
 export function MiniCalendarWidget({ params }: { params: MiniCalendarParams }) {
   const [today, setToday] = useState(new Date());
-  const colors = resolveColors(params.accent);
+  const mode = useWidgetColorMode();
+  const colors = resolveColors(params.accent, mode);
   const accentColor = `#${colors.accent}`;
   const textColor = `#${colors.text}`;
   const bgColor = `#${colors.bg}`;

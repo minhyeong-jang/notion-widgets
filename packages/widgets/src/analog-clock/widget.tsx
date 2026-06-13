@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { resolveColors } from "@nw/widget-core";
 import { WidgetShell } from "../widget-shell";
+import { useWidgetColorMode } from "../color-mode-context";
 import type { AnalogClockParams } from "./schema";
 
 export function AnalogClockWidget({ params }: { params: AnalogClockParams }) {
@@ -23,7 +24,8 @@ export function AnalogClockWidget({ params }: { params: AnalogClockParams }) {
   const minuteAngle = minutes * 6 + seconds * 0.1;
   const secondAngle = seconds * 6;
 
-  const colors = resolveColors(params.accent);
+  const mode = useWidgetColorMode();
+  const colors = resolveColors(params.accent, mode);
   const accentColor = `#${colors.accent}`;
   const textColor = `#${colors.text}`;
   const isClassic = params.variant === "classic";

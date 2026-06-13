@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { getProgressLabels, formatDate, resolveColors } from "@nw/widget-core";
 import { WidgetShell } from "../widget-shell";
+import { useWidgetColorMode } from "../color-mode-context";
 import { ProgressBar } from "./progress-bar";
 import type { LifeProgressParams } from "./schema";
 
@@ -255,7 +256,8 @@ function NeonStyle({ params, data, accentColor }: { params: LifeProgressParams; 
 
 export function LifeProgressWidget({ params }: { params: LifeProgressParams }) {
   const data = useProgress(params);
-  const colors = resolveColors(params.accent);
+  const mode = useWidgetColorMode();
+  const colors = resolveColors(params.accent, mode);
   const accentColor = `#${colors.accent}`;
   const textColor = `#${colors.text}`;
   const borderColor = `#${colors.border}`;

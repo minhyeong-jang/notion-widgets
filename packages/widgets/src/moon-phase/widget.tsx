@@ -2,6 +2,7 @@
 
 import { resolveColors } from "@nw/widget-core";
 import { WidgetShell } from "../widget-shell";
+import { useWidgetColorMode } from "../color-mode-context";
 import type { MoonPhaseParams } from "./schema";
 import { getMoonPhase } from "./moon-calc";
 
@@ -94,7 +95,8 @@ const NEON_MOON_CHARS: Record<number, string> = {
 };
 
 export function MoonPhaseWidget({ params }: { params: MoonPhaseParams }) {
-  const colors = resolveColors(params.accent);
+  const mode = useWidgetColorMode();
+  const colors = resolveColors(params.accent, mode);
   const accentColor = `#${colors.accent}`;
 
   const moon = getMoonPhase(new Date());

@@ -2,6 +2,7 @@
 
 import { resolveColors } from "@nw/widget-core";
 import { WidgetShell } from "../widget-shell";
+import { useWidgetColorMode } from "../color-mode-context";
 import type { FocusWordParams } from "./schema";
 import { focusWords } from "./words";
 
@@ -18,7 +19,8 @@ function getDailyWord(): { en: string; ko: string } {
 }
 
 export function FocusWordWidget({ params }: { params: FocusWordParams }) {
-  const colors = resolveColors(params.accent);
+  const mode = useWidgetColorMode();
+  const colors = resolveColors(params.accent, mode);
   const accentColor = `#${colors.accent}`;
 
   const hasCustomWord = params.word.trim().length > 0;

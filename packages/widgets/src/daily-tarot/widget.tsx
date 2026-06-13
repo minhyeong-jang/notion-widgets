@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { resolveColors } from "@nw/widget-core";
 import { WidgetShell } from "../widget-shell";
+import { useWidgetColorMode } from "../color-mode-context";
 import type { DailyTarotParams } from "./schema";
 import { getDailySpread, type SpreadCard } from "./tarot-cards";
 
@@ -268,7 +269,8 @@ function SpreadCardView({
 /* ─── Main Widget ─── */
 
 export function DailyTarotWidget({ params }: { params: DailyTarotParams }) {
-  const colors = resolveColors(params.accent);
+  const mode = useWidgetColorMode();
+  const colors = resolveColors(params.accent, mode);
   const accentColor = `#${colors.accent}`;
   const spread = getDailySpread(params.deck);
   const isKo = params.locale.startsWith("ko");

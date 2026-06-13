@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { resolveColors } from "@nw/widget-core";
 import { WidgetShell } from "../widget-shell";
+import { useWidgetColorMode } from "../color-mode-context";
 import type { BreathingParams } from "./schema";
 
 interface Phase {
@@ -366,7 +367,8 @@ function NeonStyle({
 }
 
 export function BreathingWidget({ params }: { params: BreathingParams }) {
-  const colors = resolveColors(params.accent);
+  const mode = useWidgetColorMode();
+  const colors = resolveColors(params.accent, mode);
   const accentColor = `#${colors.accent}`;
   const { phase, countdown, scale, phases, phaseIndex } = useBreathingAnimation(params.technique);
 

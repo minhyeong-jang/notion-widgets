@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { resolveColors } from "@nw/widget-core";
 import { WidgetShell } from "../widget-shell";
+import { useWidgetColorMode } from "../color-mode-context";
 import type { WorldClockParams } from "./schema";
 
 function getCityName(timezone: string): string {
@@ -293,7 +294,8 @@ function NeonStyle({
 
 export function WorldClockWidget({ params }: { params: WorldClockParams }) {
   const [now, setNow] = useState(new Date());
-  const colors = resolveColors(params.accent);
+  const mode = useWidgetColorMode();
+  const colors = resolveColors(params.accent, mode);
   const accentColor = `#${colors.accent}`;
 
   useEffect(() => {

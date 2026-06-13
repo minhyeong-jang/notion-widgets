@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { resolveColors } from "@nw/widget-core";
 import { WidgetShell } from "../widget-shell";
+import { useWidgetColorMode } from "../color-mode-context";
 import { FlipCard } from "./flip-clock";
 import { MinimalCard } from "./minimal-clock";
 import type { FlipClockParams } from "./schema";
@@ -41,7 +42,8 @@ export function FlipClockWidget({ params }: { params: FlipClockParams }) {
     : "";
   const secondsLabel = params.showLabel ? shortDate : "";
 
-  const colors = resolveColors(params.accent);
+  const mode = useWidgetColorMode();
+  const colors = resolveColors(params.accent, mode);
   const textColor = `#${colors.text}`;
   const accentColor = `#${colors.accent}`;
   const bgColor = `#${colors.bg}`;

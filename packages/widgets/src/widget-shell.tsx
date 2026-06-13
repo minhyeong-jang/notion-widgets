@@ -2,9 +2,11 @@
 
 import type { ReactNode, CSSProperties } from "react";
 import { getStyleDesign, resolveColors } from "@nw/widget-core";
+import { useWidgetColorMode } from "./color-mode-context";
 
 interface WidgetShellProps {
   params: { style?: string; accent?: string };
+  mode?: "dark" | "light";
   children: ReactNode;
   className?: string;
 }
@@ -21,9 +23,11 @@ function hexToRgba(hex: string, opacity: number): string {
  * Applies style design properties (font, effects, overlays)
  * while letting color/bg stay under user control.
  */
-export function WidgetShell({ params, children, className }: WidgetShellProps) {
+export function WidgetShell({ params, mode: modeProp, children, className }: WidgetShellProps) {
+  const contextMode = useWidgetColorMode();
+  const mode = modeProp || contextMode;
   const design = getStyleDesign(params.style || "minimal");
-  const colors = resolveColors(params.accent);
+  const colors = resolveColors(params.accent, mode);
   const bgHex = colors.bg;
   const isTransparent = bgHex === "transparent";
 

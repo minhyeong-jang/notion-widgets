@@ -2,6 +2,7 @@
 
 import { resolveColors } from "@nw/widget-core";
 import { WidgetShell } from "../widget-shell";
+import { useWidgetColorMode } from "../color-mode-context";
 import type { DailyTipParams } from "./schema";
 import { getTipsByCategory, type Tip } from "./tips";
 
@@ -37,7 +38,8 @@ function getTimestamp(): string {
 }
 
 export function DailyTipWidget({ params }: { params: DailyTipParams }) {
-  const colors = resolveColors(params.accent);
+  const mode = useWidgetColorMode();
+  const colors = resolveColors(params.accent, mode);
   const accentColor = `#${colors.accent}`;
 
   const items = getTipsByCategory(params.category);
