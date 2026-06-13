@@ -38,6 +38,24 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://widgets.doriri.dev/ko/widgets/" />
   </url>
 
+  <!-- Feedback pages -->
+  <url>
+    <loc>https://widgets.doriri.dev/ko/feedback/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://widgets.doriri.dev/ko/feedback/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://widgets.doriri.dev/en/feedback/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://widgets.doriri.dev/ko/feedback/" />
+  </url>
+  <url>
+    <loc>https://widgets.doriri.dev/en/feedback/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://widgets.doriri.dev/ko/feedback/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://widgets.doriri.dev/en/feedback/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://widgets.doriri.dev/ko/feedback/" />
+  </url>
+
   <!-- Widget pages: flip-clock -->
   <url>
     <loc>https://widgets.doriri.dev/ko/widget/flip-clock/</loc>

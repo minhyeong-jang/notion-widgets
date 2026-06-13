@@ -14,10 +14,26 @@ const en: Dictionary = {
     headingLine1: "No sign-up needed.",
     headingLine2: "One URL is all you need for",
     headingHighlight: "Notion Widgets",
+    heading1: "No sign-up needed.",
+    heading2: "One URL is all you need for",
+    heading3: "Notion",
+    headingAccent: "Widgets",
     subtitle: "It takes just 30 seconds. Pick a widget, customize it,",
     subtitleLine2: "and paste the URL into Notion.",
     cta: "Browse Widgets",
+    ctaPrimary: "Browse Widgets",
+    ctaSecondary: "How it works",
     scroll: "Scroll",
+  },
+
+  featured: {
+    kicker: "FEATURED",
+    title: "Popular Widgets",
+    description:
+      "Our most loved widgets, curated for you. See the full list in the gallery.",
+    seeAll: "View all {count}",
+    galleryCta: "Clocks, progress, D-Day, weather, quotes & {count} more",
+    galleryCtaLink: "Full Widget Gallery",
   },
 
   gallery: {
@@ -40,6 +56,7 @@ const en: Dictionary = {
   },
 
   howItWorks: {
+    kicker: "HOW IT WORKS",
     title: "How It Works",
     subtitle: "Three simple steps to get a widget in Notion.",
     step1Title: "Choose a widget",
@@ -55,18 +72,34 @@ const en: Dictionary = {
 
   footer: {
     madeWith: "by doriri",
+    madeBy: "made by doriri",
   },
 
   customizer: {
     backToGallery: "Widget Gallery",
+    breadcrumbGallery: "Widget Gallery",
     customization: "Customization",
-    embedUrl: "Embed URL",
     livePreview: "Live Preview",
-    widgetNotFound: "Widget not found",
-    copied: "Copied!",
+    liveLabel: "Live",
+    customize: "Customize",
+    customizeDesc: "Settings are saved in the URL. No sign-up needed.",
+    embedUrl: "Embed URL",
     copyUrl: "Copy URL",
+    copied: "Copied!",
     embedInstruction:
       "In Notion, add an /embed block and paste the URL above",
+    embedNote:
+      "In Notion, add an /embed block and paste the URL above.",
+    relatedWidgets: "More from this category",
+    recommended: "Recommended",
+    widgetNotFound: "Widget not found",
+  },
+
+  feedback: {
+    kicker: "FEEDBACK",
+    title: "Report & Feedback",
+    description:
+      "If something feels off or you need a new widget, let us know.",
   },
 
   controlGroups: {
