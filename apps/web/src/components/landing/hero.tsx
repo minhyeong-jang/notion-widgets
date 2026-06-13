@@ -1,131 +1,272 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { ArrowRight } from "lucide-react";
+import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/get-dictionary";
 
 interface HeroProps {
   dict: Dictionary;
+  locale: Locale;
 }
 
-export function Hero({ dict }: HeroProps) {
-  const heroRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const el = heroRef.current;
-    if (!el) return;
-    el.classList.add("hero-visible");
-  }, []);
-
+export function Hero({ dict, locale }: HeroProps) {
   return (
-    <section
-      ref={heroRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden px-6"
-    >
-      {/* Gradient mesh background */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] rounded-full bg-emerald-500/10 blur-[120px] animate-[drift_20s_ease-in-out_infinite]" />
-        <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-violet-500/10 blur-[120px] animate-[drift_25s_ease-in-out_infinite_reverse]" />
-        <div className="absolute top-[30%] right-[20%] w-[30%] h-[30%] rounded-full bg-sky-500/8 blur-[100px] animate-[drift_18s_ease-in-out_infinite_2s]" />
-      </div>
-
-      {/* Subtle grid overlay */}
+    <section style={{ padding: "76px 0 64px" }}>
       <div
-        className="absolute inset-0 -z-10 opacity-[0.03]"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)",
-          backgroundSize: "64px 64px",
-        }}
-      />
-
-      <div className="hero-content max-w-4xl mx-auto text-center">
-        {/* Tagline */}
-        <p className="text-sm tracking-widest uppercase text-zinc-500 mb-6">
-          {dict.hero.badge}
-        </p>
-
-        {/* Main heading */}
-        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-zinc-50 leading-[1.1] mb-6">
-          <span className="block">{dict.hero.headingLine1}</span>
-          <span className="block mt-2">
-            {dict.hero.headingLine2}{" "}
-            <span className="relative inline-block">
-              <span className="relative z-10 bg-gradient-to-r from-emerald-400 via-sky-400 to-violet-400 bg-clip-text text-transparent">
-                {dict.hero.headingHighlight}
+        className="mx-auto px-8"
+        style={{ maxWidth: "var(--maxw)" }}
+      >
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_0.92fr] gap-14 items-center">
+          {/* Left column */}
+          <div>
+            <h1
+              style={{
+                fontSize: 50,
+                fontWeight: 800,
+                letterSpacing: "-0.035em",
+                lineHeight: 1.08,
+              }}
+              className="text-text"
+            >
+              <span className="text-text-faint font-bold">
+                가입 없이,
               </span>
-              <span className="absolute -inset-1 bg-gradient-to-r from-emerald-400/20 via-sky-400/20 to-violet-400/20 blur-xl -z-10 rounded-lg" />
-            </span>
-          </span>
-        </h1>
+              <br />
+              URL 하나로 완성하는
+              <br />
+              Notion{" "}
+              <span className="text-accent-bright">위젯</span>
+            </h1>
 
-        {/* Subtitle */}
-        <p className="text-lg sm:text-xl text-zinc-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-          {dict.hero.subtitle}
-          <br className="hidden sm:block" />
-          {dict.hero.subtitleLine2}
-        </p>
+            <p
+              className="text-text-dim"
+              style={{
+                marginTop: 26,
+                fontSize: 18.5,
+                lineHeight: 1.6,
+                maxWidth: 520,
+              }}
+            >
+              30초면 충분합니다. 위젯을 골라 커스터마이즈하고, URL을 복사해
+              Notion에 붙여넣으세요.
+            </p>
 
-        {/* CTA */}
-        <a
-          href="#gallery"
-          className="group inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-zinc-50 text-zinc-900 font-semibold text-lg transition-all duration-300 hover:bg-white hover:shadow-[0_0_40px_rgba(255,255,255,0.15)] hover:scale-[1.02] active:scale-[0.98]"
-        >
-          {dict.hero.cta}
-          <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
-        </a>
-
-        {/* Floating widget previews */}
-        <div className="relative mt-20 mx-auto max-w-3xl">
-          <div className="flex items-center justify-center gap-4 sm:gap-6">
-            {/* Clock preview card */}
-            <div className="widget-preview-card w-48 sm:w-56 rounded-2xl border border-zinc-800/60 bg-zinc-900/40 backdrop-blur-md p-5 shadow-2xl shadow-black/20 animate-[float_6s_ease-in-out_infinite]">
-              <div className="flex items-baseline gap-2 justify-center font-mono text-3xl sm:text-4xl font-bold text-zinc-100">
-                <span>12</span>
-                <span className="text-emerald-400 animate-pulse">:</span>
-                <span>34</span>
-              </div>
-              <p className="text-xs text-zinc-500 mt-3 text-center">Flip Clock</p>
-            </div>
-
-            {/* Progress preview card */}
-            <div className="widget-preview-card w-48 sm:w-56 rounded-2xl border border-zinc-800/60 bg-zinc-900/40 backdrop-blur-md p-5 shadow-2xl shadow-black/20 animate-[float_6s_ease-in-out_infinite_1s]">
-              <div className="space-y-3">
-                <div>
-                  <div className="flex justify-between text-xs text-zinc-400 mb-1">
-                    <span>2026</span>
-                    <span>16%</span>
-                  </div>
-                  <div className="h-2 rounded-full bg-zinc-800 overflow-hidden">
-                    <div className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-emerald-400 w-[16%] transition-all duration-1000" />
-                  </div>
-                </div>
-                <div>
-                  <div className="flex justify-between text-xs text-zinc-400 mb-1">
-                    <span>March</span>
-                    <span>3%</span>
-                  </div>
-                  <div className="h-2 rounded-full bg-zinc-800 overflow-hidden">
-                    <div className="h-full rounded-full bg-gradient-to-r from-sky-500 to-sky-400 w-[3%] transition-all duration-1000" />
-                  </div>
-                </div>
-              </div>
-              <p className="text-xs text-zinc-500 mt-3 text-center">Life Progress</p>
+            <div
+              className="flex items-center"
+              style={{ marginTop: 38, gap: 14 }}
+            >
+              <a
+                href={`/${locale}/widgets`}
+                className="bg-accent text-btn-text inline-block font-semibold transition-all duration-200 hover:bg-accent-bright"
+                style={{
+                  padding: "13px 22px",
+                  fontSize: 15,
+                  fontWeight: 600,
+                  borderRadius: 11,
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.transform =
+                    "translateY(-1px)";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.transform =
+                    "translateY(0)";
+                }}
+              >
+                위젯 둘러보기{" "}
+                <span className="font-mono">→</span>
+              </a>
+              <a
+                href="#how"
+                className="text-text-dim border border-border-strong inline-block transition-all duration-200 hover:text-text hover:border-text-faint"
+                style={{
+                  padding: "13px 22px",
+                  fontSize: 15,
+                  fontWeight: 600,
+                  borderRadius: 11,
+                  background: "transparent",
+                }}
+              >
+                사용법 보기
+              </a>
             </div>
           </div>
 
-          {/* Glow effect under cards */}
-          <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-3/4 h-16 bg-gradient-to-r from-emerald-500/10 via-sky-500/10 to-violet-500/10 blur-3xl rounded-full" />
-        </div>
-      </div>
-
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-zinc-600 text-sm">
-        <span>{dict.hero.scroll}</span>
-        <div className="w-5 h-8 rounded-full border-2 border-zinc-700 flex items-start justify-center p-1">
-          <div className="w-1 h-2 rounded-full bg-zinc-500 animate-[scrollBounce_2s_ease-in-out_infinite]" />
+          {/* Right column — Notion mockup */}
+          <NotionMockup />
         </div>
       </div>
     </section>
+  );
+}
+
+function NotionMockup() {
+  return (
+    <div
+      className="bg-surface border border-border shadow-lg"
+      style={{ borderRadius: 16, padding: "22px 22px 26px" }}
+    >
+      {/* Window dots */}
+      <div className="flex gap-1.5" style={{ marginBottom: 18 }}>
+        <span
+          className="block rounded-full"
+          style={{
+            width: 9,
+            height: 9,
+            backgroundColor: "var(--border-strong)",
+          }}
+        />
+        <span
+          className="block rounded-full"
+          style={{
+            width: 9,
+            height: 9,
+            backgroundColor: "var(--border-strong)",
+          }}
+        />
+        <span
+          className="block rounded-full"
+          style={{
+            width: 9,
+            height: 9,
+            backgroundColor: "var(--border-strong)",
+          }}
+        />
+      </div>
+
+      {/* Doc header */}
+      <div className="flex items-center gap-3" style={{ marginBottom: 6 }}>
+        <span style={{ fontSize: 30, lineHeight: 1 }}>🗓️</span>
+        <span
+          className="text-text"
+          style={{ fontSize: 23, fontWeight: 800, letterSpacing: "-0.02em" }}
+        >
+          나의 대시보드
+        </span>
+      </div>
+
+      {/* Meta */}
+      <p
+        className="text-text-faint"
+        style={{ fontSize: 12.5, marginBottom: 20, paddingLeft: 2 }}
+      >
+        /embed 로 붙여넣은 위젯이 이렇게 보입니다
+      </p>
+
+      {/* Embed block 1: World Clock */}
+      <div
+        className="border border-border-soft overflow-hidden"
+        style={{ borderRadius: 10 }}
+      >
+        <div
+          className="flex items-center gap-[7px] whitespace-nowrap text-text-faint"
+          style={{
+            fontFamily: "var(--font-mono)",
+            fontSize: 10.5,
+            padding: "7px 12px",
+            borderBottom: "1px solid var(--border-soft)",
+            backgroundColor: "var(--inset)",
+          }}
+        >
+          EMBED ·{" "}
+          <span className="text-accent">world-clock</span>
+        </div>
+        <div
+          className="flex items-center justify-around"
+          style={{
+            backgroundColor: "var(--inset)",
+            padding: "18px 16px",
+          }}
+        >
+          <TimeZone time="07:24" city="NEW YORK" />
+          <TimeZone time="12:24" city="LONDON" />
+          <TimeZone time="21:24" city="SEOUL" />
+        </div>
+      </div>
+
+      {/* Embed block 2: Life Progress */}
+      <div
+        className="border border-border-soft overflow-hidden"
+        style={{ borderRadius: 10, marginTop: 12 }}
+      >
+        <div
+          className="flex items-center gap-[7px] whitespace-nowrap text-text-faint"
+          style={{
+            fontFamily: "var(--font-mono)",
+            fontSize: 10.5,
+            padding: "7px 12px",
+            borderBottom: "1px solid var(--border-soft)",
+            backgroundColor: "var(--inset)",
+          }}
+        >
+          EMBED ·{" "}
+          <span className="text-accent">life-progress</span>
+        </div>
+        <div
+          style={{
+            backgroundColor: "var(--inset)",
+            padding: "16px 18px",
+          }}
+        >
+          <ProgressRow label="2026" percent={44} />
+          <ProgressRow label="6월" percent={33} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TimeZone({ time, city }: { time: string; city: string }) {
+  return (
+    <div className="text-center">
+      <div
+        className="text-accent font-bold font-mono"
+        style={{ fontSize: 17 }}
+      >
+        {time}
+      </div>
+      <div
+        className="text-text-faint font-mono"
+        style={{ fontSize: 10, marginTop: 4, letterSpacing: "0.05em" }}
+      >
+        {city}
+      </div>
+    </div>
+  );
+}
+
+function ProgressRow({
+  label,
+  percent,
+}: {
+  label: string;
+  percent: number;
+}) {
+  return (
+    <div style={{ marginBottom: 10 }}>
+      <div
+        className="flex justify-between text-text-dim"
+        style={{ fontSize: 12, marginBottom: 5 }}
+      >
+        <span>{label}</span>
+        <span className="font-mono">{percent}%</span>
+      </div>
+      <div
+        className="overflow-hidden"
+        style={{
+          height: 6,
+          borderRadius: 3,
+          backgroundColor: "var(--border-soft)",
+        }}
+      >
+        <div
+          className="h-full"
+          style={{
+            width: `${percent}%`,
+            borderRadius: 3,
+            backgroundColor: "var(--accent-deep)",
+          }}
+        />
+      </div>
+    </div>
   );
 }

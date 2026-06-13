@@ -1,114 +1,163 @@
-"use client";
-
-import { useEffect, useRef, useState, type ReactNode } from "react";
-import { LayoutGrid, Paintbrush, ClipboardCopy } from "lucide-react";
+import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/get-dictionary";
 
 interface HowItWorksProps {
   dict: Dictionary;
+  locale: Locale;
 }
 
-interface Step {
-  number: string;
-  title: string;
-  description: string;
-  icon: ReactNode;
-}
-
-function StepCard({ step, index }: { step: Step; index: number }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.2 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
+export function HowItWorks({ dict, locale }: HowItWorksProps) {
   return (
-    <div
-      ref={ref}
-      className={`relative transition-all duration-700 ${
-        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-      }`}
-      style={{ transitionDelay: `${index * 150}ms` }}
-    >
-      <div className="relative rounded-2xl border border-zinc-800/60 bg-zinc-900/30 backdrop-blur-sm p-8 h-full">
-        {/* Step number */}
-        <div className="text-5xl font-bold text-zinc-800/60 font-mono mb-6 select-none">
-          {step.number}
-        </div>
-
-        {/* Icon */}
-        <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-zinc-800/50 text-emerald-400 mb-5">
-          {step.icon}
-        </div>
-
-        {/* Content */}
-        <h3 className="text-xl font-semibold text-zinc-100 mb-3">
-          {step.title}
-        </h3>
-        <p className="text-sm text-zinc-400 leading-relaxed">
-          {step.description}
-        </p>
-      </div>
-    </div>
-  );
-}
-
-export function HowItWorks({ dict }: HowItWorksProps) {
-  const steps: Step[] = [
-    {
-      number: "01",
-      title: dict.howItWorks.step1Title,
-      description: dict.howItWorks.step1Desc,
-      icon: <LayoutGrid className="w-7 h-7" />,
-    },
-    {
-      number: "02",
-      title: dict.howItWorks.step2Title,
-      description: dict.howItWorks.step2Desc,
-      icon: <Paintbrush className="w-7 h-7" />,
-    },
-    {
-      number: "03",
-      title: dict.howItWorks.step3Title,
-      description: dict.howItWorks.step3Desc,
-      icon: <ClipboardCopy className="w-7 h-7" />,
-    },
-  ];
-
-  return (
-    <section className="relative px-6 py-32">
-      {/* Divider gradient */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent" />
-
-      <div className="max-w-6xl mx-auto">
+    <section id="how" style={{ padding: "90px 0" }}>
+      <div className="mx-auto px-8" style={{ maxWidth: "var(--maxw)" }}>
         {/* Section header */}
-        <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-zinc-50 tracking-tight mb-4">
-            {dict.howItWorks.title}
+        <div style={{ marginBottom: 36 }}>
+          <div
+            className="text-accent font-bold uppercase"
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: 12,
+              letterSpacing: "0.08em",
+              marginBottom: 10,
+            }}
+          >
+            How it works
+          </div>
+          <h2
+            className="text-text"
+            style={{
+              fontSize: 38,
+              fontWeight: 800,
+              letterSpacing: "-0.025em",
+              marginBottom: 8,
+            }}
+          >
+            이렇게 사용하세요
           </h2>
-          <p className="text-lg text-zinc-400 max-w-xl mx-auto">
-            {dict.howItWorks.subtitle}
+          <p className="text-text-dim" style={{ fontSize: 15 }}>
+            3단계만 따라하면 Notion에 위젯이 완성됩니다.
           </p>
         </div>
 
         {/* Steps grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {steps.map((step, i) => (
-            <StepCard key={step.number} step={step} index={i} />
-          ))}
+        <div
+          className="grid grid-cols-1 md:grid-cols-3 overflow-hidden"
+          style={{
+            gap: 1,
+            backgroundColor: "var(--border-soft)",
+            border: "1px solid var(--border-soft)",
+            borderRadius: 16,
+          }}
+        >
+          <div className="bg-bg" style={{ padding: "34px 30px 38px" }}>
+            <div
+              className="text-accent font-bold font-mono"
+              style={{
+                fontSize: 13,
+                letterSpacing: "0.1em",
+                paddingBottom: 18,
+                marginBottom: 18,
+                borderBottom: "1px solid var(--border-soft)",
+              }}
+            >
+              01
+            </div>
+            <h3
+              className="text-text"
+              style={{
+                fontSize: 18,
+                fontWeight: 700,
+                letterSpacing: "-0.015em",
+                marginBottom: 10,
+              }}
+            >
+              위젯을 선택하세요
+            </h3>
+            <p
+              className="text-text-dim"
+              style={{ fontSize: 14, lineHeight: 1.62 }}
+            >
+              갤러리에서 마음에 드는 위젯을 골라보세요. 시계, 진행률, D-Day 등
+              다양한 위젯이 준비되어 있습니다.
+            </p>
+          </div>
+
+          <div className="bg-bg" style={{ padding: "34px 30px 38px" }}>
+            <div
+              className="text-accent font-bold font-mono"
+              style={{
+                fontSize: 13,
+                letterSpacing: "0.1em",
+                paddingBottom: 18,
+                marginBottom: 18,
+                borderBottom: "1px solid var(--border-soft)",
+              }}
+            >
+              02
+            </div>
+            <h3
+              className="text-text"
+              style={{
+                fontSize: 18,
+                fontWeight: 700,
+                letterSpacing: "-0.015em",
+                marginBottom: 10,
+              }}
+            >
+              원하는 대로 꾸미세요
+            </h3>
+            <p
+              className="text-text-dim"
+              style={{ fontSize: 14, lineHeight: 1.62 }}
+            >
+              색상 · 크기 · 표시 옵션을 자유롭게 설정하세요. 모든 설정은 URL에
+              저장되어 가입이 필요 없습니다.
+            </p>
+          </div>
+
+          <div className="bg-bg" style={{ padding: "34px 30px 38px" }}>
+            <div
+              className="text-accent font-bold font-mono"
+              style={{
+                fontSize: 13,
+                letterSpacing: "0.1em",
+                paddingBottom: 18,
+                marginBottom: 18,
+                borderBottom: "1px solid var(--border-soft)",
+              }}
+            >
+              03
+            </div>
+            <h3
+              className="text-text"
+              style={{
+                fontSize: 18,
+                fontWeight: 700,
+                letterSpacing: "-0.015em",
+                marginBottom: 10,
+              }}
+            >
+              붙여넣으면 끝
+            </h3>
+            <p
+              className="text-text-dim"
+              style={{ fontSize: 14, lineHeight: 1.62 }}
+            >
+              생성된 URL을 복사해 Notion에서{" "}
+              <span
+                className="font-mono text-accent-bright"
+                style={{
+                  backgroundColor: "var(--accent-tint)",
+                  padding: "1px 6px",
+                  borderRadius: 5,
+                  fontSize: 12.5,
+                }}
+              >
+                /embed
+              </span>{" "}
+              명령어로 붙여넣기만 하면 완성입니다.
+            </p>
+          </div>
         </div>
       </div>
     </section>
