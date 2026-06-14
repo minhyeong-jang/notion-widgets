@@ -56,7 +56,7 @@ function MinimalStyle({
   textColor: string;
 }) {
   return (
-    <div className="flex items-center justify-center gap-6 px-4">
+    <div className="flex flex-wrap items-center justify-center gap-y-5 gap-x-6 px-4">
       {timezones.map((tz, i) => {
         const { time, period } = formatTime(now, tz, format);
         return (
@@ -308,8 +308,7 @@ export function WorldClockWidget({ params }: { params: WorldClockParams }) {
   const timezones = params.timezones
     .split(",")
     .map(tz => tz.trim())
-    .filter(Boolean)
-    .slice(0, 4);
+    .filter(Boolean);
 
   return (
     <WidgetShell params={params}>

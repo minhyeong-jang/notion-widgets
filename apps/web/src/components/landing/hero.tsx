@@ -168,9 +168,9 @@ function NotionMockup() {
       <EmbedBlock label="world-clock">
         {accent && mode && (
           <iframe
-            src={`/embed/world-clock?accent=${accent}&mode=${mode}&variant=minimal&showSeconds=true`}
+            src={`/embed/world-clock?accent=${accent}&mode=${mode}&variant=minimal&format=24h&timezones=America/New_York,Europe/London,Asia/Seoul`}
             className="w-full pointer-events-none"
-            style={{ border: "none", height: 80 }}
+            style={{ border: "none", height: 120 }}
             title="World Clock preview"
           />
         )}
@@ -182,7 +182,7 @@ function NotionMockup() {
           <iframe
             src={`/embed/life-progress?accent=${accent}&mode=${mode}&variant=minimal`}
             className="w-full pointer-events-none"
-            style={{ border: "none", height: 80 }}
+            style={{ border: "none", height: 140 }}
             title="Life Progress preview"
           />
         )}
