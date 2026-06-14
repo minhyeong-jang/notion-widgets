@@ -182,7 +182,7 @@ function NotionMockup() {
           <iframe
             src={`/embed/life-progress?accent=${accent}&mode=${mode}&variant=minimal&showQuarter=false&showWeek=false&showDay=false`}
             className="w-full pointer-events-none"
-            style={{ border: "none", height: 140 }}
+            style={{ border: "none", height: 244 }}
             title="Life Progress preview"
           />
         )}
