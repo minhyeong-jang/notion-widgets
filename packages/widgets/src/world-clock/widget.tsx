@@ -56,41 +56,37 @@ function MinimalStyle({
   textColor: string;
 }) {
   return (
-    <div className="flex flex-wrap items-center justify-center gap-y-5 gap-x-6 px-4">
-      {timezones.map((tz, i) => {
+    <div className="flex flex-wrap items-start justify-center gap-y-6 px-4">
+      {timezones.map((tz) => {
         const { time, period } = formatTime(now, tz, format);
         return (
-          <div key={tz} className="flex items-center gap-6">
-            <div className="text-center">
-              <div
-                className="text-xs font-medium uppercase tracking-wider mb-1 opacity-60"
-                style={{ color: textColor }}
-              >
-                {getCityName(tz)}
-              </div>
-              <div
-                className="text-2xl font-mono font-semibold tabular-nums"
-                style={{
-                  color: textColor,
-                  textShadow: "var(--w-text-shadow)",
-                }}
-              >
-                {time}
-              </div>
-              {period && (
-                <div
-                  className="text-xs font-medium mt-0.5"
-                  style={{ color: accentColor }}
-                >
-                  {period}
-                </div>
-              )}
+          <div
+            key={tz}
+            className="text-center"
+            style={{ padding: "0 20px" }}
+          >
+            <div
+              className="text-xs font-medium uppercase tracking-wider mb-1 opacity-60"
+              style={{ color: textColor }}
+            >
+              {getCityName(tz)}
             </div>
-            {i < timezones.length - 1 && (
+            <div
+              className="text-2xl font-mono font-semibold tabular-nums"
+              style={{
+                color: textColor,
+                textShadow: "var(--w-text-shadow)",
+              }}
+            >
+              {time}
+            </div>
+            {period && (
               <div
-                className="w-px h-10 opacity-20"
-                style={{ backgroundColor: textColor }}
-              />
+                className="text-xs font-medium mt-0.5"
+                style={{ color: accentColor }}
+              >
+                {period}
+              </div>
             )}
           </div>
         );

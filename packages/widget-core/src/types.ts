@@ -7,7 +7,7 @@ export interface ControlDefinition {
   labelKo: string;
   type: "color" | "select" | "toggle" | "slider" | "date" | "text";
   defaultValue: unknown;
-  options?: Array<{ value: string; label: string }>;
+  options?: Array<{ value: string; label: string; labelKo?: string }>;
   isPremium?: boolean;
   group?: "appearance" | "content" | "advanced";
 }
