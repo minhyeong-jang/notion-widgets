@@ -51,7 +51,16 @@ export function CustomizerPage({ widgetId, locale, dict }: CustomizerPageProps) 
     }
 
     if (Object.keys(updates).length > 0) {
-      setCurrentParams(prev => ({ ...prev, ...updates }));
+      setCurrentParams(prev => {
+        const merged = { ...prev, ...updates };
+        // Sync merged params to URL
+        const next = new URL(window.location.href);
+        for (const [k, v] of Object.entries(merged)) {
+          next.searchParams.set(k, v);
+        }
+        window.history.replaceState(null, "", next.toString());
+        return merged;
+      });
     }
     setReady(true);
   }, []);
