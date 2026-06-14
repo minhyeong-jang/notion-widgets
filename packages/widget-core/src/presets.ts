@@ -37,10 +37,10 @@ export const styleControl: ControlDefinition = {
   type: "select",
   defaultValue: "minimal",
   options: [
-    { value: "minimal", label: "Minimal" },
-    { value: "soft", label: "Soft" },
-    { value: "neon", label: "Neon" },
-    { value: "glass", label: "Glass" },
+    { value: "minimal", label: "Minimal", labelKo: "미니멀" },
+    { value: "soft", label: "Soft", labelKo: "소프트" },
+    { value: "neon", label: "Neon", labelKo: "네온" },
+    { value: "glass", label: "Glass", labelKo: "글래스" },
   ],
   group: "appearance",
 };

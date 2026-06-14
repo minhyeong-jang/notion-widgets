@@ -15,8 +15,8 @@ const controls: ControlDefinition[] = [
     type: "select",
     defaultValue: "minimal",
     options: [
-      { value: "minimal", label: "Minimal" },
-      { value: "list", label: "List" },
+      { value: "minimal", label: "Minimal", labelKo: "미니멀" },
+      { value: "list", label: "List", labelKo: "목록" },
     ],
     group: "appearance",
   },
@@ -99,8 +99,8 @@ const controls: ControlDefinition[] = [
     type: "select",
     defaultValue: "24h",
     options: [
-      { value: "12h", label: "12h" },
-      { value: "24h", label: "24h" },
+      { value: "12h", label: "12h", labelKo: "12시간" },
+      { value: "24h", label: "24h", labelKo: "24시간" },
     ],
     group: "content",
   },

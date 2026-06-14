@@ -15,8 +15,8 @@ const controls: ControlDefinition[] = [
     type: "select",
     defaultValue: "minimal",
     options: [
-      { value: "minimal", label: "Minimal" },
-      { value: "card", label: "Card" },
+      { value: "minimal", label: "Minimal", labelKo: "미니멀" },
+      { value: "card", label: "Card", labelKo: "카드" },
     ],
     group: "appearance",
   },

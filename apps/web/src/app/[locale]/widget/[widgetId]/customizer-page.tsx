@@ -34,16 +34,36 @@ export function CustomizerPage({ widgetId, locale, dict }: CustomizerPageProps) 
     }
   );
 
-  // Sync site accent to widget accent default on mount
+  const [ready, setReady] = useState(false);
+
+  // On mount: merge URL params + site accent, then mark ready
   useEffect(() => {
-    const siteAccent = localStorage.getItem("nw-accent-v1");
-    if (siteAccent) {
-      setCurrentParams((prev) => ({ ...prev, accent: siteAccent }));
+    const updates: Record<string, string> = {};
+
+    // 1) URL params take priority (shared links)
+    const url = new URL(window.location.href);
+    url.searchParams.forEach((v, k) => { updates[k] = v; });
+
+    // 2) Site accent as fallback (if not in URL)
+    if (!updates.accent) {
+      const siteAccent = localStorage.getItem("nw-accent-v1");
+      if (siteAccent) updates.accent = siteAccent;
     }
+
+    if (Object.keys(updates).length > 0) {
+      setCurrentParams(prev => ({ ...prev, ...updates }));
+    }
+    setReady(true);
   }, []);
 
   const handleChange = useCallback((key: string, value: string) => {
-    setCurrentParams((prev) => ({ ...prev, [key]: value }));
+    setCurrentParams((prev) => {
+      const next = { ...prev, [key]: value };
+      const url = new URL(window.location.href);
+      url.searchParams.set(key, value);
+      window.history.replaceState(null, "", url.toString());
+      return next;
+    });
   }, []);
 
   if (!widget) {
@@ -183,13 +203,15 @@ export function CustomizerPage({ widgetId, locale, dict }: CustomizerPageProps) 
                   {isKo ? "실시간" : "Live"}
                 </span>
               </div>
-              {/* Iframe preview */}
-              <PreviewFrame
-                widgetId={widgetId}
-                params={currentParams}
-                recommendedSize={widget.recommendedSize}
-                dict={dict}
-              />
+              {/* Iframe preview — wait until params are ready to avoid accent flash */}
+              {ready && (
+                <PreviewFrame
+                  widgetId={widgetId}
+                  params={currentParams}
+                  recommendedSize={widget.recommendedSize}
+                  dict={dict}
+                />
+              )}
             </div>
           </div>
 

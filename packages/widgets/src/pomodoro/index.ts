@@ -15,8 +15,8 @@ const controls: ControlDefinition[] = [
     type: "select",
     defaultValue: "compact",
     options: [
-      { value: "compact", label: "Compact" },
-      { value: "standard", label: "Standard" },
+      { value: "compact", label: "Compact", labelKo: "컴팩트" },
+      { value: "standard", label: "Standard", labelKo: "스탠다드" },
     ],
     group: "appearance",
   },

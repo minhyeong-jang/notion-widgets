@@ -15,8 +15,8 @@ const controls: ControlDefinition[] = [
     type: "select",
     defaultValue: "circle",
     options: [
-      { value: "circle", label: "Circle" },
-      { value: "minimal", label: "Minimal" },
+      { value: "circle", label: "Circle", labelKo: "원형" },
+      { value: "minimal", label: "Minimal", labelKo: "미니멀" },
     ],
     group: "appearance",
   },

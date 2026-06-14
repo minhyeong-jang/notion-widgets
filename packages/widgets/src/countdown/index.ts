@@ -15,8 +15,8 @@ const controls: ControlDefinition[] = [
     type: "select",
     defaultValue: "card",
     options: [
-      { value: "card", label: "Card" },
-      { value: "simple", label: "Simple" },
+      { value: "card", label: "Card", labelKo: "카드" },
+      { value: "simple", label: "Simple", labelKo: "심플" },
     ],
     group: "appearance",
   },

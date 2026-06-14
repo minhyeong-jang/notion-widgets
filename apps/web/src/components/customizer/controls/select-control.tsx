@@ -19,6 +19,7 @@ export function SelectControl({
   disabled,
   locale,
 }: SelectControlProps) {
+  const isKo = locale === "ko";
   const options = control.options ?? [];
 
   return (
@@ -58,7 +59,7 @@ export function SelectControl({
                 color: isActive ? "var(--btn-text)" : "var(--text-dim)",
               }}
             >
-              {opt.label}
+              {isKo && opt.labelKo ? opt.labelKo : opt.label}
             </button>
           );
         })}
