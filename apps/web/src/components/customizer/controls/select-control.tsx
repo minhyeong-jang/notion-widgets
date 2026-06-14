@@ -19,29 +19,50 @@ export function SelectControl({
   disabled,
   locale,
 }: SelectControlProps) {
+  const options = control.options ?? [];
+
   return (
-    <div className="flex items-center justify-between gap-3">
-      <label className="text-sm shrink-0" style={{ color: "var(--text-dim)" }}>
+    <div>
+      <label
+        className="block text-sm font-semibold"
+        style={{ color: "var(--text)", marginBottom: 10 }}
+      >
         {getControlLabel(control, locale)}
         {control.isPremium && <span className="ml-1 text-xs">&#128274;</span>}
       </label>
-      <select
-        value={value}
-        onChange={(e) => onChange(control.key, e.target.value)}
-        disabled={disabled}
-        className="px-3 py-1.5 text-sm rounded disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none cursor-pointer"
+      <div
+        className="flex"
         style={{
+          borderRadius: 12,
           backgroundColor: "var(--inset)",
-          border: "1px solid var(--border)",
-          color: "var(--text)",
+          border: "1px solid var(--border-soft)",
+          padding: 3,
         }}
       >
-        {control.options?.map((opt) => (
-          <option key={opt.value} value={opt.value}>
-            {opt.label}
-          </option>
-        ))}
-      </select>
+        {options.map((opt) => {
+          const isActive = value === opt.value;
+          return (
+            <button
+              key={opt.value}
+              type="button"
+              onClick={() => onChange(control.key, opt.value)}
+              disabled={disabled}
+              className="flex-1 font-semibold transition-all duration-150 disabled:opacity-40 disabled:cursor-not-allowed"
+              style={{
+                fontSize: 13,
+                padding: "9px 12px",
+                borderRadius: 9,
+                border: "none",
+                cursor: disabled ? "not-allowed" : "pointer",
+                backgroundColor: isActive ? "var(--accent)" : "transparent",
+                color: isActive ? "var(--btn-text)" : "var(--text-dim)",
+              }}
+            >
+              {opt.label}
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }

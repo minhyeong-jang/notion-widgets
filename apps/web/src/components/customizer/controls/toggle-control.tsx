@@ -20,30 +20,63 @@ export function ToggleControl({
   locale,
 }: ToggleControlProps) {
   const isOn = value === "true";
+  const isKo = locale === "ko";
+  const onLabel = isKo ? "켜기" : "On";
+  const offLabel = isKo ? "끄기" : "Off";
 
   return (
-    <div className="flex items-center justify-between gap-3">
-      <label className="text-sm shrink-0" style={{ color: "var(--text-dim)" }}>
+    <div>
+      <label
+        className="block text-sm font-semibold"
+        style={{ color: "var(--text)", marginBottom: 10 }}
+      >
         {getControlLabel(control, locale)}
         {control.isPremium && <span className="ml-1 text-xs">&#128274;</span>}
       </label>
-      <button
-        type="button"
-        role="switch"
-        aria-checked={isOn}
-        onClick={() => onChange(control.key, isOn ? "false" : "true")}
-        disabled={disabled}
-        className="relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors duration-200 focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed"
+      <div
+        className="flex"
         style={{
-          backgroundColor: isOn ? "var(--accent)" : "var(--track)",
+          borderRadius: 12,
+          backgroundColor: "var(--inset)",
+          border: "1px solid var(--border-soft)",
+          padding: 3,
         }}
       >
-        <span
-          className={`pointer-events-none inline-block h-4 w-4 rounded-full bg-white shadow-sm transition-transform duration-200 ${
-            isOn ? "translate-x-5" : "translate-x-0.5"
-          }`}
-        />
-      </button>
+        <button
+          type="button"
+          onClick={() => onChange(control.key, "false")}
+          disabled={disabled}
+          className="flex-1 font-semibold transition-all duration-150 disabled:opacity-40 disabled:cursor-not-allowed"
+          style={{
+            fontSize: 13,
+            padding: "9px 12px",
+            borderRadius: 9,
+            border: "none",
+            cursor: disabled ? "not-allowed" : "pointer",
+            backgroundColor: !isOn ? "var(--accent)" : "transparent",
+            color: !isOn ? "var(--btn-text)" : "var(--text-dim)",
+          }}
+        >
+          {offLabel}
+        </button>
+        <button
+          type="button"
+          onClick={() => onChange(control.key, "true")}
+          disabled={disabled}
+          className="flex-1 font-semibold transition-all duration-150 disabled:opacity-40 disabled:cursor-not-allowed"
+          style={{
+            fontSize: 13,
+            padding: "9px 12px",
+            borderRadius: 9,
+            border: "none",
+            cursor: disabled ? "not-allowed" : "pointer",
+            backgroundColor: isOn ? "var(--accent)" : "transparent",
+            color: isOn ? "var(--btn-text)" : "var(--text-dim)",
+          }}
+        >
+          {onLabel}
+        </button>
+      </div>
     </div>
   );
 }

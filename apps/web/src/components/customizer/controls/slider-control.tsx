@@ -26,27 +26,33 @@ export function SliderControl({
   step = 1,
 }: SliderControlProps) {
   return (
-    <div className="flex items-center justify-between gap-3">
-      <label className="text-sm shrink-0" style={{ color: "var(--text-dim)" }}>
-        {getControlLabel(control, locale)}
-        {control.isPremium && <span className="ml-1 text-xs">&#128274;</span>}
-      </label>
-      <div className="flex items-center gap-2">
-        <input
-          type="range"
-          value={Number(value)}
-          onChange={(e) => onChange(control.key, e.target.value)}
-          disabled={disabled}
-          min={min}
-          max={max}
-          step={step}
-          className="w-24 disabled:opacity-40 disabled:cursor-not-allowed"
-          style={{ accentColor: "var(--accent)" }}
-        />
-        <span className="text-xs font-mono w-8 text-right" style={{ color: "var(--text-faint)" }}>
+    <div>
+      <div className="flex items-center justify-between" style={{ marginBottom: 10 }}>
+        <label
+          className="text-sm font-semibold"
+          style={{ color: "var(--text)" }}
+        >
+          {getControlLabel(control, locale)}
+          {control.isPremium && <span className="ml-1 text-xs">&#128274;</span>}
+        </label>
+        <span
+          className="text-xs font-mono"
+          style={{ color: "var(--text-faint)" }}
+        >
           {value}
         </span>
       </div>
+      <input
+        type="range"
+        value={Number(value)}
+        onChange={(e) => onChange(control.key, e.target.value)}
+        disabled={disabled}
+        min={min}
+        max={max}
+        step={step}
+        className="w-full disabled:opacity-40 disabled:cursor-not-allowed"
+        style={{ accentColor: "var(--accent)" }}
+      />
     </div>
   );
 }

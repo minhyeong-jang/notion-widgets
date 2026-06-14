@@ -25,8 +25,10 @@ const ACCENT_SWATCHES = [
   { key: "red", color: "#ef4444" },
   { key: "blue", color: "#3b82f6" },
   { key: "ocean", color: "#06b6d4" },
+  { key: "sage", color: "#8fae7e" },
   { key: "sunset", color: "#f97316" },
   { key: "purple", color: "#a855f7" },
+  { key: "gray", color: "#9ca3af" },
 ] as const;
 
 function AccentSwatchControl({
@@ -41,12 +43,15 @@ function AccentSwatchControl({
   locale: Locale;
 }) {
   return (
-    <div className="flex items-center justify-between gap-3">
-      <label className="text-sm shrink-0" style={{ color: "var(--text-dim)" }}>
+    <div>
+      <label
+        className="block text-sm font-semibold"
+        style={{ color: "var(--text)", marginBottom: 10 }}
+      >
         {getControlLabel(control, locale)}
         {control.isPremium && <span className="ml-1 text-xs">&#128274;</span>}
       </label>
-      <div className="flex items-center gap-1.5">
+      <div className="flex items-center gap-2.5">
         {ACCENT_SWATCHES.map((swatch) => (
           <button
             key={swatch.key}
@@ -54,11 +59,14 @@ function AccentSwatchControl({
             onClick={() => onChange(control.key, swatch.key)}
             className="cursor-pointer transition-transform hover:scale-110"
             style={{
-              width: 22,
-              height: 22,
-              borderRadius: "50%",
+              width: 32,
+              height: 32,
+              borderRadius: 8,
               background: swatch.color,
-              border: value === swatch.key ? "2.5px solid var(--text)" : "2.5px solid transparent",
+              border:
+                value === swatch.key
+                  ? "2.5px solid var(--text)"
+                  : "2.5px solid transparent",
               padding: 0,
               outline: "none",
             }}
@@ -83,7 +91,6 @@ function ControlRenderer({
 }) {
   const disabled = control.isPremium;
 
-  // Accent control gets special swatch rendering
   if (control.key === "accent") {
     return (
       <AccentSwatchControl
@@ -178,13 +185,34 @@ export function ControlPanel({
   };
 
   return (
-    <div className="space-y-6">
-      {sortedGroups.map((group) => (
+    <div>
+      {sortedGroups.map((group, groupIdx) => (
         <div key={group}>
-          <h3 className="font-mono text-xs font-bold uppercase tracking-wider mb-3" style={{ color: "var(--text-faint)" }}>
-            {groupLabels[group] ?? group}
-          </h3>
-          <div className="space-y-3">
+          {/* Group separator line + label */}
+          <div
+            className="flex items-center gap-3"
+            style={{
+              paddingTop: groupIdx === 0 ? 0 : 22,
+              paddingBottom: 16,
+            }}
+          >
+            <span
+              className="font-mono text-xs tracking-wider"
+              style={{ color: "var(--text-faint)", whiteSpace: "nowrap" }}
+            >
+              {groupLabels[group] ?? group}
+            </span>
+            <div
+              className="flex-1"
+              style={{
+                height: 1,
+                backgroundColor: "var(--border-soft)",
+              }}
+            />
+          </div>
+
+          {/* Controls in this group */}
+          <div className="space-y-5">
             {grouped.get(group)!.map((control) => (
               <ControlRenderer
                 key={control.key}

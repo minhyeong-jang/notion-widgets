@@ -26,6 +26,17 @@ const controls: ControlDefinition[] = [
     labelKo: "시간대",
     type: "text",
     defaultValue: "America/New_York,Europe/London,Asia/Seoul,Asia/Tokyo",
+    options: [
+      { value: "America/New_York", label: "New York" },
+      { value: "America/Los_Angeles", label: "Los Angeles" },
+      { value: "Europe/London", label: "London" },
+      { value: "Europe/Paris", label: "Paris" },
+      { value: "Asia/Dubai", label: "Dubai" },
+      { value: "Asia/Singapore", label: "Singapore" },
+      { value: "Asia/Seoul", label: "Seoul" },
+      { value: "Asia/Tokyo", label: "Tokyo" },
+      { value: "Australia/Sydney", label: "Sydney" },
+    ],
     group: "content",
   },
   {
