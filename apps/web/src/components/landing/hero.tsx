@@ -177,9 +177,9 @@ function NotionMockup() {
             padding: "18px 16px",
           }}
         >
-          <TimeZone time="07:24" city="NEW YORK" />
-          <TimeZone time="12:24" city="LONDON" />
-          <TimeZone time="21:24" city="SEOUL" />
+          <TimeZone time="07:24:38" city="NEW YORK" />
+          <TimeZone time="12:24:38" city="LONDON" />
+          <TimeZone time="21:24:38" city="SEOUL" />
         </div>
       </div>
 
