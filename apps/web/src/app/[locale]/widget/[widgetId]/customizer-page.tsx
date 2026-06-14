@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState, useMemo } from "react";
+import { useCallback, useState, useEffect, useMemo } from "react";
 import { getWidget, getAllWidgets, buildEmbedUrl } from "@nw/widget-core";
 import "@nw/widgets";
 import type { Locale } from "@/i18n/config";
@@ -33,6 +33,14 @@ export function CustomizerPage({ widgetId, locale, dict }: CustomizerPageProps) 
       return params;
     }
   );
+
+  // Sync site accent to widget accent default on mount
+  useEffect(() => {
+    const siteAccent = localStorage.getItem("nw-accent-v1");
+    if (siteAccent) {
+      setCurrentParams((prev) => ({ ...prev, accent: siteAccent }));
+    }
+  }, []);
 
   const handleChange = useCallback((key: string, value: string) => {
     setCurrentParams((prev) => ({ ...prev, [key]: value }));

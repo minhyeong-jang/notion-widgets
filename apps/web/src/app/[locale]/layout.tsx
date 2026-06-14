@@ -76,6 +76,11 @@ export default async function LocaleLayout({
   return (
     <html lang={locale}>
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var m=localStorage.getItem("nw-mode-v1");if(!m){m=window.matchMedia("(prefers-color-scheme:light)").matches?"light":"dark"}if(m==="light"){var d=document.documentElement.style;d.setProperty("--bg","#faf9f7");d.setProperty("--bg-soft","#f1efe9");d.setProperty("--surface","#ffffff");d.setProperty("--surface-2","#f6f4ef");d.setProperty("--inset","#f3f1ea");d.setProperty("--border","#e6e3da");d.setProperty("--border-soft","#eeebe3");d.setProperty("--border-strong","#d6d2c7");d.setProperty("--track","#e4e0d5");d.setProperty("--text","#1a1814");d.setProperty("--text-dim","#57524a");d.setProperty("--text-faint","#847e73");d.setProperty("--heat-empty","rgba(0,0,0,0.06)");d.setProperty("--shadow","rgba(0,0,0,0.14)");d.setProperty("--accent","#3d8f5a");d.setProperty("--accent-bright","#357a4d");d.setProperty("--accent-deep","#52b07a");d.setProperty("--accent-dim","#bfe0c8");d.setProperty("--accent-tint","rgba(61,143,90,0.14)");d.setProperty("--btn-text","#ffffff")}}catch(e){}})();`,
+          }}
+        />
         <link
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"

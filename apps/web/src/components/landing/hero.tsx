@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/get-dictionary";
 
@@ -91,7 +92,7 @@ export function Hero({ dict, locale }: HeroProps) {
             </div>
           </div>
 
-          {/* Right column — Notion mockup */}
+          {/* Right column — Notion mockup with live widgets */}
           <NotionMockup />
         </div>
       </div>
@@ -100,6 +101,30 @@ export function Hero({ dict, locale }: HeroProps) {
 }
 
 function NotionMockup() {
+  const [accent, setAccent] = useState<string | null>(null);
+  const [mode, setMode] = useState<string | null>(null);
+
+  useEffect(() => {
+    const systemMode = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+    setAccent(localStorage.getItem("nw-accent-v1") || "green");
+    setMode(localStorage.getItem("nw-mode-v1") || systemMode);
+
+    const accentHandler = (e: Event) => {
+      const a = (e as CustomEvent).detail;
+      if (a) setAccent(a);
+    };
+    const modeHandler = (e: Event) => {
+      const m = (e as CustomEvent).detail;
+      if (m) setMode(m);
+    };
+    window.addEventListener("nw-accent-change", accentHandler);
+    window.addEventListener("nw-mode-change", modeHandler);
+    return () => {
+      window.removeEventListener("nw-accent-change", accentHandler);
+      window.removeEventListener("nw-mode-change", modeHandler);
+    };
+  }, []);
+
   return (
     <div
       className="bg-surface border border-border shadow-lg"
@@ -107,30 +132,17 @@ function NotionMockup() {
     >
       {/* Window dots */}
       <div className="flex gap-1.5" style={{ marginBottom: 18 }}>
-        <span
-          className="block rounded-full"
-          style={{
-            width: 9,
-            height: 9,
-            backgroundColor: "var(--border-strong)",
-          }}
-        />
-        <span
-          className="block rounded-full"
-          style={{
-            width: 9,
-            height: 9,
-            backgroundColor: "var(--border-strong)",
-          }}
-        />
-        <span
-          className="block rounded-full"
-          style={{
-            width: 9,
-            height: 9,
-            backgroundColor: "var(--border-strong)",
-          }}
-        />
+        {[0, 1, 2].map((i) => (
+          <span
+            key={i}
+            className="block rounded-full"
+            style={{
+              width: 9,
+              height: 9,
+              backgroundColor: "var(--border-strong)",
+            }}
+          />
+        ))}
       </div>
 
       {/* Doc header */}
@@ -152,121 +164,61 @@ function NotionMockup() {
         /embed 로 붙여넣은 위젯이 이렇게 보입니다
       </p>
 
-      {/* Embed block 1: World Clock */}
-      <div
-        className="border border-border-soft overflow-hidden"
-        style={{ borderRadius: 10 }}
-      >
-        <div
-          className="flex items-center gap-[7px] whitespace-nowrap text-text-faint"
-          style={{
-            fontFamily: "var(--font-mono)",
-            fontSize: 10.5,
-            padding: "7px 12px",
-            borderBottom: "1px solid var(--border-soft)",
-            backgroundColor: "var(--inset)",
-          }}
-        >
-          EMBED ·{" "}
-          <span className="text-accent">world-clock</span>
-        </div>
-        <div
-          className="flex items-center justify-around"
-          style={{
-            backgroundColor: "var(--inset)",
-            padding: "18px 16px",
-          }}
-        >
-          <TimeZone time="07:24:38" city="NEW YORK" />
-          <TimeZone time="12:24:38" city="LONDON" />
-          <TimeZone time="21:24:38" city="SEOUL" />
-        </div>
-      </div>
+      {/* Embed block 1: World Clock (live) */}
+      <EmbedBlock label="world-clock">
+        {accent && mode && (
+          <iframe
+            src={`/embed/world-clock?accent=${accent}&mode=${mode}&variant=minimal&showSeconds=true`}
+            className="w-full pointer-events-none"
+            style={{ border: "none", height: 80 }}
+            title="World Clock preview"
+          />
+        )}
+      </EmbedBlock>
 
-      {/* Embed block 2: Life Progress */}
-      <div
-        className="border border-border-soft overflow-hidden"
-        style={{ borderRadius: 10, marginTop: 12 }}
-      >
-        <div
-          className="flex items-center gap-[7px] whitespace-nowrap text-text-faint"
-          style={{
-            fontFamily: "var(--font-mono)",
-            fontSize: 10.5,
-            padding: "7px 12px",
-            borderBottom: "1px solid var(--border-soft)",
-            backgroundColor: "var(--inset)",
-          }}
-        >
-          EMBED ·{" "}
-          <span className="text-accent">life-progress</span>
-        </div>
-        <div
-          style={{
-            backgroundColor: "var(--inset)",
-            padding: "16px 18px",
-          }}
-        >
-          <ProgressRow label="2026" percent={44} />
-          <ProgressRow label="6월" percent={33} />
-        </div>
-      </div>
+      {/* Embed block 2: Life Progress (live) */}
+      <EmbedBlock label="life-progress" style={{ marginTop: 12 }}>
+        {accent && mode && (
+          <iframe
+            src={`/embed/life-progress?accent=${accent}&mode=${mode}&variant=minimal`}
+            className="w-full pointer-events-none"
+            style={{ border: "none", height: 80 }}
+            title="Life Progress preview"
+          />
+        )}
+      </EmbedBlock>
     </div>
   );
 }
 
-function TimeZone({ time, city }: { time: string; city: string }) {
-  return (
-    <div className="text-center">
-      <div
-        className="text-accent font-bold font-mono"
-        style={{ fontSize: 17 }}
-      >
-        {time}
-      </div>
-      <div
-        className="text-text-faint font-mono"
-        style={{ fontSize: 10, marginTop: 4, letterSpacing: "0.05em" }}
-      >
-        {city}
-      </div>
-    </div>
-  );
-}
-
-function ProgressRow({
+function EmbedBlock({
   label,
-  percent,
+  children,
+  style,
 }: {
   label: string;
-  percent: number;
+  children: React.ReactNode;
+  style?: React.CSSProperties;
 }) {
   return (
-    <div style={{ marginBottom: 10 }}>
+    <div
+      className="border border-border-soft overflow-hidden"
+      style={{ borderRadius: 10, ...style }}
+    >
       <div
-        className="flex justify-between text-text-dim"
-        style={{ fontSize: 12, marginBottom: 5 }}
-      >
-        <span>{label}</span>
-        <span className="font-mono">{percent}%</span>
-      </div>
-      <div
-        className="overflow-hidden"
+        className="flex items-center gap-[7px] whitespace-nowrap text-text-faint"
         style={{
-          height: 6,
-          borderRadius: 3,
-          backgroundColor: "var(--border-soft)",
+          fontFamily: "var(--font-mono)",
+          fontSize: 10.5,
+          padding: "7px 12px",
+          borderBottom: "1px solid var(--border-soft)",
+          backgroundColor: "var(--inset)",
         }}
       >
-        <div
-          className="h-full"
-          style={{
-            width: `${percent}%`,
-            borderRadius: 3,
-            backgroundColor: "var(--accent-deep)",
-          }}
-        />
+        EMBED ·{" "}
+        <span className="text-accent">{label}</span>
       </div>
+      {children}
     </div>
   );
 }
