@@ -164,25 +164,25 @@ function NotionMockup() {
         /embed 로 붙여넣은 위젯이 이렇게 보입니다
       </p>
 
-      {/* Embed block 1: World Clock (live) */}
+      {/* Embed block 1: World Clock (live) — 2 zones, compact */}
       <EmbedBlock label="world-clock">
         {accent && mode && (
           <iframe
-            src={`/embed/world-clock?accent=${accent}&mode=${mode}&variant=minimal&format=24h&timezones=America/New_York,Europe/London,Asia/Seoul`}
+            src={`/embed/world-clock?accent=${accent}&mode=${mode}&variant=minimal&format=24h&timezones=America/New_York,Asia/Seoul`}
             className="w-full pointer-events-none"
-            style={{ border: "none", height: 120 }}
+            style={{ border: "none", height: 90 }}
             title="World Clock preview"
           />
         )}
       </EmbedBlock>
 
-      {/* Embed block 2: Life Progress (live) */}
+      {/* Embed block 2: Life Progress (live) — year + month only */}
       <EmbedBlock label="life-progress" style={{ marginTop: 12 }}>
         {accent && mode && (
           <iframe
-            src={`/embed/life-progress?accent=${accent}&mode=${mode}&variant=minimal`}
+            src={`/embed/life-progress?accent=${accent}&mode=${mode}&variant=minimal&showQuarter=false&showWeek=false&showDay=false`}
             className="w-full pointer-events-none"
-            style={{ border: "none", height: 140 }}
+            style={{ border: "none", height: 110 }}
             title="Life Progress preview"
           />
         )}
