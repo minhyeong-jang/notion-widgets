@@ -96,9 +96,10 @@ export function ThemeSwitcher() {
   const [accent, setAccent] = useState<string>("green");
   const [mounted, setMounted] = useState(false);
 
-  // Read from localStorage on mount
+  // Read from localStorage on mount; respect system preference if no saved mode
   useEffect(() => {
-    const savedMode = localStorage.getItem(LS_MODE) || "dark";
+    const systemPrefers = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+    const savedMode = localStorage.getItem(LS_MODE) || systemPrefers;
     const savedAccent = localStorage.getItem(LS_ACCENT) || "green";
     setMode(savedMode);
     setAccent(savedAccent);

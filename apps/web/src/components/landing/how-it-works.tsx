@@ -44,12 +44,12 @@ export function HowItWorks({ dict, locale }: HowItWorksProps) {
           className="grid grid-cols-1 md:grid-cols-3 overflow-hidden"
           style={{
             gap: 1,
-            backgroundColor: "var(--border-soft)",
-            border: "1px solid var(--border-soft)",
+            backgroundColor: "var(--border)",
+            border: "1px solid var(--border)",
             borderRadius: 16,
           }}
         >
-          <div className="bg-bg" style={{ padding: "34px 30px 38px" }}>
+          <div className="bg-surface" style={{ padding: "34px 30px 38px" }}>
             <div
               className="text-accent font-bold font-mono"
               style={{
@@ -82,7 +82,7 @@ export function HowItWorks({ dict, locale }: HowItWorksProps) {
             </p>
           </div>
 
-          <div className="bg-bg" style={{ padding: "34px 30px 38px" }}>
+          <div className="bg-surface" style={{ padding: "34px 30px 38px" }}>
             <div
               className="text-accent font-bold font-mono"
               style={{
@@ -115,7 +115,7 @@ export function HowItWorks({ dict, locale }: HowItWorksProps) {
             </p>
           </div>
 
-          <div className="bg-bg" style={{ padding: "34px 30px 38px" }}>
+          <div className="bg-surface" style={{ padding: "34px 30px 38px" }}>
             <div
               className="text-accent font-bold font-mono"
               style={{

@@ -18,18 +18,31 @@ export function WidgetCard({
   description,
   locale,
 }: WidgetCardProps) {
-  const [accent, setAccent] = useState("green");
+  const [accent, setAccent] = useState<string | null>(null);
+  const [mode, setMode] = useState<string | null>(null);
 
   useEffect(() => {
-    const saved = localStorage.getItem("nw-accent-v1");
-    if (saved) setAccent(saved);
+    const savedAccent = localStorage.getItem("nw-accent-v1") || "green";
+    setAccent(savedAccent);
 
-    const handler = (e: Event) => {
+    const systemMode = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+    const savedMode = localStorage.getItem("nw-mode-v1") || systemMode;
+    setMode(savedMode);
+
+    const accentHandler = (e: Event) => {
       const a = (e as CustomEvent).detail;
       if (a) setAccent(a);
     };
-    window.addEventListener("nw-accent-change", handler);
-    return () => window.removeEventListener("nw-accent-change", handler);
+    const modeHandler = (e: Event) => {
+      const m = (e as CustomEvent).detail;
+      if (m) setMode(m);
+    };
+    window.addEventListener("nw-accent-change", accentHandler);
+    window.addEventListener("nw-mode-change", modeHandler);
+    return () => {
+      window.removeEventListener("nw-accent-change", accentHandler);
+      window.removeEventListener("nw-mode-change", modeHandler);
+    };
   }, []);
 
   return (
@@ -52,14 +65,16 @@ export function WidgetCard({
         className="flex items-center justify-center overflow-hidden bg-inset border border-border-soft mb-4"
         style={{ height: 116, borderRadius: 9 }}
       >
-        <iframe
-          src={`/embed/${widgetId}?accent=${accent}`}
-          className="pointer-events-none w-full h-full"
-          style={{ border: "none" }}
-          loading="lazy"
-          tabIndex={-1}
-          title={`${name} preview`}
-        />
+        {accent && mode && (
+          <iframe
+            src={`/embed/${widgetId}?accent=${accent}&mode=${mode}`}
+            className="pointer-events-none w-full h-full"
+            style={{ border: "none" }}
+            loading="lazy"
+            tabIndex={-1}
+            title={`${name} preview`}
+          />
+        )}
       </div>
 
       {/* Name */}
