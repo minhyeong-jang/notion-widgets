@@ -56,14 +56,16 @@ function MinimalStyle({
   textColor: string;
 }) {
   return (
-    <div className="flex flex-wrap items-start justify-center gap-y-6 px-4">
+    <div
+      className="flex flex-wrap justify-center"
+      style={{ gap: "20px 40px", padding: "0 16px" }}
+    >
       {timezones.map((tz) => {
         const { time, period } = formatTime(now, tz, format);
         return (
           <div
             key={tz}
             className="text-center"
-            style={{ padding: "0 20px" }}
           >
             <div
               className="text-xs font-medium uppercase tracking-wider mb-1 opacity-60"

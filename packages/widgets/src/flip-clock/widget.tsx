@@ -72,19 +72,19 @@ export function FlipClockWidget({ params }: { params: FlipClockParams }) {
   return (
     <WidgetShell params={params}>
       <div className="flex items-center gap-3">
-        <MinimalCard value={hours} label={hoursLabel} color={textColor} />
+        <MinimalCard value={hours} label={hoursLabel} color={textColor} mode={mode} />
         <div className="flex flex-col gap-2 mb-4">
           <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: accentColor }} />
           <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: accentColor }} />
         </div>
-        <MinimalCard value={minutes} label={minutesLabel} color={textColor} />
+        <MinimalCard value={minutes} label={minutesLabel} color={textColor} mode={mode} />
         {params.showSeconds && (
           <>
             <div className="flex flex-col gap-2 mb-4">
               <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: accentColor, opacity: 0.5 }} />
               <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: accentColor, opacity: 0.5 }} />
             </div>
-            <MinimalCard value={seconds} label={secondsLabel} color={textColor} />
+            <MinimalCard value={seconds} label={secondsLabel} color={textColor} mode={mode} />
           </>
         )}
       </div>

@@ -103,7 +103,7 @@ export const FlipCard = ({ value, label, color, bg }: { value: string; label: st
           )}
 
           {/* Center divider */}
-          <div className="absolute inset-x-0 top-1/2 h-[1px] bg-zinc-700 opacity-40 z-30" />
+          <div className="absolute inset-x-0 top-1/2 h-[1px] opacity-20 z-30" style={{ backgroundColor: color }} />
         </div>
       </div>
     </div>

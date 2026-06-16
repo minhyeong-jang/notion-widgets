@@ -98,10 +98,10 @@ function CompactStyle({ timer, accentColor, textColor }: { timer: ReturnType<typ
   const label = stateLabels[timer.state];
 
   return (
-    <div className="flex items-center gap-6">
+    <div className="flex items-center gap-7">
       {/* Ring */}
       <div className="relative">
-        <svg className="w-24 h-24 -rotate-90" viewBox="0 0 100 100">
+        <svg className="w-40 h-40 -rotate-90" viewBox="0 0 100 100">
           <circle
             cx="50" cy="50" r={radius}
             fill="none" stroke={textColor} strokeOpacity="0.08" strokeWidth="4"
@@ -115,7 +115,7 @@ function CompactStyle({ timer, accentColor, textColor }: { timer: ReturnType<typ
           />
         </svg>
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-lg font-mono font-bold tabular-nums" style={{ color: textColor }}>
+          <span className="text-2xl font-mono font-bold tabular-nums" style={{ color: textColor }}>
             {timer.displayMin}:{timer.displaySec}
           </span>
         </div>
@@ -124,7 +124,7 @@ function CompactStyle({ timer, accentColor, textColor }: { timer: ReturnType<typ
       {/* Info + Controls */}
       <div className="flex flex-col gap-2">
         <span
-          className="text-sm font-medium"
+          className="text-base font-medium"
           style={{ color: ringColor, textShadow: "var(--w-text-shadow)" }}
         >
           {label.en}
@@ -135,21 +135,21 @@ function CompactStyle({ timer, accentColor, textColor }: { timer: ReturnType<typ
         <div className="flex items-center gap-2 mt-1">
           <button
             onClick={timer.handleToggle}
-            className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold"
+            className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold"
             style={{ backgroundColor: accentColor, color: textColor }}
           >
             {!timer.isRunning ? "\u25B6" : "\u2759\u2759"}
           </button>
           <button
             onClick={timer.handleReset}
-            className="w-8 h-8 rounded-full flex items-center justify-center text-xs hover:opacity-80"
+            className="w-9 h-9 rounded-full flex items-center justify-center text-xs hover:opacity-80"
             style={{ backgroundColor: `${textColor}1a`, color: textColor, opacity: 0.7 }}
           >
             {"\u21BA"}
           </button>
           <button
             onClick={timer.handleSkip}
-            className="w-8 h-8 rounded-full flex items-center justify-center text-xs hover:opacity-80"
+            className="w-9 h-9 rounded-full flex items-center justify-center text-xs hover:opacity-80"
             style={{ backgroundColor: `${textColor}1a`, color: textColor, opacity: 0.7 }}
           >
             {"\u23ED"}
