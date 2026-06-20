@@ -39,14 +39,14 @@ registerWidget({
   meta: {
     id: "daily-tarot",
     name: "Daily Tarot",
-    description: "Daily tarot card draw with meaning and keywords",
+    description: "Daily 3-card tarot spread with full card interpretation and advice",
   },
   paramsSchema: dailyTarotSchema,
   defaultParams: dailyTarotDefaults,
   component: DailyTarotWidget,
   controls,
   nameKo: "\uC624\uB298\uC758 \uD0C0\uB85C",
-  descriptionKo: "\uB9E4\uC77C \uBC14\uB00C\uB294 \uD0C0\uB85C \uCE74\uB4DC\uC640 \uC758\uBBF8 \uD574\uC124",
+  descriptionKo: "\uB9E4\uC77C \uBC14\uB00C\uB294 3\uC7A5 \uD0C0\uB85C \uC2A4\uD504\uB808\uB4DC\uC640 \uCE74\uB4DC\uBCC4 \uC758\uBBF8 \uD574\uC124 \uBC0F \uC870\uC5B8",
   category: "lifestyle",
-  recommendedSize: { width: 420, height: 320 },
+  recommendedSize: { width: 420, height: 480 },
 });
