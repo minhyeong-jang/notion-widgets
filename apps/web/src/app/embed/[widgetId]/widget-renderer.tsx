@@ -25,7 +25,7 @@ function WidgetSkeleton() {
 function WidgetRendererInner({ widgetId }: { widgetId: string }) {
   const widget = getWidget(widgetId);
   const searchParams = useSearchParams();
-  const modeParam = searchParams.get("mode") as "dark" | "light" | null;
+  const modeParam = (searchParams.get("colorMode") || searchParams.get("mode")) as "dark" | "light" | null;
   const systemMode = useColorMode();
   const colorMode = modeParam || systemMode;
 

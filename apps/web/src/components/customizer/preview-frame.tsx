@@ -41,7 +41,7 @@ export function PreviewFrame({
     return () => window.removeEventListener("nw-mode-change", handler);
   }, []);
 
-  const allParams = { ...params, mode: mode ?? "dark" };
+  const allParams = { ...params, colorMode: mode ?? "dark" };
   const src = buildEmbedUrl(widgetId, allParams);
 
   const [activeSrc, setActiveSrc] = useState<string | null>(null);

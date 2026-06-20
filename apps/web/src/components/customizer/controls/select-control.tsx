@@ -21,6 +21,7 @@ export function SelectControl({
 }: SelectControlProps) {
   const isKo = locale === "ko";
   const options = control.options ?? [];
+  const useWrap = options.length > 4;
 
   return (
     <div>
@@ -38,6 +39,8 @@ export function SelectControl({
           backgroundColor: "var(--inset)",
           border: "1px solid var(--border-soft)",
           padding: 3,
+          flexWrap: useWrap ? "wrap" : undefined,
+          gap: useWrap ? 2 : undefined,
         }}
       >
         {options.map((opt) => {
@@ -48,8 +51,10 @@ export function SelectControl({
               type="button"
               onClick={() => onChange(control.key, opt.value)}
               disabled={disabled}
-              className="flex-1 font-semibold transition-all duration-150 disabled:opacity-40 disabled:cursor-not-allowed"
+              className="font-semibold transition-all duration-150 disabled:opacity-40 disabled:cursor-not-allowed"
               style={{
+                flex: useWrap ? undefined : 1,
+                minWidth: useWrap ? "calc(25% - 2px)" : undefined,
                 fontSize: 13,
                 padding: "9px 12px",
                 borderRadius: 9,
@@ -57,6 +62,7 @@ export function SelectControl({
                 cursor: disabled ? "not-allowed" : "pointer",
                 backgroundColor: isActive ? "var(--accent)" : "transparent",
                 color: isActive ? "var(--btn-text)" : "var(--text-dim)",
+                whiteSpace: "nowrap",
               }}
             >
               {isKo && opt.labelKo ? opt.labelKo : opt.label}
