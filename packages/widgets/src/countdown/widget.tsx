@@ -60,6 +60,7 @@ function CardStyle({
   borderColor,
   label,
   showHours,
+  widgetStyle,
 }: {
   countdown: ReturnType<typeof useCountdown>;
   accentColor: string;
@@ -67,6 +68,7 @@ function CardStyle({
   borderColor: string;
   label: string;
   showHours: boolean;
+  widgetStyle: string;
 }) {
   const items = [
     { value: String(countdown.totalMonths), label: "mon" },
@@ -74,8 +76,52 @@ function CardStyle({
     { value: countdown.hours.toString().padStart(2, "0"), label: "hr" },
   ];
 
-  return (
-    <div className="text-center px-6">
+  const isGlass = widgetStyle === "glass";
+  const isSoft = widgetStyle === "soft";
+
+  const containerStyle: React.CSSProperties = isSoft
+    ? {
+        backgroundColor: `${textColor}06`,
+        border: `1px solid ${borderColor}`,
+        borderRadius: 20,
+        padding: "32px 28px",
+        boxShadow: `0 4px 24px ${textColor}0a`,
+      }
+    : isGlass
+      ? {
+          backgroundColor: `${accentColor}10`,
+          border: `1px solid ${accentColor}20`,
+          borderRadius: 20,
+          padding: "32px 28px",
+          backdropFilter: "blur(16px) saturate(180%)",
+          WebkitBackdropFilter: "blur(16px) saturate(180%)",
+          boxShadow: `0 8px 32px ${accentColor}12`,
+        }
+      : {};
+
+  const cardItemStyle = (base: React.CSSProperties): React.CSSProperties => {
+    if (isGlass) {
+      return {
+        ...base,
+        backgroundColor: `${accentColor}12`,
+        border: `1px solid ${accentColor}25`,
+        backdropFilter: "blur(8px)",
+        WebkitBackdropFilter: "blur(8px)",
+      };
+    }
+    if (isSoft) {
+      return {
+        ...base,
+        backgroundColor: `${textColor}0a`,
+        border: `1px solid ${borderColor}`,
+        boxShadow: `0 1px 6px ${textColor}08`,
+      };
+    }
+    return base;
+  };
+
+  const content = (
+    <>
       <div
         className="text-6xl sm:text-7xl font-bold tracking-tight"
         style={{ color: accentColor, textShadow: "var(--w-text-shadow)" }}
@@ -91,24 +137,34 @@ function CardStyle({
             <div
               key={item.label}
               className="flex flex-col items-center gap-1 min-w-[3.5rem] py-2.5 px-3"
-              style={{
+              style={cardItemStyle({
                 backgroundColor: `${textColor}08`,
                 border: `1px solid ${borderColor}`,
                 borderRadius: "var(--w-radius)",
-              }}
+              })}
             >
-              <span className="text-2xl font-mono font-bold tabular-nums" style={{ color: textColor }}>
+              <span className="text-2xl font-mono font-bold tabular-nums" style={{ color: isGlass ? accentColor : textColor }}>
                 {item.value}
               </span>
-              <span className="text-[10px] uppercase tracking-wider" style={{ color: textColor, opacity: 0.5 }}>
+              <span className="text-[10px] uppercase tracking-wider" style={{ color: isGlass ? accentColor : textColor, opacity: 0.5 }}>
                 {item.label}
               </span>
             </div>
           ))}
         </div>
       )}
-    </div>
+    </>
   );
+
+  if (isSoft || isGlass) {
+    return (
+      <div className="text-center px-6">
+        <div style={containerStyle}>{content}</div>
+      </div>
+    );
+  }
+
+  return <div className="text-center px-6">{content}</div>;
 }
 
 /* ─── Simple Style ─── */
@@ -117,17 +173,44 @@ function SimpleStyle({
   countdown,
   accentColor,
   textColor,
+  borderColor,
   label,
   showHours,
+  widgetStyle,
 }: {
   countdown: ReturnType<typeof useCountdown>;
   accentColor: string;
   textColor: string;
+  borderColor: string;
   label: string;
   showHours: boolean;
+  widgetStyle: string;
 }) {
-  return (
-    <div className="text-center px-6">
+  const isGlass = widgetStyle === "glass";
+  const isSoft = widgetStyle === "soft";
+
+  const containerStyle: React.CSSProperties = isSoft
+    ? {
+        backgroundColor: `${textColor}06`,
+        border: `1px solid ${borderColor}`,
+        borderRadius: 20,
+        padding: "32px 24px",
+        boxShadow: `0 4px 24px ${textColor}0a`,
+      }
+    : isGlass
+      ? {
+          backgroundColor: `${accentColor}10`,
+          border: `1px solid ${accentColor}20`,
+          borderRadius: 20,
+          padding: "32px 24px",
+          backdropFilter: "blur(16px) saturate(180%)",
+          WebkitBackdropFilter: "blur(16px) saturate(180%)",
+          boxShadow: `0 8px 32px ${accentColor}12`,
+        }
+      : {};
+
+  const content = (
+    <>
       <div
         className="text-7xl font-bold tracking-tight"
         style={{ color: accentColor, textShadow: "var(--w-text-shadow)" }}
@@ -138,14 +221,24 @@ function SimpleStyle({
         {label}
       </div>
       {showHours && countdown.diffDays >= 0 && (
-        <div className="mt-4 text-2xl font-mono tabular-nums" style={{ color: textColor, opacity: 0.5 }}>
+        <div className="mt-4 text-2xl font-mono tabular-nums" style={{ color: isGlass ? accentColor : textColor, opacity: 0.5 }}>
           {countdown.hours.toString().padStart(2, "0")}:
           {countdown.minutes.toString().padStart(2, "0")}:
           {countdown.seconds.toString().padStart(2, "0")}
         </div>
       )}
-    </div>
+    </>
   );
+
+  if (isSoft || isGlass) {
+    return (
+      <div className="text-center px-6">
+        <div style={containerStyle}>{content}</div>
+      </div>
+    );
+  }
+
+  return <div className="text-center px-6">{content}</div>;
 }
 
 /* ─── Neon: T-Minus Military Launch Style ─── */
@@ -304,9 +397,9 @@ export function CountdownWidget({ params }: { params: CountdownParams }) {
       {params.style === "neon" ? (
         <NeonStyle countdown={countdown} accentColor={accentColor} label={params.label} showHours={params.showHours} />
       ) : params.variant === "simple" ? (
-        <SimpleStyle countdown={countdown} accentColor={accentColor} textColor={textColor} label={params.label} showHours={params.showHours} />
+        <SimpleStyle countdown={countdown} accentColor={accentColor} textColor={textColor} borderColor={borderColor} label={params.label} showHours={params.showHours} widgetStyle={params.style || "minimal"} />
       ) : (
-        <CardStyle countdown={countdown} accentColor={accentColor} textColor={textColor} borderColor={borderColor} label={params.label} showHours={params.showHours} />
+        <CardStyle countdown={countdown} accentColor={accentColor} textColor={textColor} borderColor={borderColor} label={params.label} showHours={params.showHours} widgetStyle={params.style || "minimal"} />
       )}
     </WidgetShell>
   );
