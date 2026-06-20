@@ -25,10 +25,8 @@ const ACCENT_SWATCHES = [
   { key: "red", color: "#ef4444" },
   { key: "blue", color: "#3b82f6" },
   { key: "ocean", color: "#06b6d4" },
-  { key: "sage", color: "#8fae7e" },
   { key: "sunset", color: "#f97316" },
   { key: "purple", color: "#a855f7" },
-  { key: "gray", color: "#9ca3af" },
 ] as const;
 
 function AccentSwatchControl({

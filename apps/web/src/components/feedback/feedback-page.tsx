@@ -65,13 +65,20 @@ export function FeedbackPage({ locale }: Props) {
     };
 
     setSubmitting(true);
-    console.log("[feedback] payload →", payload);
 
-    // Simulate network delay
-    setTimeout(() => {
-      setSubmitting(false);
-      setSubmitted(true);
-    }, 650);
+    fetch("/api/feedback", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("submit failed");
+        setSubmitted(true);
+      })
+      .catch(() => {
+        alert(isKo ? "전송에 실패했습니다. 다시 시도해 주세요." : "Failed to send. Please try again.");
+      })
+      .finally(() => setSubmitting(false));
   }
 
   function handleReset() {

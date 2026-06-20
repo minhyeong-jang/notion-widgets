@@ -30,7 +30,6 @@ export function QuoteWidget({ params }: { params: QuoteParams }) {
   const colorMode = useWidgetColorMode();
   const colors = resolveColors(params.accent, colorMode);
   const accentColor = `#${colors.accent}`;
-  const textColor = `#${colors.text}`;
 
   if (params.style === "neon") {
     return (
@@ -83,7 +82,7 @@ export function QuoteWidget({ params }: { params: QuoteParams }) {
         </div>
         <p
           className={`${fontSizeMap[params.fontSize]} font-medium leading-relaxed`}
-          style={{ color: textColor, opacity: 0.9 }}
+          style={{ color: accentColor, opacity: 0.9 }}
         >
           {quote.text}
         </p>
@@ -105,7 +104,7 @@ export function QuoteWidget({ params }: { params: QuoteParams }) {
             />
           </div>
           {quote.title && (
-            <span className="text-xs" style={{ color: textColor, opacity: 0.4 }}>
+            <span className="text-xs" style={{ color: accentColor, opacity: 0.4 }}>
               {quote.title}
             </span>
           )}
