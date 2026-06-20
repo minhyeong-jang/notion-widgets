@@ -16,7 +16,7 @@ export function PreviewFrame({
   params,
   recommendedSize,
 }: PreviewFrameProps) {
-  const [mode, setMode] = useState("dark");
+  const [mode, setMode] = useState<string | null>(null);
   const [height, setHeight] = useState(
     recommendedSize ? Math.max(recommendedSize.height, 280) : 320
   );
@@ -41,18 +41,21 @@ export function PreviewFrame({
     return () => window.removeEventListener("nw-mode-change", handler);
   }, []);
 
-  const allParams = { ...params, mode };
+  const allParams = { ...params, mode: mode ?? "dark" };
   const src = buildEmbedUrl(widgetId, allParams);
 
-  const [activeSrc, setActiveSrc] = useState(src);
+  const [activeSrc, setActiveSrc] = useState<string | null>(null);
   const [nextSrc, setNextSrc] = useState<string | null>(null);
   const nextIframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
-    if (src !== activeSrc) {
+    if (!mode) return;
+    if (!activeSrc) {
+      setActiveSrc(src);
+    } else if (src !== activeSrc) {
       setNextSrc(src);
     }
-  }, [src, activeSrc]);
+  }, [src, activeSrc, mode]);
 
   const handleNextLoad = () => {
     if (nextSrc) {
@@ -82,12 +85,14 @@ export function PreviewFrame({
   return (
     <div className="relative w-full">
       <div style={{ height }}>
+        {activeSrc && (
         <iframe
           src={activeSrc}
           className="absolute inset-0 w-full h-full"
           style={{ border: "none" }}
           title="Widget Preview"
         />
+        )}
         {nextSrc && (
           <iframe
             ref={nextIframeRef}

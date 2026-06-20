@@ -18,7 +18,7 @@ function WidgetWithParams({ widget }: { widget: WidgetDefinition<any> }) {
 
 function WidgetSkeleton() {
   return (
-    <div className="min-h-dvh bg-zinc-900" />
+    <div className="min-h-dvh" />
   );
 }
 
@@ -31,8 +31,8 @@ function WidgetRendererInner({ widgetId }: { widgetId: string }) {
 
   if (!widget) {
     return (
-      <div className="min-h-dvh flex items-center justify-center bg-zinc-900">
-        <p className="text-white">Widget not found: {widgetId}</p>
+      <div className="min-h-dvh flex items-center justify-center">
+        <p style={{ color: colorMode === "dark" ? "#aaa" : "#555" }}>Widget not found: {widgetId}</p>
       </div>
     );
   }
