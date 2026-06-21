@@ -16,6 +16,7 @@ import "./habit-heatmap";
 import "./breathing";
 import "./daily-tarot";
 import "./goal-ring";
+import "./color-palette";
 
 // Re-export color mode context
 export { ColorModeContext, useWidgetColorMode } from "./color-mode-context";
@@ -38,3 +39,4 @@ export { HabitHeatmapWidget } from "./habit-heatmap";
 export { BreathingWidget } from "./breathing";
 export { DailyTarotWidget } from "./daily-tarot";
 export { GoalRingWidget } from "./goal-ring";
+export { ColorPaletteWidget } from "./color-palette";
