@@ -12,6 +12,7 @@ export interface StyleDesign {
   bgOverlay?: string;
   backdropFilter?: string;
   bgOpacity?: number;
+  bgColorKey?: "bg" | "surface" | "surface2";
 }
 
 const styles: StyleDesign[] = [
@@ -59,7 +60,8 @@ const styles: StyleDesign[] = [
     boxShadow: "0 8px 32px rgba(0,0,0,0.12)",
     textShadow: "none",
     backdropFilter: "blur(12px) saturate(180%)",
-    bgOpacity: 0.12,
+    bgOpacity: 0.72,
+    bgColorKey: "surface2",
   },
 ];
 

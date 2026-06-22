@@ -67,7 +67,7 @@ export function WidgetCard({
       >
         {accent && mode && (
           <iframe
-            src={`/embed/${widgetId}?accent=${accent}&mode=${mode}`}
+            src={`/embed/${widgetId}?accent=${accent}&colorMode=${mode}`}
             className="pointer-events-none w-full h-full"
             style={{ border: "none" }}
             loading="lazy"

@@ -28,7 +28,8 @@ export function WidgetShell({ params, mode: modeProp, children, className }: Wid
   const mode = modeProp || contextMode;
   const design = getStyleDesign(params.style || "minimal");
   const colors = resolveColors(params.accent, mode);
-  const bgHex = colors.bg;
+  const bgKey = design.bgColorKey || "bg";
+  const bgHex = colors[bgKey];
   const isTransparent = bgHex === "transparent";
 
   let bgColor: string | undefined;
