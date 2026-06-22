@@ -69,7 +69,7 @@ export function AnalogClockWidget({ params }: { params: AnalogClockParams }) {
       <WidgetShell params={params}>
         <svg
           viewBox="0 0 200 200"
-          className="w-full max-w-[280px]"
+          className="w-full max-w-[280px] mx-auto block"
           style={{ filter: glowFilter }}
         >
           <defs>
@@ -185,7 +185,7 @@ export function AnalogClockWidget({ params }: { params: AnalogClockParams }) {
 
   return (
     <WidgetShell params={params}>
-      <svg viewBox="0 0 200 200" className="w-full max-w-[280px]">
+      <svg viewBox="0 0 200 200" className="w-full max-w-[280px] mx-auto block">
         {/* Clock face */}
         <circle
           cx="100"
