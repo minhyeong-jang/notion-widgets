@@ -57,24 +57,40 @@ export function WidgetShell({ params, mode: modeProp, children, className }: Wid
 
   const isDark = mode === "dark";
   const accentHex = colors.accent;
+  const isGlass = design.id === "glass";
 
-  const cardStyle: CSSProperties | undefined = design.contentCard
-    ? {
-        backgroundColor: isDark
-          ? `rgba(255,255,255,0.06)`
-          : `rgba(255,255,255,0.65)`,
-        border: `1px solid ${isDark ? `rgba(255,255,255,0.1)` : hexToRgba(accentHex, 0.12)}`,
-        borderRadius: 20,
-        padding: "28px 24px",
-        backdropFilter: "blur(16px) saturate(180%)",
-        WebkitBackdropFilter: "blur(16px) saturate(180%)",
-        boxShadow: isDark
-          ? `0 8px 32px rgba(0,0,0,0.3)`
-          : `0 8px 32px rgba(0,0,0,0.06)`,
-        maxWidth: 440,
-        width: "100%",
-      }
-    : undefined;
+  let cardStyle: CSSProperties | undefined;
+  if (design.contentCard && isGlass) {
+    cardStyle = {
+      backgroundColor: isDark
+        ? `rgba(255,255,255,0.06)`
+        : `rgba(255,255,255,0.65)`,
+      border: `1px solid ${isDark ? `rgba(255,255,255,0.1)` : hexToRgba(accentHex, 0.12)}`,
+      borderRadius: 20,
+      padding: "28px 24px",
+      backdropFilter: "blur(16px) saturate(180%)",
+      WebkitBackdropFilter: "blur(16px) saturate(180%)",
+      boxShadow: isDark
+        ? `0 8px 32px rgba(0,0,0,0.3)`
+        : `0 8px 32px rgba(0,0,0,0.06)`,
+      maxWidth: 440,
+      width: "100%",
+    };
+  } else if (design.contentCard) {
+    cardStyle = {
+      backgroundColor: isDark
+        ? `#${colors.surface2}`
+        : `#ffffff`,
+      border: `1px solid #${isDark ? colors.borderSoft : colors.border}`,
+      borderRadius: 20,
+      padding: "28px 24px",
+      boxShadow: isDark
+        ? `0 2px 16px rgba(0,0,0,0.2)`
+        : `0 2px 20px rgba(0,0,0,0.06)`,
+      maxWidth: 440,
+      width: "100%",
+    };
+  }
 
   return (
     <div

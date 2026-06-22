@@ -31,8 +31,6 @@ export function ColorPaletteWidget({ params }: { params: ColorPaletteParams }) {
   const textFaint = `#${colors.textFaint}`;
 
   const isNeon = params.style === "neon";
-  const isGlass = params.style === "glass";
-  const isSoft = params.style === "soft";
 
   // Deterministic daily seed for SSR; random mode re-seeds after mount so
   // server and client first render agree (no hydration mismatch).
@@ -197,30 +195,9 @@ export function ColorPaletteWidget({ params }: { params: ColorPaletteParams }) {
     );
   }
 
-  // Soft & glass wrap content in a distinct container vs. minimal.
-  const cardStyle: React.CSSProperties = isSoft
-    ? {
-        background: `#${colors.surface}`,
-        borderRadius: "var(--w-radius)",
-        boxShadow: "var(--w-box-shadow)",
-        border: `1px solid #${colors.border}`,
-        padding: "22px 26px",
-      }
-    : isGlass
-      ? {
-          background: colors.accentTint.startsWith("#")
-            ? colors.accentTint
-            : `#${colors.accentTint}`,
-          borderRadius: "var(--w-radius)",
-          boxShadow: "var(--w-box-shadow)",
-          border: `1px solid ${accent}33`,
-          padding: "22px 26px",
-        }
-      : { padding: "10px 14px" };
-
   return (
     <WidgetShell params={params}>
-      <div style={cardStyle}>{inner}</div>
+      <div style={{ padding: "10px 14px" }}>{inner}</div>
     </WidgetShell>
   );
 }

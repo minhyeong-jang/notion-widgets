@@ -77,39 +77,9 @@ function CardStyle({
   ];
 
   const isGlass = widgetStyle === "glass";
-  const isSoft = widgetStyle === "soft";
 
-  const containerStyle: React.CSSProperties | undefined = isSoft
-    ? {
-        backgroundColor: `${textColor}06`,
-        border: `1px solid ${borderColor}`,
-        borderRadius: 20,
-        padding: "32px 28px",
-        boxShadow: `0 4px 24px ${textColor}0a`,
-      }
-    : undefined;
-
-  const cardItemStyle = (base: React.CSSProperties): React.CSSProperties => {
-    if (isGlass) {
-      return {
-        ...base,
-        backgroundColor: `${accentColor}12`,
-        border: `1px solid ${accentColor}25`,
-      };
-    }
-    if (isSoft) {
-      return {
-        ...base,
-        backgroundColor: `${textColor}0a`,
-        border: `1px solid ${borderColor}`,
-        boxShadow: `0 1px 6px ${textColor}08`,
-      };
-    }
-    return base;
-  };
-
-  const content = (
-    <>
+  return (
+    <div className="text-center px-6">
       <div
         className="text-6xl sm:text-7xl font-bold tracking-tight"
         style={{ color: accentColor, textShadow: "var(--w-text-shadow)" }}
@@ -125,11 +95,11 @@ function CardStyle({
             <div
               key={item.label}
               className="flex flex-col items-center gap-1 min-w-[3.5rem] py-2.5 px-3"
-              style={cardItemStyle({
-                backgroundColor: `${textColor}08`,
-                border: `1px solid ${borderColor}`,
+              style={{
+                backgroundColor: isGlass ? `${accentColor}12` : `${textColor}08`,
+                border: `1px solid ${isGlass ? `${accentColor}25` : borderColor}`,
                 borderRadius: "var(--w-radius)",
-              })}
+              }}
             >
               <span className="text-2xl font-mono font-bold tabular-nums" style={{ color: isGlass ? accentColor : textColor }}>
                 {item.value}
@@ -141,18 +111,8 @@ function CardStyle({
           ))}
         </div>
       )}
-    </>
+    </div>
   );
-
-  if (isSoft && containerStyle) {
-    return (
-      <div className="text-center px-6">
-        <div style={containerStyle}>{content}</div>
-      </div>
-    );
-  }
-
-  return <div className="text-center px-6">{content}</div>;
 }
 
 /* ─── Simple Style ─── */
@@ -175,20 +135,9 @@ function SimpleStyle({
   widgetStyle: string;
 }) {
   const isGlass = widgetStyle === "glass";
-  const isSoft = widgetStyle === "soft";
 
-  const containerStyle: React.CSSProperties | undefined = isSoft
-    ? {
-        backgroundColor: `${textColor}06`,
-        border: `1px solid ${borderColor}`,
-        borderRadius: 20,
-        padding: "32px 24px",
-        boxShadow: `0 4px 24px ${textColor}0a`,
-      }
-    : undefined;
-
-  const content = (
-    <>
+  return (
+    <div className="text-center px-6">
       <div
         className="text-7xl font-bold tracking-tight"
         style={{ color: accentColor, textShadow: "var(--w-text-shadow)" }}
@@ -205,18 +154,8 @@ function SimpleStyle({
           {countdown.seconds.toString().padStart(2, "0")}
         </div>
       )}
-    </>
+    </div>
   );
-
-  if (isSoft && containerStyle) {
-    return (
-      <div className="text-center px-6">
-        <div style={containerStyle}>{content}</div>
-      </div>
-    );
-  }
-
-  return <div className="text-center px-6">{content}</div>;
 }
 
 /* ─── Neon: T-Minus Military Launch Style ─── */

@@ -38,6 +38,7 @@ const styles: StyleDesign[] = [
     borderWidth: "1px",
     boxShadow: "0 2px 20px rgba(0,0,0,0.08)",
     textShadow: "none",
+    contentCard: true,
   },
   {
     id: "neon",

@@ -28,8 +28,6 @@ export function GoalRingWidget({ params }: { params: GoalRingParams }) {
   const track = `#${colors.track}`;
 
   const isNeon = params.style === "neon";
-  const isGlass = params.style === "glass";
-  const isSoft = params.style === "soft";
 
   const pct = clampPct(params.current, params.target);
   const pctRounded = Math.round(pct);
@@ -211,29 +209,9 @@ export function GoalRingWidget({ params }: { params: GoalRingParams }) {
     );
   }
 
-  // Soft & glass get a subtle inner card so they read distinctly from minimal.
-  const cardStyle: React.CSSProperties =
-    isSoft
-      ? {
-          background: mode === "dark" ? `#${colors.surface}` : `#${colors.surface}`,
-          borderRadius: "var(--w-radius)",
-          boxShadow: "var(--w-box-shadow)",
-          border: `1px solid #${colors.border}`,
-          padding: "22px 30px",
-        }
-      : isGlass
-        ? {
-            background: colors.accentTint.startsWith("#") ? colors.accentTint : `#${colors.accentTint}`,
-            borderRadius: "var(--w-radius)",
-            boxShadow: "var(--w-box-shadow)",
-            border: `1px solid ${accent}33`,
-            padding: "22px 30px",
-          }
-        : { padding: "8px 16px" };
-
   return (
     <WidgetShell params={params}>
-      <div style={cardStyle}>{inner}</div>
+      <div style={{ padding: "8px 16px" }}>{inner}</div>
     </WidgetShell>
   );
 }
