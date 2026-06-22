@@ -51,5 +51,5 @@ registerWidget({
   nameKo: "아날로그 시계",
   descriptionKo: "다양한 스타일의 클래식 아날로그 시계",
   category: "time",
-  recommendedSize: { width: 300, height: 300 },
+  recommendedSize: { width: 300, height: 420 },
 });

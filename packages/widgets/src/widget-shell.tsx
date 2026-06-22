@@ -64,7 +64,7 @@ export function WidgetShell({ params, mode: modeProp, children, className }: Wid
     cardStyle = {
       backgroundColor: isDark
         ? `rgba(255,255,255,0.06)`
-        : `rgba(255,255,255,0.5)`,
+        : `rgba(255,255,255,0.75)`,
       border: `1px solid ${isDark ? `rgba(255,255,255,0.1)` : hexToRgba(accentHex, 0.12)}`,
       borderRadius: 20,
       padding: "28px 24px",
@@ -129,7 +129,7 @@ export function WidgetShell({ params, mode: modeProp, children, className }: Wid
           />
         </>
       )}
-      <div className="relative z-[2] w-full flex items-center justify-center" style={innerStyle}>
+      <div className={`relative z-[2] w-full flex items-center justify-center ${cardStyle ? "py-6 px-4" : ""}`} style={innerStyle}>
         {cardStyle ? (
           <div style={cardStyle}>{children}</div>
         ) : (
