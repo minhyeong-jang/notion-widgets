@@ -79,7 +79,7 @@ function CardStyle({
   const isGlass = widgetStyle === "glass";
   const isSoft = widgetStyle === "soft";
 
-  const containerStyle: React.CSSProperties = isSoft
+  const containerStyle: React.CSSProperties | undefined = isSoft
     ? {
         backgroundColor: `${textColor}06`,
         border: `1px solid ${borderColor}`,
@@ -87,17 +87,7 @@ function CardStyle({
         padding: "32px 28px",
         boxShadow: `0 4px 24px ${textColor}0a`,
       }
-    : isGlass
-      ? {
-          backgroundColor: `${accentColor}10`,
-          border: `1px solid ${accentColor}20`,
-          borderRadius: 20,
-          padding: "32px 28px",
-          backdropFilter: "blur(16px) saturate(180%)",
-          WebkitBackdropFilter: "blur(16px) saturate(180%)",
-          boxShadow: `0 8px 32px ${accentColor}12`,
-        }
-      : {};
+    : undefined;
 
   const cardItemStyle = (base: React.CSSProperties): React.CSSProperties => {
     if (isGlass) {
@@ -105,8 +95,6 @@ function CardStyle({
         ...base,
         backgroundColor: `${accentColor}12`,
         border: `1px solid ${accentColor}25`,
-        backdropFilter: "blur(8px)",
-        WebkitBackdropFilter: "blur(8px)",
       };
     }
     if (isSoft) {
@@ -156,7 +144,7 @@ function CardStyle({
     </>
   );
 
-  if (isSoft || isGlass) {
+  if (isSoft && containerStyle) {
     return (
       <div className="text-center px-6">
         <div style={containerStyle}>{content}</div>
@@ -189,7 +177,7 @@ function SimpleStyle({
   const isGlass = widgetStyle === "glass";
   const isSoft = widgetStyle === "soft";
 
-  const containerStyle: React.CSSProperties = isSoft
+  const containerStyle: React.CSSProperties | undefined = isSoft
     ? {
         backgroundColor: `${textColor}06`,
         border: `1px solid ${borderColor}`,
@@ -197,17 +185,7 @@ function SimpleStyle({
         padding: "32px 24px",
         boxShadow: `0 4px 24px ${textColor}0a`,
       }
-    : isGlass
-      ? {
-          backgroundColor: `${accentColor}10`,
-          border: `1px solid ${accentColor}20`,
-          borderRadius: 20,
-          padding: "32px 24px",
-          backdropFilter: "blur(16px) saturate(180%)",
-          WebkitBackdropFilter: "blur(16px) saturate(180%)",
-          boxShadow: `0 8px 32px ${accentColor}12`,
-        }
-      : {};
+    : undefined;
 
   const content = (
     <>
@@ -230,7 +208,7 @@ function SimpleStyle({
     </>
   );
 
-  if (isSoft || isGlass) {
+  if (isSoft && containerStyle) {
     return (
       <div className="text-center px-6">
         <div style={containerStyle}>{content}</div>

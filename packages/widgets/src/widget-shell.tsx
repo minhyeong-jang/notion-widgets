@@ -18,11 +18,6 @@ function hexToRgba(hex: string, opacity: number): string {
   return `rgba(${r},${g},${b},${opacity})`;
 }
 
-/**
- * Common wrapper for all widgets.
- * Applies style design properties (font, effects, overlays)
- * while letting color/bg stay under user control.
- */
 export function WidgetShell({ params, mode: modeProp, children, className }: WidgetShellProps) {
   const contextMode = useWidgetColorMode();
   const mode = modeProp || contextMode;
@@ -33,7 +28,9 @@ export function WidgetShell({ params, mode: modeProp, children, className }: Wid
   const isTransparent = bgHex === "transparent";
 
   let bgColor: string | undefined;
-  if (isTransparent) {
+  if (design.contentCard) {
+    bgColor = `#${colors.bg}`;
+  } else if (isTransparent) {
     bgColor = undefined;
   } else if (design.bgOpacity !== undefined) {
     bgColor = hexToRgba(bgHex.slice(0, 6), design.bgOpacity);
@@ -46,7 +43,7 @@ export function WidgetShell({ params, mode: modeProp, children, className }: Wid
     fontFamily: design.fontFamily,
   };
 
-  if (design.backdropFilter) {
+  if (!design.contentCard && design.backdropFilter) {
     rootStyle.backdropFilter = design.backdropFilter;
     rootStyle.WebkitBackdropFilter = design.backdropFilter;
   }
@@ -57,6 +54,27 @@ export function WidgetShell({ params, mode: modeProp, children, className }: Wid
     "--w-radius": design.borderRadius,
     "--w-border-width": design.borderWidth,
   } as CSSProperties;
+
+  const isDark = mode === "dark";
+  const accentHex = colors.accent;
+
+  const cardStyle: CSSProperties | undefined = design.contentCard
+    ? {
+        backgroundColor: isDark
+          ? `rgba(255,255,255,0.06)`
+          : `rgba(255,255,255,0.65)`,
+        border: `1px solid ${isDark ? `rgba(255,255,255,0.1)` : hexToRgba(accentHex, 0.12)}`,
+        borderRadius: 20,
+        padding: "28px 24px",
+        backdropFilter: "blur(16px) saturate(180%)",
+        WebkitBackdropFilter: "blur(16px) saturate(180%)",
+        boxShadow: isDark
+          ? `0 8px 32px rgba(0,0,0,0.3)`
+          : `0 8px 32px rgba(0,0,0,0.06)`,
+        maxWidth: 440,
+        width: "100%",
+      }
+    : undefined;
 
   return (
     <div
@@ -70,7 +88,11 @@ export function WidgetShell({ params, mode: modeProp, children, className }: Wid
         />
       )}
       <div className="relative z-[2] w-full flex items-center justify-center" style={innerStyle}>
-        {children}
+        {cardStyle ? (
+          <div style={cardStyle}>{children}</div>
+        ) : (
+          children
+        )}
       </div>
     </div>
   );

@@ -13,6 +13,7 @@ export interface StyleDesign {
   backdropFilter?: string;
   bgOpacity?: number;
   bgColorKey?: "bg" | "surface" | "surface2";
+  contentCard?: boolean;
 }
 
 const styles: StyleDesign[] = [
@@ -59,9 +60,7 @@ const styles: StyleDesign[] = [
     borderWidth: "1px",
     boxShadow: "0 8px 32px rgba(0,0,0,0.12)",
     textShadow: "none",
-    backdropFilter: "blur(12px) saturate(180%)",
-    bgOpacity: 0.72,
-    bgColorKey: "surface2",
+    contentCard: true,
   },
 ];
 
