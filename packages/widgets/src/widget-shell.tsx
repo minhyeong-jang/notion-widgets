@@ -64,7 +64,7 @@ export function WidgetShell({ params, mode: modeProp, children, className }: Wid
     cardStyle = {
       backgroundColor: isDark
         ? `rgba(255,255,255,0.06)`
-        : `rgba(255,255,255,0.65)`,
+        : `rgba(255,255,255,0.5)`,
       border: `1px solid ${isDark ? `rgba(255,255,255,0.1)` : hexToRgba(accentHex, 0.12)}`,
       borderRadius: 20,
       padding: "28px 24px",
@@ -102,6 +102,32 @@ export function WidgetShell({ params, mode: modeProp, children, className }: Wid
           className="absolute inset-0 pointer-events-none z-[1]"
           style={{ backgroundImage: design.bgOverlay }}
         />
+      )}
+      {isGlass && (
+        <>
+          <div
+            className="absolute pointer-events-none z-[1]"
+            style={{
+              width: "60%",
+              paddingBottom: "60%",
+              borderRadius: "50%",
+              background: `radial-gradient(circle, ${hexToRgba(accentHex, isDark ? 0.18 : 0.28)} 0%, transparent 70%)`,
+              top: "5%",
+              left: "-10%",
+            }}
+          />
+          <div
+            className="absolute pointer-events-none z-[1]"
+            style={{
+              width: "50%",
+              paddingBottom: "50%",
+              borderRadius: "50%",
+              background: `radial-gradient(circle, ${hexToRgba(accentHex, isDark ? 0.12 : 0.22)} 0%, transparent 70%)`,
+              bottom: "0%",
+              right: "-5%",
+            }}
+          />
+        </>
       )}
       <div className="relative z-[2] w-full flex items-center justify-center" style={innerStyle}>
         {cardStyle ? (
