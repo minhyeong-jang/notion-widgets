@@ -75,6 +75,9 @@ export function WidgetShell({ params, mode: modeProp, children, className }: Wid
         : `0 8px 32px rgba(0,0,0,0.06)`,
       maxWidth: 440,
       width: "100%",
+      display: "flex",
+      flexDirection: "column" as const,
+      alignItems: "center",
     };
   } else if (design.contentCard) {
     cardStyle = {
@@ -89,6 +92,9 @@ export function WidgetShell({ params, mode: modeProp, children, className }: Wid
         : `0 2px 20px rgba(0,0,0,0.06)`,
       maxWidth: 440,
       width: "100%",
+      display: "flex",
+      flexDirection: "column" as const,
+      alignItems: "center",
     };
   }
 
