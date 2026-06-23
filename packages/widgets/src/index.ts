@@ -17,6 +17,7 @@ import "./breathing";
 import "./daily-tarot";
 import "./goal-ring";
 import "./color-palette";
+import "./water-tracker";
 
 // Re-export color mode context
 export { ColorModeContext, useWidgetColorMode } from "./color-mode-context";
@@ -40,3 +41,4 @@ export { BreathingWidget } from "./breathing";
 export { DailyTarotWidget } from "./daily-tarot";
 export { GoalRingWidget } from "./goal-ring";
 export { ColorPaletteWidget } from "./color-palette";
+export { WaterTrackerWidget } from "./water-tracker";
