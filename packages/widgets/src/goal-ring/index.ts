@@ -1,5 +1,5 @@
 import type { ControlDefinition } from "@nw/widget-core";
-import { registerWidget, styleControl, colorThemeControl } from "@nw/widget-core";
+import { registerWidget, styleControl, colorThemeControl, localeControl } from "@nw/widget-core";
 import { GoalRingWidget } from "./widget";
 import { goalRingSchema, goalRingDefaults } from "./schema";
 
@@ -30,14 +30,6 @@ const controls: ControlDefinition[] = [
     group: "content",
   },
   {
-    key: "current",
-    label: "Current",
-    labelKo: "현재값",
-    type: "text",
-    defaultValue: "7",
-    group: "content",
-  },
-  {
     key: "target",
     label: "Target",
     labelKo: "목표값",
@@ -54,6 +46,28 @@ const controls: ControlDefinition[] = [
     group: "content",
   },
   {
+    key: "step",
+    label: "Step",
+    labelKo: "증가 단위",
+    type: "text",
+    defaultValue: "1",
+    group: "content",
+  },
+  {
+    key: "period",
+    label: "Reset",
+    labelKo: "초기화 주기",
+    type: "select",
+    defaultValue: "persist",
+    options: [
+      { value: "persist", label: "Never", labelKo: "안 함" },
+      { value: "daily", label: "Daily", labelKo: "매일" },
+      { value: "weekly", label: "Weekly", labelKo: "매주" },
+    ],
+    group: "content",
+  },
+  localeControl,
+  {
     key: "showPercent",
     label: "Show Percent",
     labelKo: "퍼센트 표시",
@@ -67,14 +81,14 @@ registerWidget({
   meta: {
     id: "goal-ring",
     name: "Goal Ring",
-    description: "Track any numeric goal with a circular progress ring",
+    description: "Track any numeric goal with a tap — progress saved on your device",
   },
   paramsSchema: goalRingSchema,
   defaultParams: goalRingDefaults,
   component: GoalRingWidget,
   controls,
   nameKo: "목표 링",
-  descriptionKo: "원형 진행 링으로 모든 숫자 목표를 추적",
+  descriptionKo: "버튼으로 숫자 목표 진행 기록 — 기기에 자동 저장",
   category: "productivity",
-  recommendedSize: { width: 300, height: 300 },
+  recommendedSize: { width: 300, height: 360 },
 });
