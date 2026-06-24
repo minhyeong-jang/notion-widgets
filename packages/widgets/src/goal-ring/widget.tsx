@@ -3,6 +3,8 @@
 import { resolveColors } from "@nw/widget-core";
 import { WidgetShell } from "../widget-shell";
 import { useWidgetColorMode } from "../color-mode-context";
+import { useTracker } from "../use-tracker";
+import { TrackerControls } from "../tracker-controls";
 import type { GoalRingParams } from "./schema";
 
 function clampPct(current: number, target: number): number {
@@ -16,9 +18,28 @@ function polar(cx: number, cy: number, r: number, deg: number) {
   return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
 }
 
+// The add button shows a leading plus icon, so the label is just the step number.
+const STRINGS: Record<string, { add: (s: number) => string; reset: string; done: string }> = {
+  ko: { add: (s) => `${s}`, reset: "초기화", done: "목표 달성! 🎉" },
+  en: { add: (s) => `${s}`, reset: "Reset", done: "Goal reached! 🎉" },
+  ja: { add: (s) => `${s}`, reset: "リセット", done: "目標達成！🎉" },
+  zh: { add: (s) => `${s}`, reset: "重置", done: "目标达成！🎉" },
+  de: { add: (s) => `${s}`, reset: "Zurücksetzen", done: "Ziel erreicht! 🎉" },
+  fr: { add: (s) => `${s}`, reset: "Réinitialiser", done: "Objectif atteint ! 🎉" },
+  es: { add: (s) => `${s}`, reset: "Reiniciar", done: "¡Meta alcanzada! 🎉" },
+};
+
 export function GoalRingWidget({ params }: { params: GoalRingParams }) {
   const mode = useWidgetColorMode();
   const colors = resolveColors(params.accent, mode);
+
+  const storageKey = `nw:goal-ring:${(params.label || "goal").trim().toLowerCase()}`;
+  const { count, hydrated, increment, reset } = useTracker({
+    storageKey,
+    period: params.period,
+    step: params.step,
+  });
+  const t = STRINGS[params.locale.slice(0, 2)] ?? STRINGS.en;
 
   const accent = `#${colors.accent}`;
   const accentBright = `#${colors.accentBright}`;
@@ -29,16 +50,17 @@ export function GoalRingWidget({ params }: { params: GoalRingParams }) {
 
   const isNeon = params.style === "neon";
 
-  const pct = clampPct(params.current, params.target);
+  const pct = clampPct(count, params.target);
   const pctRounded = Math.round(pct);
+  const reached = count >= params.target;
 
   // In neon, the track is a dim version of the accent for a "circuit" look.
   const trackColor = isNeon ? `${accent}26` : track;
   const arcGlow = isNeon ? `drop-shadow(0 0 6px ${accentBright})` : undefined;
 
-  const bigText = params.showPercent ? `${pctRounded}%` : `${params.current}`;
+  const bigText = params.showPercent ? `${pctRounded}%` : `${count}`;
   const subText = params.showPercent
-    ? `${params.current} / ${params.target}${params.unit ? ` ${params.unit}` : ""}`
+    ? `${count} / ${params.target}${params.unit ? ` ${params.unit}` : ""}`
     : `/ ${params.target}${params.unit ? ` ${params.unit}` : ""}`;
 
   const labelStyle: React.CSSProperties = {
@@ -211,7 +233,20 @@ export function GoalRingWidget({ params }: { params: GoalRingParams }) {
 
   return (
     <WidgetShell params={params}>
-      <div style={{ padding: "8px 16px" }}>{inner}</div>
+      <div className="flex flex-col items-center" style={{ padding: "8px 16px", gap: 14 }}>
+        {inner}
+        <TrackerControls
+          style={params.style}
+          colors={colors}
+          reached={reached}
+          addLabel={t.add(params.step)}
+          resetLabel={t.reset}
+          reachedLabel={t.done}
+          onAdd={increment}
+          onReset={reset}
+          disabled={!hydrated}
+        />
+      </div>
     </WidgetShell>
   );
 }

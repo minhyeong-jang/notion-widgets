@@ -3,6 +3,8 @@
 import { resolveColors } from "@nw/widget-core";
 import { WidgetShell } from "../widget-shell";
 import { useWidgetColorMode } from "../color-mode-context";
+import { useTracker } from "../use-tracker";
+import { TrackerControls } from "../tracker-controls";
 import type { WaterTrackerParams } from "./schema";
 
 function clampPct(current: number, goal: number): number {
@@ -20,9 +22,28 @@ function wavePath(width: number, amp: number, period: number, floor: number): st
   return d;
 }
 
+const STRINGS: Record<string, { add: string; reset: string; done: string }> = {
+  ko: { add: "마셨어요", reset: "비우기", done: "목표 달성! 🎉" },
+  en: { add: "Drink", reset: "Reset", done: "Goal reached! 🎉" },
+  ja: { add: "飲んだ", reset: "リセット", done: "目標達成！🎉" },
+  zh: { add: "喝了一杯", reset: "重置", done: "目标达成！🎉" },
+  de: { add: "Getrunken", reset: "Zurücksetzen", done: "Ziel erreicht! 🎉" },
+  fr: { add: "Bu", reset: "Réinitialiser", done: "Objectif atteint ! 🎉" },
+  es: { add: "Bebido", reset: "Reiniciar", done: "¡Meta alcanzada! 🎉" },
+};
+
 export function WaterTrackerWidget({ params }: { params: WaterTrackerParams }) {
   const mode = useWidgetColorMode();
   const colors = resolveColors(params.accent, mode);
+
+  const storageKey = `nw:water-tracker:${(params.label || "water").trim().toLowerCase()}`;
+  const { count, hydrated, increment, reset } = useTracker({
+    storageKey,
+    period: params.period,
+    step: 1,
+  });
+
+  const t = STRINGS[params.locale.slice(0, 2)] ?? STRINGS.en;
 
   const accent = `#${colors.accent}`;
   const accentBright = `#${colors.accentBright}`;
@@ -35,17 +56,17 @@ export function WaterTrackerWidget({ params }: { params: WaterTrackerParams }) {
 
   const isNeon = params.style === "neon";
 
-  const pct = clampPct(params.current, params.goal);
+  const pct = clampPct(count, params.goal);
   const pctRounded = Math.round(pct);
+  const reached = count >= params.goal;
 
-  // Empty-icon outline: dim accent in neon for a glowing "circuit" feel.
   const outlineColor = isNeon ? `${accent}40` : borderStrong;
   const fillGlow = isNeon ? `drop-shadow(0 0 5px ${accentBright})` : undefined;
   const waterColor = isNeon ? accentBright : accent;
 
-  const bigText = params.showPercent ? `${pctRounded}%` : `${params.current}`;
+  const bigText = params.showPercent ? `${pctRounded}%` : `${count}`;
   const subText = params.showPercent
-    ? `${params.current} / ${params.goal}${params.unit ? ` ${params.unit}` : ""}`
+    ? `${count} / ${params.goal}${params.unit ? ` ${params.unit}` : ""}`
     : `/ ${params.goal}${params.unit ? ` ${params.unit}` : ""}`;
 
   const baseId = `water-${params.accent}-${mode}-${params.variant}`;
@@ -92,6 +113,20 @@ export function WaterTrackerWidget({ params }: { params: WaterTrackerParams }) {
     </div>
   );
 
+  const controlsEl = (
+    <TrackerControls
+      style={params.style}
+      colors={colors}
+      reached={reached}
+      addLabel={t.add}
+      resetLabel={t.reset}
+      reachedLabel={t.done}
+      onAdd={increment}
+      onReset={reset}
+      disabled={!hydrated}
+    />
+  );
+
   const waveKeyframes = (
     <style>{`
       @keyframes water-wave-a { from { transform: translateX(0); } to { transform: translateX(-120px); } }
@@ -99,19 +134,16 @@ export function WaterTrackerWidget({ params }: { params: WaterTrackerParams }) {
     `}</style>
   );
 
-  let inner: React.ReactNode;
+  let visual: React.ReactNode;
 
   if (params.variant === "glasses") {
-    const count = Math.min(params.goal, 24);
-    inner = (
-      <div className="flex flex-col items-center" style={{ gap: 14 }}>
+    const n = Math.min(params.goal, 24);
+    visual = (
+      <>
         {labelEl}
-        <div
-          className="flex flex-wrap justify-center"
-          style={{ gap: 8, maxWidth: 150 }}
-        >
-          {Array.from({ length: count }).map((_, i) => {
-            const frac = Math.max(0, Math.min(1, params.current - i));
+        <div className="flex flex-wrap justify-center" style={{ gap: 8, maxWidth: 150 }}>
+          {Array.from({ length: n }).map((_, i) => {
+            const frac = Math.max(0, Math.min(1, count - i));
             return (
               <GlassIcon
                 key={i}
@@ -129,19 +161,16 @@ export function WaterTrackerWidget({ params }: { params: WaterTrackerParams }) {
           {bigEl}
           {subEl}
         </div>
-      </div>
+      </>
     );
   } else if (params.variant === "droplets") {
-    const count = Math.min(params.goal, 24);
-    inner = (
-      <div className="flex flex-col items-center" style={{ gap: 14 }}>
+    const n = Math.min(params.goal, 24);
+    visual = (
+      <>
         {labelEl}
-        <div
-          className="flex flex-wrap justify-center"
-          style={{ gap: 9, maxWidth: 145 }}
-        >
-          {Array.from({ length: count }).map((_, i) => {
-            const frac = Math.max(0, Math.min(1, params.current - i));
+        <div className="flex flex-wrap justify-center" style={{ gap: 9, maxWidth: 145 }}>
+          {Array.from({ length: n }).map((_, i) => {
+            const frac = Math.max(0, Math.min(1, count - i));
             return (
               <DropletIcon
                 key={i}
@@ -159,12 +188,12 @@ export function WaterTrackerWidget({ params }: { params: WaterTrackerParams }) {
           {bigEl}
           {subEl}
         </div>
-      </div>
+      </>
     );
   } else {
     // ─── bottle: animated wave-filling bottle ───
     const W = 120;
-    const H = 210;
+    const H = 200;
     const fillTop = 46;
     const fillBottom = 200;
     const waterY = fillBottom - (pct / 100) * (fillBottom - fillTop);
@@ -181,12 +210,12 @@ export function WaterTrackerWidget({ params }: { params: WaterTrackerParams }) {
     const waveBack = wavePath(waveW, 4, 40, 220);
     const waveFront = wavePath(waveW, 3, 60, 220);
 
-    inner = (
-      <div className="flex flex-col items-center" style={{ gap: 12 }}>
+    visual = (
+      <>
         {labelEl}
         <svg
-          width={W * 0.9}
-          height={H * 0.9}
+          width={W * 0.85}
+          height={H * 0.85}
           viewBox={`0 0 ${W} ${H}`}
           style={{ overflow: "visible", filter: fillGlow }}
         >
@@ -196,24 +225,21 @@ export function WaterTrackerWidget({ params }: { params: WaterTrackerParams }) {
             </clipPath>
           </defs>
 
-          {/* interior backdrop */}
           <path d={bottlePath} fill={isNeon ? `${accent}14` : track} opacity={isNeon ? 1 : 0.35} />
 
-          {/* water + animated waves, clipped to the bottle interior */}
           <g clipPath={`url(#${baseId}-clip)`}>
             {pct > 0 && (
-              <g transform={`translate(0 ${waterY})`}>
+              <g style={{ transform: `translateY(${waterY}px)`, transition: "transform 0.7s cubic-bezier(.4,0,.2,1)" }}>
                 <g style={{ animation: "water-wave-a 6s linear infinite" }}>
                   <path d={waveBack} fill={isNeon ? accentDeep : accent} opacity={0.9} />
                 </g>
                 <g style={{ animation: "water-wave-b 4s linear infinite" }}>
-                  <path d={waveFront} fill={isNeon ? accentBright : accentBright} opacity={0.45} />
+                  <path d={waveFront} fill={accentBright} opacity={0.45} />
                 </g>
               </g>
             )}
           </g>
 
-          {/* bottle outline */}
           <path
             d={bottlePath}
             fill="none"
@@ -221,7 +247,6 @@ export function WaterTrackerWidget({ params }: { params: WaterTrackerParams }) {
             strokeWidth={isNeon ? 2.5 : 3}
             strokeLinejoin="round"
           />
-          {/* cap */}
           <rect
             x={46}
             y={2}
@@ -237,14 +262,19 @@ export function WaterTrackerWidget({ params }: { params: WaterTrackerParams }) {
           {bigEl}
           {subEl}
         </div>
-      </div>
+      </>
     );
   }
 
   return (
     <WidgetShell params={params}>
       {waveKeyframes}
-      <div style={{ padding: "10px 18px" }}>{inner}</div>
+      <div className="flex flex-col items-center" style={{ padding: "10px 18px", gap: 14 }}>
+        <div className="flex flex-col items-center" style={{ gap: params.variant === "bottle" ? 10 : 14 }}>
+          {visual}
+        </div>
+        {controlsEl}
+      </div>
     </WidgetShell>
   );
 }
@@ -266,7 +296,6 @@ function GlassIcon({
 }) {
   const W = 30;
   const H = 38;
-  // tapered tumbler
   const path = `M 6 3 L 24 3 L 21 35 L 9 35 Z`;
   const fillTop = 3;
   const fillBottom = 35;
@@ -309,7 +338,6 @@ function DropletIcon({
 }) {
   const W = 28;
   const H = 34;
-  // teardrop: pointed top, round bottom
   const path = `M 14 2 C 14 2, 25 16, 25 22 A 11 11 0 1 1 3 22 C 3 16, 14 2, 14 2 Z`;
   const fillTop = 2;
   const fillBottom = 33;
