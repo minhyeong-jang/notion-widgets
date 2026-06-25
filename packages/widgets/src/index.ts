@@ -18,6 +18,7 @@ import "./daily-tarot";
 import "./goal-ring";
 import "./color-palette";
 import "./water-tracker";
+import "./anniversary";
 
 // Re-export color mode context
 export { ColorModeContext, useWidgetColorMode } from "./color-mode-context";
@@ -42,3 +43,4 @@ export { DailyTarotWidget } from "./daily-tarot";
 export { GoalRingWidget } from "./goal-ring";
 export { ColorPaletteWidget } from "./color-palette";
 export { WaterTrackerWidget } from "./water-tracker";
+export { AnniversaryWidget } from "./anniversary";
