@@ -19,6 +19,7 @@ import "./goal-ring";
 import "./color-palette";
 import "./water-tracker";
 import "./anniversary";
+import "./dday";
 
 // Re-export color mode context
 export { ColorModeContext, useWidgetColorMode } from "./color-mode-context";
@@ -44,3 +45,4 @@ export { GoalRingWidget } from "./goal-ring";
 export { ColorPaletteWidget } from "./color-palette";
 export { WaterTrackerWidget } from "./water-tracker";
 export { AnniversaryWidget } from "./anniversary";
+export { DdayWidget } from "./dday";
