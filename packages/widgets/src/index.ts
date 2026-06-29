@@ -20,6 +20,7 @@ import "./color-palette";
 import "./water-tracker";
 import "./anniversary";
 import "./dday";
+import "./checklist";
 
 // Re-export color mode context
 export { ColorModeContext, useWidgetColorMode } from "./color-mode-context";
@@ -46,3 +47,4 @@ export { ColorPaletteWidget } from "./color-palette";
 export { WaterTrackerWidget } from "./water-tracker";
 export { AnniversaryWidget } from "./anniversary";
 export { DdayWidget } from "./dday";
+export { ChecklistWidget } from "./checklist";
