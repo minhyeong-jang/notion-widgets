@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@nw/widget-core": "workspace:*",
+    "qrcode-generator": "^2.0.4",
     "zod": "^3.23"
   },
   "devDependencies": {
