@@ -22,6 +22,7 @@ import "./anniversary";
 import "./dday";
 import "./checklist";
 import "./random-picker";
+import "./priority-matrix";
 
 // Re-export color mode context
 export { ColorModeContext, useWidgetColorMode } from "./color-mode-context";
@@ -50,3 +51,4 @@ export { AnniversaryWidget } from "./anniversary";
 export { DdayWidget } from "./dday";
 export { ChecklistWidget } from "./checklist";
 export { RandomPickerWidget } from "./random-picker";
+export { PriorityMatrixWidget } from "./priority-matrix";
