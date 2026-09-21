@@ -37,6 +37,7 @@ import "./typing-test";
 import "./word-clock";
 import "./savings-goal";
 import "./sun-times";
+import "./bar-chart";
 
 // Re-export color mode context
 export { ColorModeContext, useWidgetColorMode } from "./color-mode-context";
@@ -80,3 +81,4 @@ export { TypingTestWidget } from "./typing-test";
 export { WordClockWidget } from "./word-clock";
 export { SavingsGoalWidget } from "./savings-goal";
 export { SunTimesWidget } from "./sun-times";
+export { BarChartWidget } from "./bar-chart";
