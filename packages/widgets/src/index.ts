@@ -41,6 +41,7 @@ import "./bar-chart";
 import "./reading";
 import "./qr-code";
 import "./dice-roller";
+import "./digital-clock";
 
 // Re-export color mode context
 export { ColorModeContext, useWidgetColorMode } from "./color-mode-context";
@@ -88,3 +89,4 @@ export { BarChartWidget } from "./bar-chart";
 export { ReadingWidget } from "./reading";
 export { QrCodeWidget } from "./qr-code";
 export { DiceRollerWidget } from "./dice-roller";
+export { DigitalClockWidget } from "./digital-clock";
