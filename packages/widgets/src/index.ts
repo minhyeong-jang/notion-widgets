@@ -29,6 +29,7 @@ import "./book-tracker";
 import "./now-playing";
 import "./link-card";
 import "./streak";
+import "./week-progress";
 
 // Re-export color mode context
 export { ColorModeContext, useWidgetColorMode } from "./color-mode-context";
@@ -64,3 +65,4 @@ export { BookTrackerWidget } from "./book-tracker";
 export { NowPlayingWidget } from "./now-playing";
 export { LinkCardWidget } from "./link-card";
 export { StreakWidget } from "./streak";
+export { WeekProgressWidget } from "./week-progress";
