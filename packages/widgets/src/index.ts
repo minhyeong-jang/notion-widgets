@@ -40,6 +40,7 @@ import "./sun-times";
 import "./bar-chart";
 import "./reading";
 import "./qr-code";
+import "./dice-roller";
 
 // Re-export color mode context
 export { ColorModeContext, useWidgetColorMode } from "./color-mode-context";
@@ -86,3 +87,4 @@ export { SunTimesWidget } from "./sun-times";
 export { BarChartWidget } from "./bar-chart";
 export { ReadingWidget } from "./reading";
 export { QrCodeWidget } from "./qr-code";
+export { DiceRollerWidget } from "./dice-roller";
