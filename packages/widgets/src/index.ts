@@ -39,6 +39,7 @@ import "./savings-goal";
 import "./sun-times";
 import "./bar-chart";
 import "./reading";
+import "./qr-code";
 
 // Re-export color mode context
 export { ColorModeContext, useWidgetColorMode } from "./color-mode-context";
@@ -84,3 +85,4 @@ export { SavingsGoalWidget } from "./savings-goal";
 export { SunTimesWidget } from "./sun-times";
 export { BarChartWidget } from "./bar-chart";
 export { ReadingWidget } from "./reading";
+export { QrCodeWidget } from "./qr-code";
