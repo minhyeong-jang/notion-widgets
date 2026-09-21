@@ -35,6 +35,7 @@ import "./photo";
 import "./date-card";
 import "./typing-test";
 import "./word-clock";
+import "./savings-goal";
 
 // Re-export color mode context
 export { ColorModeContext, useWidgetColorMode } from "./color-mode-context";
@@ -76,3 +77,4 @@ export { PhotoWidget } from "./photo";
 export { DateCardWidget } from "./date-card";
 export { TypingTestWidget } from "./typing-test";
 export { WordClockWidget } from "./word-clock";
+export { SavingsGoalWidget } from "./savings-goal";
