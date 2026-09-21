@@ -34,6 +34,7 @@ import "./progress-bar";
 import "./photo";
 import "./date-card";
 import "./typing-test";
+import "./word-clock";
 
 // Re-export color mode context
 export { ColorModeContext, useWidgetColorMode } from "./color-mode-context";
@@ -74,3 +75,4 @@ export { ProgressBarWidget } from "./progress-bar";
 export { PhotoWidget } from "./photo";
 export { DateCardWidget } from "./date-card";
 export { TypingTestWidget } from "./typing-test";
+export { WordClockWidget } from "./word-clock";
