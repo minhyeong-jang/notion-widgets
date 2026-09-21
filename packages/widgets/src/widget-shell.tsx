@@ -9,6 +9,12 @@ interface WidgetShellProps {
   mode?: "dark" | "light";
   children: ReactNode;
   className?: string;
+  /**
+   * When true, skip the style's content-card wrapper (soft/glass) but keep the
+   * background, overlays, and glass glow. Use for variants that render their
+   * own self-contained card and would otherwise nest card-in-card.
+   */
+  bare?: boolean;
 }
 
 function hexToRgba(hex: string, opacity: number): string {
@@ -18,7 +24,7 @@ function hexToRgba(hex: string, opacity: number): string {
   return `rgba(${r},${g},${b},${opacity})`;
 }
 
-export function WidgetShell({ params, mode: modeProp, children, className }: WidgetShellProps) {
+export function WidgetShell({ params, mode: modeProp, children, className, bare }: WidgetShellProps) {
   const contextMode = useWidgetColorMode();
   const mode = modeProp || contextMode;
   const design = getStyleDesign(params.style || "minimal");
@@ -59,8 +65,9 @@ export function WidgetShell({ params, mode: modeProp, children, className }: Wid
   const accentHex = colors.accent;
   const isGlass = design.id === "glass";
 
+  const useCard = !!design.contentCard && !bare;
   let cardStyle: CSSProperties | undefined;
-  if (design.contentCard && isGlass) {
+  if (useCard && isGlass) {
     cardStyle = {
       backgroundColor: isDark
         ? `rgba(255,255,255,0.06)`
@@ -79,7 +86,7 @@ export function WidgetShell({ params, mode: modeProp, children, className }: Wid
       flexDirection: "column" as const,
       alignItems: "center",
     };
-  } else if (design.contentCard) {
+  } else if (useCard) {
     cardStyle = {
       backgroundColor: isDark
         ? `#${colors.surface2}`
