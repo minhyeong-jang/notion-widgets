@@ -27,6 +27,7 @@ import "./sticky-note";
 import "./mood-tracker";
 import "./book-tracker";
 import "./now-playing";
+import "./link-card";
 
 // Re-export color mode context
 export { ColorModeContext, useWidgetColorMode } from "./color-mode-context";
@@ -60,3 +61,4 @@ export { StickyNoteWidget } from "./sticky-note";
 export { MoodTrackerWidget } from "./mood-tracker";
 export { BookTrackerWidget } from "./book-tracker";
 export { NowPlayingWidget } from "./now-playing";
+export { LinkCardWidget } from "./link-card";
