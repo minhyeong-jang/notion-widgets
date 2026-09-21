@@ -23,6 +23,7 @@ import "./dday";
 import "./checklist";
 import "./spinner";
 import "./week-planner";
+import "./sticky-note";
 
 // Re-export color mode context
 export { ColorModeContext, useWidgetColorMode } from "./color-mode-context";
@@ -52,3 +53,4 @@ export { DdayWidget } from "./dday";
 export { ChecklistWidget } from "./checklist";
 export { SpinnerWidget } from "./spinner";
 export { WeekPlannerWidget } from "./week-planner";
+export { StickyNoteWidget } from "./sticky-note";
