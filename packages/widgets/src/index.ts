@@ -22,6 +22,7 @@ import "./anniversary";
 import "./dday";
 import "./checklist";
 import "./spinner";
+import "./week-planner";
 
 // Re-export color mode context
 export { ColorModeContext, useWidgetColorMode } from "./color-mode-context";
@@ -50,3 +51,4 @@ export { AnniversaryWidget } from "./anniversary";
 export { DdayWidget } from "./dday";
 export { ChecklistWidget } from "./checklist";
 export { SpinnerWidget } from "./spinner";
+export { WeekPlannerWidget } from "./week-planner";
