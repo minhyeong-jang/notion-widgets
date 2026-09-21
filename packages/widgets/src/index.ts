@@ -25,6 +25,7 @@ import "./spinner";
 import "./week-planner";
 import "./sticky-note";
 import "./mood-tracker";
+import "./book-tracker";
 
 // Re-export color mode context
 export { ColorModeContext, useWidgetColorMode } from "./color-mode-context";
@@ -56,3 +57,4 @@ export { SpinnerWidget } from "./spinner";
 export { WeekPlannerWidget } from "./week-planner";
 export { StickyNoteWidget } from "./sticky-note";
 export { MoodTrackerWidget } from "./mood-tracker";
+export { BookTrackerWidget } from "./book-tracker";
