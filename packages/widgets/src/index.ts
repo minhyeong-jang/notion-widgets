@@ -43,6 +43,8 @@ import "./qr-code";
 import "./dice-roller";
 import "./digital-clock";
 import "./today";
+import "./random-picker";
+import "./flashcard";
 
 // Re-export color mode context
 export { ColorModeContext, useWidgetColorMode } from "./color-mode-context";
@@ -92,3 +94,5 @@ export { QrCodeWidget } from "./qr-code";
 export { DiceRollerWidget } from "./dice-roller";
 export { DigitalClockWidget } from "./digital-clock";
 export { TodayWidget } from "./today";
+export { RandomPickerWidget } from "./random-picker";
+export { FlashcardWidget } from "./flashcard";
