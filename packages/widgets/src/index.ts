@@ -36,6 +36,7 @@ import "./date-card";
 import "./typing-test";
 import "./word-clock";
 import "./savings-goal";
+import "./sun-times";
 
 // Re-export color mode context
 export { ColorModeContext, useWidgetColorMode } from "./color-mode-context";
@@ -78,3 +79,4 @@ export { DateCardWidget } from "./date-card";
 export { TypingTestWidget } from "./typing-test";
 export { WordClockWidget } from "./word-clock";
 export { SavingsGoalWidget } from "./savings-goal";
+export { SunTimesWidget } from "./sun-times";
