@@ -97,6 +97,14 @@ function StackVariant({
           {sub}
         </span>
       )}
+      {params.note && (
+        <span
+          className="mt-1.5 text-sm font-medium text-center"
+          style={{ color: dimColor, opacity: 0.9 }}
+        >
+          {params.note}
+        </span>
+      )}
     </div>
   );
 }
@@ -202,6 +210,14 @@ function PageVariant({
             {sub}
           </span>
         )}
+        {params.note && (
+          <span
+            className="mt-1.5 text-xs font-medium text-center px-3"
+            style={{ color: dimColor, opacity: 0.9 }}
+          >
+            {params.note}
+          </span>
+        )}
       </div>
     </div>
   );
@@ -267,6 +283,11 @@ function BannerVariant({
             {sub}
           </span>
         )}
+        {params.note && (
+          <span className="mt-1 text-sm font-medium" style={{ color: dimColor, opacity: 0.9 }}>
+            {params.note}
+          </span>
+        )}
       </div>
     </div>
   );
@@ -314,6 +335,9 @@ function NeonVariant({
           {sub && (
             <div style={{ fontSize: "0.7rem", opacity: 0.5, marginTop: 6 }}>[ {sub} ]</div>
           )}
+          {params.note && (
+            <div style={{ fontSize: "0.72rem", opacity: 0.7, marginTop: 6 }}>&gt; {params.note}</div>
+          )}
         </div>
       ) : params.variant === "page" ? (
         <div className="text-center" style={{ letterSpacing: "0.02em" }}>
@@ -328,6 +352,7 @@ function NeonVariant({
           <div style={{ opacity: 0.45, fontSize: "0.85rem" }}>{"└" + "─".repeat(11) + "┘"}</div>
           <div style={{ fontSize: "0.75rem", opacity: 0.7, letterSpacing: "0.18em", marginTop: 8 }}>{weekday}</div>
           {sub && <div style={{ fontSize: "0.7rem", opacity: 0.5, marginTop: 4 }}>[ {sub} ]</div>}
+          {params.note && <div style={{ fontSize: "0.72rem", opacity: 0.7, marginTop: 4 }}>&gt; {params.note}</div>}
         </div>
       ) : (
         <div className="text-center">
@@ -340,6 +365,7 @@ function NeonVariant({
             {cursor}
           </div>
           {sub && <div style={{ fontSize: "0.72rem", opacity: 0.5, marginTop: 8 }}>[ {sub} ]</div>}
+          {params.note && <div style={{ fontSize: "0.72rem", opacity: 0.7, marginTop: 8 }}>&gt; {params.note}</div>}
         </div>
       )}
     </div>

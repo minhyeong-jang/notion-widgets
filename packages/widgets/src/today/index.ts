@@ -35,6 +35,14 @@ const controls: ControlDefinition[] = [
     ],
     group: "content",
   },
+  {
+    key: "note",
+    label: "Note",
+    labelKo: "메모",
+    type: "text",
+    defaultValue: "",
+    group: "content",
+  },
 ];
 
 registerWidget({

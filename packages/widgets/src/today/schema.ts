@@ -6,6 +6,8 @@ export const todaySchema = z.object({
   variant: z.enum(["stack", "page", "banner"]).default("stack"),
   locale: z.string().default("en-US"),
   subInfo: z.enum(["none", "dayOfYear", "weekNumber"]).default("none"),
+  /** Optional free-text memo shown under the date. Empty = hidden. */
+  note: z.string().default(""),
 });
 
 export type TodayParams = z.infer<typeof todaySchema>;
