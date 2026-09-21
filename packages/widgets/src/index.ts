@@ -46,6 +46,7 @@ import "./today";
 import "./random-picker";
 import "./flashcard";
 import "./priority-matrix";
+import "./weekly-planner";
 
 // Re-export color mode context
 export { ColorModeContext, useWidgetColorMode } from "./color-mode-context";
@@ -98,3 +99,4 @@ export { TodayWidget } from "./today";
 export { RandomPickerWidget } from "./random-picker";
 export { FlashcardWidget } from "./flashcard";
 export { PriorityMatrixWidget } from "./priority-matrix";
+export { WeeklyPlannerWidget } from "./weekly-planner";
