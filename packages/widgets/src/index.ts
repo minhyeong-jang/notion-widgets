@@ -30,6 +30,7 @@ import "./now-playing";
 import "./link-card";
 import "./streak";
 import "./week-progress";
+import "./progress-bar";
 
 // Re-export color mode context
 export { ColorModeContext, useWidgetColorMode } from "./color-mode-context";
@@ -66,3 +67,4 @@ export { NowPlayingWidget } from "./now-playing";
 export { LinkCardWidget } from "./link-card";
 export { StreakWidget } from "./streak";
 export { WeekProgressWidget } from "./week-progress";
+export { ProgressBarWidget } from "./progress-bar";
