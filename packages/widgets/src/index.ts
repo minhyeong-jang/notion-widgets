@@ -31,6 +31,7 @@ import "./link-card";
 import "./streak";
 import "./week-progress";
 import "./progress-bar";
+import "./photo";
 
 // Re-export color mode context
 export { ColorModeContext, useWidgetColorMode } from "./color-mode-context";
@@ -68,3 +69,4 @@ export { LinkCardWidget } from "./link-card";
 export { StreakWidget } from "./streak";
 export { WeekProgressWidget } from "./week-progress";
 export { ProgressBarWidget } from "./progress-bar";
+export { PhotoWidget } from "./photo";
